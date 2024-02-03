@@ -1,4 +1,7 @@
 ## This file is from SELinux refpolicy project, it is defined by the Linux kernel
+## There is NO POINT of using another set of symbols as those need to match with the
+## Linux Kernel, but Psychosis does not actually depends on this, this definition serves as
+## Fallback definition.
 
 #
 # Define common prefixes for access vectors

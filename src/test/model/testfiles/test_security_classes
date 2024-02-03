@@ -1,0 +1,10 @@
+## Testing security class file
+
+# This is a comment
+
+class something
+
+class cpsc210 # This is a suffix comment
+
+class ubc   # This is another suffix comment
+
