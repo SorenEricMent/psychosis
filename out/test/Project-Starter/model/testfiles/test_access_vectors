@@ -1,0 +1,12 @@
+## Testing access vector file
+
+# This is a comment
+
+class ubc
+{
+    fail_class
+    sleep
+    eat
+    # In-class comment example
+    dropout
+}
