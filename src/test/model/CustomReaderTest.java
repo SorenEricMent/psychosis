@@ -7,7 +7,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.junit.jupiter.api.*;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class CustomReaderTest {
@@ -16,8 +15,8 @@ class CustomReaderTest {
     @BeforeEach
     public void init() {
         currentPath = Paths.get("");
-        testReader = new File("./src/test/model/testfiles/test_reader");
-        testReaderBreak = new File("./src/test/model/testfiles/test_reader_break");
+        testReader = new File("./src/test/model/testfiles/CustomReaderTest/test_reader");
+        testReaderBreak = new File("./src/test/model/testfiles/CustomReaderTest/test_reader_break");
     }
     @Test
     public void readAsWholeTest() {

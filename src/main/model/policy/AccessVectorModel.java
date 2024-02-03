@@ -1,5 +1,8 @@
 package model.policy;
 
+import model.CommonUtil;
+import model.exception.SyntaxParseException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -29,12 +32,31 @@ public class AccessVectorModel {
         return null; //stub
     }
 
-    public static String securityClassParser(String line) {
-        // All lines that started with # are comments
-        if (line.strip().charAt(0) == '#') {
+    public static String securityClassParser(String line) throws SyntaxParseException {
+        // Within a line, all content after # is considered a comment;
+        // Note: could return null - no definition from the line
+        line = line.strip();
+        int commentPosition = CommonUtil.commentLocate(line);
+        if (commentPosition != -1) {
+            line = line.substring(0, commentPosition);
+        }
+        if (line.isEmpty()) {
             return null;
+        }
+        if (line.length() <= 7) {
+            // All definitions start with class[space], so
+            // any line that is shorter than 7 is invalid.
+            throw new SyntaxParseException(line);
+        }
+        if (line.startsWith("class")) {
+            String[] tokenized = line.split(" ");
+            if (tokenized.length == 2) {
+                return line.split(" ")[1];
+            } else {
+                throw new SyntaxParseException(line);
+            }
         } else {
-            return line.strip().substring(1);
+            throw new SyntaxParseException(line);
         }
     }
 

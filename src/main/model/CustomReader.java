@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class CustomReader {
@@ -12,7 +13,13 @@ public class CustomReader {
     public static String readAsWhole(File target) throws IOException {
         Scanner scan = new Scanner(target);
         scan.useDelimiter("\\Z");
-        String content = scan.next();
+        String content;
+        try {
+            content = scan.next();
+        } catch (NoSuchElementException e) {
+            // Target file is empty
+            content = "";
+        }
         scan.close();
         return content;
     }

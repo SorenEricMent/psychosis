@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import model.CustomReader;
+import model.exception.SyntaxParseException;
 import model.policy.*;
 
 public class TerminalInterface {
@@ -36,21 +37,27 @@ public class TerminalInterface {
             // load_policy
 
             // lookup_interface, lookup_attribute, lookup_type
-            switch (inputList[0]) {
-                case "load_access_vectors":
-                    commandLoadAccessVectors(inputList);
-                    break;
-                case "exit":
-                    this.isRunning = false;
-                    break;
-                default:
-                    System.out.println("Unknown command.");
+            try {
+                switch (inputList[0]) {
+                    case "load_access_vectors":
+                        commandLoadAccessVectors(inputList);
+                        break;
+                    case "exit":
+                        this.isRunning = false;
+                        break;
+                    default:
+                        System.out.println("Unknown command.");
+                }
+            } catch (SyntaxParseException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
             System.out.println();
         }
     }
 
-    private void commandLoadAccessVectors(String[] inputList) {
+    private void commandLoadAccessVectors(String[] inputList) throws SyntaxParseException, IOException {
         if (inputList.length <= 2) {
             System.out.println("Usage:");
             System.out.println("load_access_vectors <access_vectors path> <security_classes path>.");
@@ -66,19 +73,19 @@ public class TerminalInterface {
             if (securityClassPath.equals("default")) {
                 securityClassPath = "";
             }
+
             loadAccessVectors(accessVectorPath, securityClassPath);
         }
     }
 
-    public AccessVectorModel loadAccessVectors(String accessVectorPath, String securityClassPath) {
+    public AccessVectorModel loadAccessVectors(String accessVectorPath, String securityClassPath)
+            throws IOException, SyntaxParseException {
         File securityClassFile = new File(securityClassPath);
         File accessVectorFile = new File(accessVectorPath);
         Scanner fileReader = null;
-        try {
-            fileReader = new Scanner(securityClassFile);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+
+        fileReader = new Scanner(securityClassFile);
+
         AccessVectorModel accessVectorModel = new AccessVectorModel();
         while (fileReader.hasNextLine()) {
             // The format of security_classes allowed line-by-line parsing
@@ -89,11 +96,9 @@ public class TerminalInterface {
         }
         fileReader.close();
         String accessVectorFileContent;
-        try {
-            accessVectorFileContent = CustomReader.readAsCompact(accessVectorFile);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+
+        accessVectorFileContent = CustomReader.readAsCompact(accessVectorFile);
+
         accessVectorModel.batchAddAction(AccessVectorModel.accessVectorParser(accessVectorFileContent));
         return accessVectorModel;
     }
