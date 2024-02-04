@@ -7,9 +7,13 @@ public class CommonUtil {
             commentPosition += 1;
             if (line.charAt(i) == '#') {
                 // Found the first comment character
-                break;
+                return commentPosition;
             }
         }
-        return commentPosition;
+        return -1;
+    }
+
+    public static String reduceSpace(String text) {
+        return text.replaceAll("\\s{2,}", " ").trim();
     }
 }

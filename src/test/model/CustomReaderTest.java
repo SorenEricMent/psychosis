@@ -19,7 +19,7 @@ class CustomReaderTest {
         testReaderBreak = new File("./src/test/model/testfiles/CustomReaderTest/test_reader_break");
     }
     @Test
-    public void readAsWholeTest() {
+    public void testReadAsWhole() {
         String fileResult1;
         String fileResult2;
         try {
@@ -36,7 +36,7 @@ class CustomReaderTest {
         }
     }
     @Test
-    public void readAsCompactTest() {
+    public void testReadAsCompact() {
 
     }
 }

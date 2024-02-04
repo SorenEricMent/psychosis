@@ -48,16 +48,13 @@ public class AccessVectorModel {
             // any line that is shorter than 7 is invalid.
             throw new SyntaxParseException(line);
         }
-        if (line.startsWith("class")) {
-            String[] tokenized = line.split(" ");
-            if (tokenized.length == 2) {
-                return line.split(" ")[1];
-            } else {
-                throw new SyntaxParseException(line);
+        String[] tokenized = CommonUtil.reduceSpace(line).split(" ");
+        if (tokenized.length == 2) {
+            if (tokenized[0].equals("class")) {
+                return tokenized[1];
             }
-        } else {
-            throw new SyntaxParseException(line);
         }
+        throw new SyntaxParseException(line);
     }
 
     public static HashMap<String, HashSet<String>> accessVectorParser(String content) {

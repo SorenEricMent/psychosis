@@ -11,6 +11,7 @@ import java.io.IOException;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 
@@ -34,13 +35,14 @@ public class AccessVectorTest {
             fail("Test source file not found, this should not happen!");
         }
 
-        while (fileReader.hasNextLine()) {
+        String expected[] = {null, null, null, null, "something", null, "cpsc210", null, "ubc"};
+        
+        for (int i = 0; i < expected.length; i++) {
+            String line = fileReader.nextLine();
             try {
-                accessVectorModel.addSecurityClass(
-                        AccessVectorModel.securityClassParser(fileReader.nextLine())
-                );
+                assertEquals(expected[i], AccessVectorModel.securityClassParser(line));
             } catch (SyntaxParseException e) {
-                fail(e);
+                fail("Failed to parse line: " + line);
             }
         }
         fileReader.close();
@@ -65,10 +67,42 @@ public class AccessVectorTest {
         } catch (FileNotFoundException e) {
             fail("Test source file not found, this should not happen!");
         }
-        //TODO
-        // AccessVectorModel.securityClassParser(fileReader.nextLine());
-        fail("Expected syntax parsing error but passed");
-
+        ArrayList<String> testContent = new ArrayList<String>();
+        while(fileReader.hasNextLine()) {
+            testContent.add(fileReader.nextLine());
+        }
+        // In the test file, line 1, 3, 5, 6, 7 should produce exception
+        // while 2 and 4 should pass.
+        assertThrows(SyntaxParseException.class,
+                () -> {
+                    AccessVectorModel.securityClassParser(testContent.get(0));
+                });
+        assertThrows(SyntaxParseException.class,
+                () -> {
+                    AccessVectorModel.securityClassParser(testContent.get(2));
+                });
+        assertThrows(SyntaxParseException.class,
+                () -> {
+                    AccessVectorModel.securityClassParser(testContent.get(4));
+                });
+        assertThrows(SyntaxParseException.class,
+                () -> {
+                    AccessVectorModel.securityClassParser(testContent.get(5));
+                });
+        assertThrows(SyntaxParseException.class,
+                () -> {
+                    AccessVectorModel.securityClassParser(testContent.get(6));
+                });
+        try {
+            assertEquals(null, AccessVectorModel.securityClassParser(testContent.get(1)));
+        } catch (SyntaxParseException e) {
+            fail("Failed to parse no-content line: " + testContent.get(1));
+        }
+        try {
+            assertEquals("thisshouldpass", AccessVectorModel.securityClassParser(testContent.get(3)));
+        } catch (SyntaxParseException e) {
+            fail("Failed to parse legal syntax:" + testContent.get(3));
+        }
         fileReader.close();
     }
     @Test
