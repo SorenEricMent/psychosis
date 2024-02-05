@@ -8,7 +8,8 @@ public class PolicyModel {
     // A set of FileContext
     // A set of Interface
     // A set of Attributes
-    // A set of constraint rules (Psychosis don't support MLSConstrain)
+    // A set of constraint rules (Psychosis don't support MLSConstrain or constrain, only dontaudit)
+    // Other misc parameters;
 
     enum PolicyCapabilities {
             network_peer_controls,
@@ -23,7 +24,6 @@ public class PolicyModel {
 
     private HashMap<PolicyCapabilities, Boolean>
             capabilities = new HashMap<PolicyCapabilities, Boolean>();
-    private RuleSetModel ruleSet;
 
     public Boolean checkCapability(PolicyCapabilities target) {
         return capabilities.get(target);

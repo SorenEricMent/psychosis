@@ -68,17 +68,19 @@ public class TerminalInterface {
             String securityClassPath = inputList[2];
 
             if (accessVectorPath.equals("default")) {
-                accessVectorPath = "";
+                accessVectorPath = "./data/fallback/access_vectors";
             }
             if (securityClassPath.equals("default")) {
-                securityClassPath = "";
+                securityClassPath = "./data/fallback/security_classes";
             }
 
             loadAccessVectors(accessVectorPath, securityClassPath);
+            // System.out.println("Loaded " + )
         }
     }
 
-    public AccessVectorModel loadAccessVectors(String accessVectorPath, String securityClassPath)
+
+    public static AccessVectorModel loadAccessVectors(String accessVectorPath, String securityClassPath)
             throws IOException, SyntaxParseException {
         File securityClassFile = new File(securityClassPath);
         File accessVectorFile = new File(accessVectorPath);
@@ -103,7 +105,7 @@ public class TerminalInterface {
         return accessVectorModel;
     }
 
-    public PolicyModel loadPolicy(String path) {
+    public static PolicyModel loadPolicy(String path) {
         return null; //stub
     }
 }

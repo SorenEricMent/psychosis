@@ -1,5 +1,33 @@
 package model.policy;
 
+import java.util.HashSet;
+
 public class RuleSetModel {
-    // delete or rename this class!
+    // A rule is a three-tuple and a hashset
+
+    enum RuleType {
+        allow,
+        dontaudit,
+        neverallow,
+        constrain,
+        mlsconstrain
+    }
+
+    private RuleType ruleType;
+    private String sourceContext;
+    private String targetContext;
+    private String targetClass;
+    private HashSet<String> actions = new HashSet<String>();
+
+    RuleSetModel(String ruleType, String sourceContext, String targetContext, String targetClass, HashSet<String> actions) {
+
+    }
+
+    public void addAction() {
+
+    }
+
+    public boolean existAction() {
+
+    }
 }

@@ -16,4 +16,9 @@ public class CommonUtil {
     public static String reduceSpace(String text) {
         return text.replaceAll("\\s{2,}", " ").trim();
     }
+
+    // EFFECTS: tokenize the text with any number of newline or space
+    public static String[] basicTokenizer(String text) {
+        return text.split("(\\r\\n|[\\r\\n])+|\\s+");
+    }
 }

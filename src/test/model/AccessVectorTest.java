@@ -36,7 +36,7 @@ public class AccessVectorTest {
         }
 
         String expected[] = {null, null, null, null, "something", null, "cpsc210", null, "ubc"};
-        
+
         for (int i = 0; i < expected.length; i++) {
             String line = fileReader.nextLine();
             try {
@@ -50,10 +50,24 @@ public class AccessVectorTest {
     @Test
     public void testAccessVectorParse() {
         File testFile = new File("./src/test/model/testfiles/AccessVectorTest/test_access_vectors");
+        AccessVectorModel expect = new AccessVectorModel();
+        expect.addSecurityClass("ubc");
+        expect.addAccessVector("ubc", "fail_class");
+        expect.addAccessVector("ubc", "sleep");
+        expect.addAccessVector("ubc", "eat");
+        expect.addAccessVector("ubc", "dropout");
+        expect.addSecurityClass("test");
+        expect.addAccessVector("test", "lol");
+        expect.addSecurityClass("test2");
+        expect.addAccessVector("test2", "test3");
         try {
-            fileContent = CustomReader.readAsWhole(testFile);
+            fileContent = CustomReader.readAsWholeCode(testFile);
+            assertEquals(expect.getValue(),
+                    AccessVectorModel.accessVectorParser(fileContent));
         } catch (IOException e) {
             fail("IO Exception, this should not happen & check CustomReaderTest!");
+        } catch (SyntaxParseException e) {
+            fail("Failed to parse a valid access_vectors, " + e);
         }
     }
     @Test

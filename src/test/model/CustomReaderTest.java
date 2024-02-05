@@ -11,12 +11,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CustomReaderTest {
     Path currentPath;
-    File testReader, testReaderBreak;
+    File testReader, testReaderBreak, testReadCommented;
     @BeforeEach
     public void init() {
         currentPath = Paths.get("");
         testReader = new File("./src/test/model/testfiles/CustomReaderTest/test_reader");
         testReaderBreak = new File("./src/test/model/testfiles/CustomReaderTest/test_reader_break");
+        testReadCommented = new File("./src/test/model/testfiles/AccessVectorTest/test_security_classes");
     }
     @Test
     public void testReadAsWhole() {
@@ -36,7 +37,22 @@ class CustomReaderTest {
         }
     }
     @Test
-    public void testReadAsCompact() {
-
+    public void testReadAsWholeCode() {
+        String fileResult1;
+        String expected ="\n" +
+                "\n" +
+                "\n" +
+                "\n" +
+                "class something\n" +
+                "\n" +
+                "class cpsc210\n" +
+                "\n" +
+                "class ubc";
+        try {
+            fileResult1 = CustomReader.readAsWholeCode(testReadCommented);
+            assertEquals(expected, fileResult1);
+        } catch (IOException e) {
+            fail("Failed to read existing file, current working path: " + currentPath.toAbsolutePath().toString());
+        }
     }
 }
