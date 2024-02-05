@@ -65,24 +65,16 @@ public class AccessVectorModel {
 
     // REQUIRE: content must be derived of comment - read from readAsWholeCode.
     // Effect: parse SELinux access_vectors to a HashMap
-    public static HashMap<String, HashSet<String>> accessVectorParser(String content)  throws SyntaxParseException {
+    @SuppressWarnings("methodlength")
+    // Explained at https://canvas.ubc.ca/courses/130128/external_tools/48698
+    public static HashMap<String, HashSet<String>> accessVectorParser(String content) throws SyntaxParseException {
         HashMap<String, HashSet<String>> results = new HashMap<String, HashSet<String>>();
-        // Process common(parents) first
-        Pair<String[], HashMap<String, HashSet<String>>> commonParsed = accessVectorParserCommon(content);
-        // Alright I know I should do this in the first place but I don't want to
-        // rewrite accessVectorParser for now;
-
-        // Split with newline and any number of whitespace to tokenize code
-        // This should be done with a DFA with memory but LINE LIMIT
-        return commonParsed.getSecond();
-    }
-
-    private static Pair<String[], HashMap<String, HashSet<String>>> accessVectorParserCommon(String content)
-            throws SyntaxParseException {
         HashMap<String, HashSet<String>> commons = new HashMap<String, HashSet<String>>();
         String[] tokenized = CommonUtil.basicTokenizer(content);
         boolean readingActions = false;
+        boolean commonOrClass = false; // True for class, false for common
         String currentCommonName = "";
+        String currentClassName = "";
         for (int i = 0; i < tokenized.length; i++) {
             if (readingActions) {
                 if (tokenized[i].equals("}")) {
@@ -100,9 +92,18 @@ public class AccessVectorModel {
                     } else {
                         throw new SyntaxParseException("No following { after common name");
                     }
+                } else if (tokenized[i].equals("class")) {
+                    results.putIfAbsent((currentClassName = tokenized[i + 1]), new HashSet<String>());
+                    if (tokenized[i + 2].equals("inherits")) {
+
+                    } else if ((tokenized[i + 2].equals("{"))) {
+
+                    } else {
+                        throw new SyntaxParseException("Unknown token after class name");
+                    }
                 }
             }
         }
-        return new Pair<String[], HashMap<String, HashSet<String>>>(tokenized, commons);
+        return results;
     }
 }

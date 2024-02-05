@@ -26,6 +26,7 @@ public class TerminalInterface {
 
     }
 
+    @SuppressWarnings("methodlength")
     public void startInterface() {
         while (isRunning) {
             System.out.print("Psychosis$ ");
@@ -42,6 +43,10 @@ public class TerminalInterface {
                     case "load_access_vectors":
                         commandLoadAccessVectors(inputList);
                         break;
+                    case "load_capability":
+                        break;
+                    case "lookup_interface":
+                        break
                     case "exit":
                         this.isRunning = false;
                         break;
