@@ -19,7 +19,7 @@ public class RuleSetModel {
     private String targetClass;
     private HashSet<String> actions = new HashSet<String>();
 
-    RuleSetModel(String ruleType, String sourceContext, String targetContext, String targetClass, HashSet<String> actions) {
+    RuleSetModel(String ruleType, String source, String target, String targetClass, HashSet<String> actions) {
 
     }
 
@@ -28,6 +28,6 @@ public class RuleSetModel {
     }
 
     public boolean existAction() {
-
+        return false;//TODO
     }
 }
