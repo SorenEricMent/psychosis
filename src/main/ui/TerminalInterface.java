@@ -3,7 +3,6 @@ package ui;
 import java.util.ArrayList;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import java.util.Scanner;
@@ -15,21 +14,22 @@ import model.policy.*;
 public class TerminalInterface {
     //Debugging command line for Phase 1
 
-    private ArrayList<PolicyModel> loadedPolicies = new ArrayList<PolicyModel>();
-    private Integer currentWorkIndex = -1;
+    private ArrayList<ProjectModel> loadedProjects = new ArrayList<ProjectModel>();
+    private Integer currentWorkIndex = 0;
+    // Object 0 is an empty non-saving test only project
 
     private Scanner scanner = new Scanner(System.in);
 
     private boolean isRunning = true;
 
     TerminalInterface() {
-
+        this.loadedProjects.add(new TempProjectModel("temp"));
     }
 
     @SuppressWarnings("methodlength")
     public void startInterface() {
         while (isRunning) {
-            System.out.print("Psychosis$ ");
+            System.out.print("Psychosis@" + getFocus().getName() + "$ ");
             String[] inputList = scanner.nextLine().split(" ");
 
             // Command list:
@@ -40,10 +40,19 @@ public class TerminalInterface {
             // lookup_interface, lookup_attribute, lookup_type
             try {
                 switch (inputList[0]) {
-                    case "load_access_vectors":
-                        commandLoadAccessVectors(inputList);
+                    case "create_project": notImplemented();
+                        break;
+                    case "load_project": notImplemented();
+                        break;
+                    case "detail_project": System.out.println(getFocus().toString());
+                        break;
+                    case "load_access_vectors": commandLoadAccessVectors(inputList);
                         break;
                     case "load_capability":
+                        break;
+                    case "load_interface":
+                        break;
+                    case "load_typeenf":
                         break;
                     case "lookup_interface":
                         break;
@@ -60,6 +69,11 @@ public class TerminalInterface {
             }
             System.out.println();
         }
+    }
+
+    // EFFECT: return the project that is currently working on
+    private ProjectModel getFocus() {
+        return loadedProjects.get(currentWorkIndex);
     }
 
     private void commandLoadAccessVectors(String[] inputList) throws SyntaxParseException, IOException {
@@ -104,7 +118,7 @@ public class TerminalInterface {
         fileReader.close();
         String accessVectorFileContent;
 
-        accessVectorFileContent = CustomReader.readAsCompact(accessVectorFile);
+        accessVectorFileContent = CustomReader.readAsWholeCode(accessVectorFile);
 
         accessVectorModel.batchAddAction(AccessVectorModel.accessVectorParser(accessVectorFileContent));
         return accessVectorModel;
@@ -112,5 +126,9 @@ public class TerminalInterface {
 
     public static PolicyModel loadPolicy(String path) {
         return null; //stub
+    }
+
+    public static void notImplemented() {
+        System.out.println("Not implemented for phase 1.");
     }
 }

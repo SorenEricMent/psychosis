@@ -63,10 +63,12 @@ public class AccessVectorModel {
         throw new SyntaxParseException(line);
     }
 
-    // REQUIRE: content must be derived of comment - read from readAsWholeCode.
+    // REQUIRE: content must be derived of comment - e.g. read from readAsWholeCode.
     // Effect: parse SELinux access_vectors to a HashMap
+    // TODO: charset limitation
     @SuppressWarnings("methodlength")
     // Explained at https://canvas.ubc.ca/courses/130128/external_tools/48698
+    // TLDR: it doesn't make sense to split this parser
     public static HashMap<String, HashSet<String>> accessVectorParser(String content) throws SyntaxParseException {
         HashMap<String, HashSet<String>> results = new HashMap<String, HashSet<String>>();
         HashMap<String, HashSet<String>> commons = new HashMap<String, HashSet<String>>();

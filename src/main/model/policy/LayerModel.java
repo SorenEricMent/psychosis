@@ -28,4 +28,8 @@ public class LayerModel {
         return null;//stub
     }
 
+    // EFFECT: return layer name
+    public String getName() {
+        return name;
+    }
 }

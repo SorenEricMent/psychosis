@@ -19,4 +19,8 @@ public class CommonUtilTest {
             assertEquals(CommonUtil.commentLocate(testStr[i]), locations[i]);
         }
     }
+    @Test
+    public void testBasicTokenizer() {
+
+    }
 }
