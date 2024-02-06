@@ -28,6 +28,11 @@ public class AccessVectorModel {
         }
     }
 
+    // EFFECT: getter for class number
+    public int size() {
+        return accessVector.size();
+    }
+
     public void addAccessVector(String className, String actionName) {
         this.accessVector.get(className).add(actionName);
     }

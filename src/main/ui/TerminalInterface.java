@@ -44,17 +44,21 @@ public class TerminalInterface {
                         break;
                     case "load_project": notImplemented();
                         break;
-                    case "detail_project": System.out.println(getFocus().toString());
+                    case "show_project": System.out.println(getFocus().toString());
+                        break;
+                    case "show_layer": notImplemented();
                         break;
                     case "load_access_vectors": commandLoadAccessVectors(inputList);
                         break;
-                    case "load_capability":
+                    case "show_capability": notImplemented();
                         break;
-                    case "load_interface":
+                    case "load_capability": notImplemented();
                         break;
-                    case "load_typeenf":
+                    case "load_interface": notImplemented();
                         break;
-                    case "lookup_interface":
+                    case "load_typeenf": notImplemented();
+                        break;
+                    case "lookup_interface": notImplemented();
                         break;
                     case "exit":
                         this.isRunning = false;
@@ -93,8 +97,9 @@ public class TerminalInterface {
                 securityClassPath = "./data/fallback/security_classes";
             }
 
-            loadAccessVectors(accessVectorPath, securityClassPath);
-            // System.out.println("Loaded " + )
+            this.getFocus().setAccessVectors(loadAccessVectors(accessVectorPath, securityClassPath));
+            System.out.println("Access vector definition loaded, total " + getFocus().getAccessVectors().size()
+                    + " classes.");
         }
     }
 
@@ -124,7 +129,7 @@ public class TerminalInterface {
         return accessVectorModel;
     }
 
-    public static PolicyModel loadPolicy(String path) {
+    public static PolicyModuleModel loadPolicy(String path) {
         return null; //stub
     }
 

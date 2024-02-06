@@ -8,6 +8,7 @@ public class RuleSetModel {
     enum RuleType {
         allow,
         dontaudit,
+        // The following are not planned to be implemented.
         neverallow,
         constrain,
         mlsconstrain
