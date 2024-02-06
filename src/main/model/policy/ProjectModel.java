@@ -1,6 +1,7 @@
 package model.policy;
 
 import model.CommonUtil;
+import model.TrackerModel;
 import model.exception.SyntaxParseException;
 import model.exception.UnknownCapabilityException;
 
@@ -17,6 +18,8 @@ public class ProjectModel {
             capabilities = new HashMap<PolicyCapabilities, Boolean>();
 
     private AccessVectorModel accessVectors;
+
+    private TrackerModel tracker = new TrackerModel();
     protected ArrayList<LayerModel> layers = new ArrayList<LayerModel>();
 
     public ProjectModel(String name, String projectPath) {
@@ -100,6 +103,10 @@ public class ProjectModel {
             }
         }
         return results;
+    }
+
+    public LayerModel lookup(String layerName) {
+        return null;
     }
 
     // EFFECT: explain the project detail, override default toString

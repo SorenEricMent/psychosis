@@ -5,5 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ProjectTest {
     @Test
-    public void testCapabilityParser() {}
+    public void testCapabilityParser() {
+
+    }
+
 }

@@ -1,9 +1,10 @@
 package model.policy;
 
 public class PolicyModuleModel {
-    // A policy contain:
-    // An access vector definition and corresponding security class definition
-    // (refpolicy) 5 layers
-    // Other misc parameters;
+    // A policy module contain:
+    // A Type enforce file
+    // A interface definition file
+    // A file context file ( not used by Psychosis )
+
 
 }
