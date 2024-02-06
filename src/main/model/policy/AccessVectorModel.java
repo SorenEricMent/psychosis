@@ -80,27 +80,33 @@ public class AccessVectorModel {
                 if (tokenized[i].equals("}")) {
                     readingActions = false;
                 } else {
-                    commons.get(currentCommonName).add(tokenized[i]);
+                    if (commonOrClass) {
+                        results.get(currentClassName).add(tokenized[i]);
+                    } else {
+                        commons.get(currentCommonName).add(tokenized[i]);
+                    }
                 }
             } else {
-                if (tokenized[i].equals("common")) {
+                if (tokenized[i].equals("{")) {
+                    readingActions = true;
+                } else if (tokenized[i].equals("common")) {
                     // next element is name and next-next should be {
                     commons.putIfAbsent((currentCommonName = tokenized[i + 1]), new HashSet<String>());
-                    if (tokenized[i + 2].equals("{")) {
-                        readingActions = true;
-                        i += 2;
-                    } else {
-                        throw new SyntaxParseException("No following { after common name");
-                    }
+                    commonOrClass = false;
+                    i = i + 1;
                 } else if (tokenized[i].equals("class")) {
                     results.putIfAbsent((currentClassName = tokenized[i + 1]), new HashSet<String>());
                     if (tokenized[i + 2].equals("inherits")) {
-
-                    } else if ((tokenized[i + 2].equals("{"))) {
-
+                        if (results.containsKey(currentClassName)) {
+                            results.get(currentClassName).addAll(commons.get(tokenized[i + 3]));
+                        } else {
+                            results.put(currentClassName, new HashSet<String>());
+                        }
+                        i = i + 3;
                     } else {
-                        throw new SyntaxParseException("Unknown token after class name");
+                        i = i + 1;
                     }
+                    commonOrClass = true;
                 }
             }
         }

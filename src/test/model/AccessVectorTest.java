@@ -26,7 +26,7 @@ public class AccessVectorTest {
     }
     @Test
     public void testSecurityClassParse() {
-        File testFile = new File("./src/test/model/testfiles/AccessVectorTest/test_security_classes");
+        File testFile = new File("./data/testfiles/AccessVectorTest/test_security_classes");
         Scanner fileReader = null;
 
         try {
@@ -49,13 +49,14 @@ public class AccessVectorTest {
     }
     @Test
     public void testAccessVectorParse() {
-        File testFile = new File("./src/test/model/testfiles/AccessVectorTest/test_access_vectors");
+        File testFile = new File("./data/testfiles/AccessVectorTest/test_access_vectors");
         AccessVectorModel expect = new AccessVectorModel();
         expect.addSecurityClass("ubc");
         expect.addAccessVector("ubc", "fail_class");
         expect.addAccessVector("ubc", "sleep");
         expect.addAccessVector("ubc", "eat");
         expect.addAccessVector("ubc", "dropout");
+        expect.addAccessVector("ubc", "homework");
         expect.addSecurityClass("test");
         expect.addAccessVector("test", "lol");
         expect.addSecurityClass("test2");
@@ -72,7 +73,7 @@ public class AccessVectorTest {
     }
     @Test
     public void testExcpSecurityClassParse() {
-        File testFile = new File("./src/test/model/testfiles/AccessVectorTest/test_fail_security_classes");
+        File testFile = new File("./data/testfiles/AccessVectorTest/test_fail_security_classes");
 
         Scanner fileReader = null;
 
@@ -121,7 +122,7 @@ public class AccessVectorTest {
     }
     @Test
     public void testExcpAccessVectorParseTest() {
-        File testFile = new File("./src/test/model/testfiles/AccessVectorTest/test_fail_access_vectors");
+        File testFile = new File("./data/testfiles/AccessVectorTest/test_fail_access_vectors");
         try {
             fileContent = CustomReader.readAsWhole(testFile);
         } catch (IOException e) {

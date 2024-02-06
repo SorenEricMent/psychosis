@@ -15,9 +15,9 @@ class CustomReaderTest {
     @BeforeEach
     public void init() {
         currentPath = Paths.get("");
-        testReader = new File("./src/test/model/testfiles/CustomReaderTest/test_reader");
-        testReaderBreak = new File("./src/test/model/testfiles/CustomReaderTest/test_reader_break");
-        testReadCommented = new File("./src/test/model/testfiles/AccessVectorTest/test_security_classes");
+        testReader = new File("./data/testfiles/CustomReaderTest/test_reader");
+        testReaderBreak = new File("./data/testfiles/CustomReaderTest/test_reader_break");
+        testReadCommented = new File("./data/testfiles/AccessVectorTest/test_security_classes");
     }
     @Test
     public void testReadAsWhole() {

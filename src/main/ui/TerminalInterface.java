@@ -46,7 +46,7 @@ public class TerminalInterface {
                     case "load_capability":
                         break;
                     case "lookup_interface":
-                        break
+                        break;
                     case "exit":
                         this.isRunning = false;
                         break;
