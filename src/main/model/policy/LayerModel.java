@@ -14,7 +14,7 @@ public class LayerModel {
     private HashMap<String, PolicyModuleModel> policyModules = new HashMap<String, PolicyModuleModel>();
     // String is the file path.
 
-    LayerModel(String name) {
+    public LayerModel(String name) {
         this.name = name;
     }
 

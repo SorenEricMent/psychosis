@@ -23,4 +23,12 @@ public class CommonUtilTest {
     public void testBasicTokenizer() {
 
     }
+    @Test
+    public void testTokenValidate() {
+
+    }
+    @Test
+    public void testTokenValidateWeak() {
+
+    }
 }

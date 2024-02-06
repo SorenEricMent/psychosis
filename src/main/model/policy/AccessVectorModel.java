@@ -70,7 +70,6 @@ public class AccessVectorModel {
 
     // REQUIRE: content must be derived of comment - e.g. read from readAsWholeCode.
     // Effect: parse SELinux access_vectors to a HashMap
-    // TODO: charset limitation
     @SuppressWarnings("methodlength")
     // Explained at https://canvas.ubc.ca/courses/130128/external_tools/48698
     // TLDR: it doesn't make sense to split this parser
@@ -87,6 +86,9 @@ public class AccessVectorModel {
                 if (tokenized[i].equals("}")) {
                     readingActions = false;
                 } else {
+                    if (!CommonUtil.tokenValidate(tokenized[i])) {
+                        throw new SyntaxParseException("Invalid action token: " + tokenized[i]);
+                    }
                     if (commonOrClass) {
                         results.get(currentClassName).add(tokenized[i]);
                     } else {
@@ -99,11 +101,17 @@ public class AccessVectorModel {
                 } else if (tokenized[i].equals("common")) {
                     // next element is name and next-next should be {
                     commons.putIfAbsent((currentCommonName = tokenized[i + 1]), new HashSet<String>());
+                    if (!CommonUtil.tokenValidate(currentCommonName)) {
+                        throw new SyntaxParseException("Invalid name token: " + currentCommonName);
+                    }
                     commonOrClass = false;
                     i = i + 1;
                 } else if (tokenized[i].equals("class")) {
                     results.putIfAbsent((currentClassName = tokenized[i + 1]), new HashSet<String>());
                     if (tokenized[i + 2].equals("inherits")) {
+                        if (!CommonUtil.tokenValidate(currentClassName)) {
+                            throw new SyntaxParseException("Invalid name token: " + currentClassName);
+                        }
                         if (results.containsKey(currentClassName)) {
                             results.get(currentClassName).addAll(commons.get(tokenized[i + 3]));
                         } else {

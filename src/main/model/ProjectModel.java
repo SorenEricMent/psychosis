@@ -1,9 +1,11 @@
-package model.policy;
+package model;
 
 import model.CommonUtil;
 import model.TrackerModel;
 import model.exception.SyntaxParseException;
 import model.exception.UnknownCapabilityException;
+import model.policy.AccessVectorModel;
+import model.policy.LayerModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,7 +53,7 @@ public class ProjectModel {
         return this.layers;
     }
 
-    enum PolicyCapabilities {
+    public enum PolicyCapabilities {
         network_peer_controls,
         open_perms,
         always_check_network,
@@ -64,42 +66,49 @@ public class ProjectModel {
 
     // EFFECT: getter for policy capability
     public Boolean checkCapability(PolicyCapabilities target) {
-        return capabilities.get(target);
+        return capabilities.getOrDefault(target, false);
+    }
+
+    // MODIFIES: this
+    // EFFECT: setter for capabilities.
+    public void setCapabilities(HashMap<PolicyCapabilities, Boolean> val) {
+        this.capabilities = val;
     }
 
     // REQUIRE: policy_capability file after de-comment and strip (readAsWholeCode)
     // EFFECT: parse policy_capability file into HashMap
     @SuppressWarnings("methodlength")
     // Switch-case used
-    public HashMap<PolicyCapabilities, Boolean> capabilitiesParser(String content)
+    public static HashMap<PolicyCapabilities, Boolean> capabilitiesParser(String content)
             throws SyntaxParseException, UnknownCapabilityException {
         HashMap<PolicyCapabilities, Boolean> results = new HashMap<PolicyCapabilities, Boolean>();
         String[] tokenized = CommonUtil.basicTokenizer(content);
-        // policycap
         for (int i = 0; i < tokenized.length; i++) {
             if (tokenized[i].equals("policycap")) {
+                i = i + 1;
                 switch (tokenized[i]) {
-                    case "network_peer_controls": results.put(PolicyCapabilities.network_peer_controls, true);
+                    case "network_peer_controls;": results.put(PolicyCapabilities.network_peer_controls, true);
                         break;
-                    case "open_perms": results.put(PolicyCapabilities.open_perms, true);
+                    case "open_perms;": results.put(PolicyCapabilities.open_perms, true);
                         break;
-                    case "always_check_network": results.put(PolicyCapabilities.always_check_network, true);
+                    case "always_check_network;": results.put(PolicyCapabilities.always_check_network, true);
                         break;
-                    case "extended_socket_class": results.put(PolicyCapabilities.extended_socket_class, true);
+                    case "extended_socket_class;": results.put(PolicyCapabilities.extended_socket_class, true);
                         break;
-                    case "cgroup_seclabel": results.put(PolicyCapabilities.cgroup_seclabel, true);
+                    case "cgroup_seclabel;": results.put(PolicyCapabilities.cgroup_seclabel, true);
                         break;
-                    case "nnp_nosuid_transition": results.put(PolicyCapabilities.nnp_nosuid_transition, true);
+                    case "nnp_nosuid_transition;": results.put(PolicyCapabilities.nnp_nosuid_transition, true);
                         break;
-                    case "genfs_seclabel_symlinks": results.put(PolicyCapabilities.genfs_seclabel_symlinks, true);
+                    case "genfs_seclabel_symlinks;": results.put(PolicyCapabilities.genfs_seclabel_symlinks, true);
                         break;
-                    case "ioctl_skip_cloexec": results.put(PolicyCapabilities.ioctl_skip_cloexec, true);
+                    case "ioctl_skip_cloexec;": results.put(PolicyCapabilities.ioctl_skip_cloexec, true);
                         break;
                     default:
                         throw new UnknownCapabilityException(tokenized[i]);
                 }
             } else {
-                throw new SyntaxParseException("Unknown token when parsing capability: " + tokenized[i]);
+                throw new SyntaxParseException("Unknown token when parsing capability: "
+                        + tokenized[i] + ", at " + i);
             }
         }
         return results;

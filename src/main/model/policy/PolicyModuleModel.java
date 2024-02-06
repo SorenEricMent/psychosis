@@ -6,5 +6,6 @@ public class PolicyModuleModel {
     // A interface definition file
     // A file context file ( not used by Psychosis )
 
-
+    // This also determine the file name!
+    private String name;
 }

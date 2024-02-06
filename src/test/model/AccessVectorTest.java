@@ -122,9 +122,13 @@ public class AccessVectorTest {
     }
     @Test
     public void testExcpAccessVectorParseTest() {
+        // TODO
         File testFile = new File("./data/testfiles/AccessVectorTest/test_fail_access_vectors");
         try {
-            fileContent = CustomReader.readAsWhole(testFile);
+            fileContent = CustomReader.readAsWholeCode(testFile);
+            assertThrows(SyntaxParseException.class, () -> {
+                AccessVectorModel.accessVectorParser(fileContent);
+            });
         } catch (IOException e) {
             fail("IO Exception, this should not happen & check CustomReaderTest!");
         }

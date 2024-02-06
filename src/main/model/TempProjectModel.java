@@ -1,4 +1,7 @@
-package model.policy;
+package model;
+
+import model.ProjectModel;
+import model.policy.LayerModel;
 
 public class TempProjectModel extends ProjectModel {
     // A temporary project is a project that is not on disk and is for debugging only

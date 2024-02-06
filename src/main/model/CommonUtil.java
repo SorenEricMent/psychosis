@@ -1,5 +1,8 @@
 package model;
 
+import java.util.Arrays;
+import java.util.regex.*;
+
 public class CommonUtil {
     public static int commentLocate(String line) {
         int commentPosition = -1;
@@ -19,6 +22,25 @@ public class CommonUtil {
 
     // EFFECTS: tokenize the text with any number of newline or space
     public static String[] basicTokenizer(String text) {
-        return text.split("(\\r\\n|[\\r\\n])+|\\s+");
+        String[] res = text.split("(\\r\\n|[\\r\\n])+|\\s+");
+        if (res.length > 2) { // Remove possible empty first/last element
+            if (res[0].equals("")) {
+                res = Arrays.copyOfRange(res, 1, res.length);
+            }
+            if (res[res.length - 1].equals("")) {
+                res = Arrays.copyOfRange(res, 0, res.length - 1);
+            }
+        }
+        return res;
+    }
+
+    // EFFECTS: return if the string is a valid selinux name (no reserved word, a-zA-Z0-9 and _)
+    public static boolean tokenValidate(String text) {
+        return text.matches("[a-zA-Z_][a-zA-Z0-9_]*");
+    }
+
+    // EFFECTS: return if the string is a valid selinux variable name (no reserved word, a-zA-Z0-9 and _, can include $)
+    public static boolean tokenValidateWeak(String text) {
+        return text.matches("([a-zA-Z_])([a-zA-Z0-9_]|(\\$\\d))*");
     }
 }
