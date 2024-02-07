@@ -23,12 +23,9 @@ public class CommonUtil {
     // EFFECTS: tokenize the text with any number of newline or space
     public static String[] basicTokenizer(String text) {
         String[] res = text.split("(\\r\\n|[\\r\\n])+|\\s+");
-        if (res.length > 2) { // Remove possible empty first/last element
+        if (res.length >= 2) { // Remove possible empty first element
             if (res[0].equals("")) {
                 res = Arrays.copyOfRange(res, 1, res.length);
-            }
-            if (res[res.length - 1].equals("")) {
-                res = Arrays.copyOfRange(res, 0, res.length - 1);
             }
         }
         return res;
@@ -41,6 +38,6 @@ public class CommonUtil {
 
     // EFFECTS: return if the string is a valid selinux variable name (no reserved word, a-zA-Z0-9 and _, can include $)
     public static boolean tokenValidateWeak(String text) {
-        return text.matches("([a-zA-Z_])([a-zA-Z0-9_]|(\\$\\d))*");
+        return text.matches("([a-zA-Z_]|(\\$\\d))([a-zA-Z0-9_]|(\\$\\d))*");
     }
 }

@@ -50,13 +50,19 @@ public class TerminalInterface {
                         break;
                     case "show_layer": System.out.println(getFocus().lookup(inputList[1]).toString());
                         break;
-                    case "add_module": notImplemented();
+                    case "add_module": commandAddModule(inputList);
                         break;
-                    case "remove_module": notImplemented();
+                    case "remove_module": commandRemoveModule(inputList);
                         break;
                     case "add_interface": notImplemented();
                         break;
                     case "show_interface": notImplemented();
+                        break;
+                    case "edit_interface": notImplemented();
+                        break;
+                    case "edit_typeenf": notImplemented();
+                        break;
+                    case "edit_filecontext": notImplemented();
                         break;
                     case "tag_add_interface": notImplemented();
                         break;
@@ -93,6 +99,15 @@ public class TerminalInterface {
     private ProjectModel getFocus() {
         return loadedProjects.get(currentWorkIndex);
     }
+
+    private void commandAddModule(String[] params) {
+        // add_module <layer_name> <module_name>
+    }
+
+    private void commandRemoveModule(String[] params) {
+        // remove_module <layer_name> <module_name>
+    }
+
 
     private void commandLoadAccessVectors(String[] inputList) throws SyntaxParseException, IOException {
         if (inputList.length <= 2) {

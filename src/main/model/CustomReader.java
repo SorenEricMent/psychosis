@@ -47,15 +47,17 @@ public class CustomReader {
         return content;
     }
 
+    // DEPRECATED CODE
+
     // REQUIRES: target is a File object that exists in the filesystem.
     // EFFECTS: Read the target file without preserving line breaks
-    public static String readAsCompact(File target) throws IOException {
-        BufferedReader bfr = new BufferedReader(new FileReader(target));
-        String content = "";
-        String temp;
-        while ((temp = bfr.readLine()) != null) {
-            content = content.concat(temp);
-        }
-        return content;
-    }
+//    public static String readAsCompact(File target) throws IOException {
+//        BufferedReader bfr = new BufferedReader(new FileReader(target));
+//        String content = "";
+//        String temp;
+//        while ((temp = bfr.readLine()) != null) {
+//            content = content.concat(temp);
+//        }
+//        return content;
+//    }
 }

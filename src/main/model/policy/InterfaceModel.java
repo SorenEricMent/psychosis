@@ -11,7 +11,7 @@ public class InterfaceModel {
     private HashSet<String> tags;
     private boolean isUserDefined;
 
-    InterfaceModel(String name) {
+    public InterfaceModel(String name) {
         this.name = name;
     }
 
