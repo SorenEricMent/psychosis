@@ -136,6 +136,8 @@ public class TerminalInterface {
         } catch (DuplicateException e) {
             System.out.println("Error when adding layer to project " + this.getFocus().getName());
             System.out.println(e);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Not enough params.");
         }
     }
 
@@ -146,6 +148,8 @@ public class TerminalInterface {
             } catch (NotFoundException e) {
                 System.out.println("Error when removing layer.");
                 System.out.println(e);
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.out.println("Not enough params.");
             }
         }
     }
@@ -159,17 +163,15 @@ public class TerminalInterface {
 
     private void commandAddModule(String[] params) {
         // add_module <layer_name> <module_name>
-        if (params.length < 3) {
-            System.out.println("Too few arguments");
-        } else {
-            try {
-                this.getFocus().getLayer(params[1]).addPolicyModules(
-                        new PolicyModuleModel(params[2])
-                );
-            } catch (NotFoundException e) {
-                System.out.println("Failed to add module to layer.");
-                System.out.println(e);
-            }
+        try {
+            this.getFocus().getLayer(params[1]).addPolicyModules(
+                    new PolicyModuleModel(params[2])
+            );
+        } catch (NotFoundException e) {
+            System.out.println("Failed to add module to layer.");
+            System.out.println(e);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Not enough params.");
         }
     }
 
