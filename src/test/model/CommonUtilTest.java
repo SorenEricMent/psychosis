@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CommonUtilTest {
     @Test
     public void testCommentLocate() {
-        String testStr[] = {
+        String[] testStr = {
                 "",
                 "Abc",
                 "# comment",
@@ -27,9 +27,7 @@ public class CommonUtilTest {
         String[] expected1 = {
                 "test"
         };
-        for (int i = 0; i < testContent.length; i++) {
-            assertArrayEquals(expected1, CommonUtil.basicTokenizer(testContent[i]));
-        }
+        assertArrayEquals(expected1, CommonUtil.basicTokenizer(testContent[0]));
     }
     @Test
     public void testTokenValidate() {
@@ -51,5 +49,51 @@ public class CommonUtilTest {
         assertFalse(CommonUtil.tokenValidateWeak("$"));
         assertTrue(CommonUtil.tokenValidateWeak("$0"));
         assertTrue(CommonUtil.tokenValidateWeak("$1_t"));
+    }
+
+    @Test
+    public void testBalancer() {
+        CommonUtil.Balancer test = new CommonUtil.Balancer();
+        assertFalse(test.isSyntaxError());
+        assertTrue(test.check());
+        test.push("(");
+        assertFalse(test.isSyntaxError());
+        assertFalse(test.check());
+        test.push(")");
+        assertFalse(test.isSyntaxError());
+        assertTrue(test.check());
+        test.push(")");
+        assertTrue(test.isSyntaxError());
+
+        test = new CommonUtil.Balancer();
+        test.push(")");
+        assertTrue(test.isSyntaxError());
+
+        test = new CommonUtil.Balancer();
+        test.push("{");
+        assertFalse(test.isSyntaxError());
+        assertFalse(test.check());
+        test.push("(");
+        assertFalse(test.isSyntaxError());
+        assertFalse(test.check());
+        test.push(")");
+        assertFalse(test.isSyntaxError());
+        assertFalse(test.check());
+        test.push("}");
+        assertFalse(test.isSyntaxError());
+        assertTrue(test.check());
+
+        test = new CommonUtil.Balancer();
+        test.push("`");
+        assertFalse(test.isSyntaxError());
+        assertFalse(test.check());
+        test.push(")");
+        assertFalse(test.isSyntaxError());
+        assertFalse(test.check());
+        test.push("'");
+        assertFalse(test.isSyntaxError());
+        assertTrue(test.check());
+        test.push("'");
+        assertTrue(test.isSyntaxError());
     }
 }

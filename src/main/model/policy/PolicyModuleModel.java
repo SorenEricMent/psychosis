@@ -9,6 +9,10 @@ public class PolicyModuleModel {
     // This also determine the file name!
     private String name;
 
+    public PolicyModuleModel(String name) {
+        this.name = name;
+    }
+
     // EFFECT: Override Object.toString, for tui command show_module
     public String toString() {
         return ""; //stub

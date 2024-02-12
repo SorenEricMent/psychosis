@@ -2,6 +2,8 @@ package model;
 
 import model.CommonUtil;
 import model.TrackerModel;
+import model.exception.DuplicateException;
+import model.exception.NotFoundException;
 import model.exception.SyntaxParseException;
 import model.exception.UnknownCapabilityException;
 import model.policy.AccessVectorModel;
@@ -23,6 +25,9 @@ public class ProjectModel {
 
     private TrackerModel tracker = new TrackerModel();
     protected ArrayList<LayerModel> layers = new ArrayList<LayerModel>();
+
+    // Layers are often in small sizes
+    // Therefore it is defined as an ArrayList
 
     public ProjectModel(String name, String projectPath) {
         this.name = name;
@@ -114,8 +119,36 @@ public class ProjectModel {
         return results;
     }
 
-    public LayerModel lookup(String layerName) {
-        return null;
+    public void addLayer(String layerName) throws DuplicateException {
+        for (int i = 0; i < layers.size(); i++) {
+            if (layers.get(i).getName().equals(layerName)) {
+                throw new DuplicateException(layerName);
+            }
+        }
+        this.layers.add(new LayerModel(layerName));
+    }
+
+    public void removeLayer(String layerName) throws NotFoundException {
+        int index = -1;
+        for (int i = 0; i < layers.size(); i++) {
+            if (layers.get(i).getName().equals(layerName)) {
+                index = i;
+            }
+        }
+        if (index == -1) {
+            throw new NotFoundException(layerName);
+        } else {
+            this.layers.remove(index);
+        }
+    }
+
+    public LayerModel getLayer(String layerName) throws NotFoundException {
+        for (LayerModel layer : layers) {
+            if (layer.getName().equals(layerName)) {
+                return layer;
+            }
+        }
+        throw new NotFoundException(layerName);
     }
 
     // EFFECT: explain the project detail, override default toString

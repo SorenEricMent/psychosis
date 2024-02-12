@@ -18,7 +18,7 @@ public class LayerModel {
         this.name = name;
     }
 
-    public void addPolicyModules() {
+    public void addPolicyModules(PolicyModuleModel module) {
 
     }
 

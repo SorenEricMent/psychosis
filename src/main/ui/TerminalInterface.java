@@ -10,13 +10,15 @@ import java.util.Scanner;
 import model.CustomReader;
 import model.ProjectModel;
 import model.TempProjectModel;
+import model.exception.DuplicateException;
+import model.exception.NotFoundException;
 import model.exception.SyntaxParseException;
 import model.policy.*;
 
 public class TerminalInterface {
     //Debugging command line for Phase 1
 
-    private ArrayList<ProjectModel> loadedProjects = new ArrayList<ProjectModel>();
+    private ArrayList<ProjectModel> loadedProjects = new ArrayList<>();
     private Integer currentWorkIndex = 0;
     // Object 0 is an empty non-saving test only project
 
@@ -44,21 +46,31 @@ public class TerminalInterface {
                 switch (inputList[0]) {
                     case "create_project": notImplemented();
                         break;
+                    case "select_project": notImplemented();
+                        break;
                     case "load_project": notImplemented();
+                        break;
+                    case "list_project": commandListProject();
                         break;
                     case "show_project": System.out.println(getFocus().toString());
                         break;
-                    case "show_layer": System.out.println(getFocus().lookup(inputList[1]).toString());
+                    case "show_layer": commandShowLayer(inputList);
+                        break;
+                    case "create_layer": commandCreateLayer(inputList);
+                        break;
+                    case "remove_layer": commandRemoveLayer(inputList);
                         break;
                     case "add_module": commandAddModule(inputList);
                         break;
                     case "remove_module": commandRemoveModule(inputList);
                         break;
-                    case "add_interface": notImplemented();
+                    case "add_interface": commandAddInterface(inputList);
                         break;
-                    case "show_interface": notImplemented();
+                    case "show_interface": commandShowInterface(inputList);
                         break;
-                    case "edit_interface": notImplemented();
+                    case "edit_interface": commandEditInterface(inputList);
+                        break;
+                    case "remove_interface": commandRemoveInterface(inputList);
                         break;
                     case "edit_typeenf": notImplemented();
                         break;
@@ -81,6 +93,7 @@ public class TerminalInterface {
                     case "lookup_interface": notImplemented();
                         break;
                     case "exit":
+                        System.out.println("Goodbye");
                         this.isRunning = false;
                         break;
                     default:
@@ -100,13 +113,87 @@ public class TerminalInterface {
         return loadedProjects.get(currentWorkIndex);
     }
 
+    private void commandCreateProject() {
+        // create_project <basis (test/refpolicy/custom)> [custom]:<path> name
+        // the latter is not yet implemented in Phase 1, TODO
+    }
+
+    private void commandShowLayer(String[] params) {
+        try {
+            System.out.println(getFocus().getLayer(params[1]).toString());
+        } catch (NotFoundException e) {
+            System.out.println("Failed to show layer detail.");
+            System.out.println(e);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Not enough params.");
+        }
+    }
+
+    private void commandCreateLayer(String[] params) {
+        // create_layer <layer_name>
+        try {
+            this.getFocus().addLayer(params[1]);
+        } catch (DuplicateException e) {
+            System.out.println("Error when adding layer to project " + this.getFocus().getName());
+            System.out.println(e);
+        }
+    }
+
+    private void commandRemoveLayer(String[] params) {
+        if (reassure()) {
+            try {
+                this.getFocus().removeLayer(params[1]);
+            } catch (NotFoundException e) {
+                System.out.println("Error when removing layer.");
+                System.out.println(e);
+            }
+        }
+    }
+
+    private void commandListProject() {
+        System.out.print("Loaded projects: ");
+        for (ProjectModel project : loadedProjects) {
+            System.out.print(project.getName() + " ");
+        }
+    }
+
     private void commandAddModule(String[] params) {
         // add_module <layer_name> <module_name>
+        if (params.length < 3) {
+            System.out.println("Too few arguments");
+        } else {
+            try {
+                this.getFocus().getLayer(params[1]).addPolicyModules(
+                        new PolicyModuleModel(params[2])
+                );
+            } catch (NotFoundException e) {
+                System.out.println("Failed to add module to layer.");
+                System.out.println(e);
+            }
+        }
     }
 
     private void commandRemoveModule(String[] params) {
         // remove_module <layer_name> <module_name>
     }
+
+    private void commandAddInterface(String[] params) {
+        // add_interface <layer_name> <module_name> <interface_name> <param_num>
+    }
+
+    private void commandShowInterface(String[] params) {
+        // show_interface <layer_name> <module_name>
+    }
+
+    private void commandEditInterface(String[] params) {
+        // edit_interface <layer_name> <module_name> <interface_name>
+        // <add/remove> <allow/dontaudit> <source_label> <target_label> <target_class> [action_list]
+    }
+
+    private void commandRemoveInterface(String[] params) {
+        // add_interface <layer_name> <module_name> <interface_name> <param_num>
+    }
+
 
 
     private void commandLoadAccessVectors(String[] inputList) throws SyntaxParseException, IOException {
@@ -164,5 +251,14 @@ public class TerminalInterface {
 
     public static void notImplemented() {
         System.out.println("Not implemented for phase 1.");
+    }
+
+    public boolean reassure() {
+        System.out.println("Are you sure to proceed? (y/n)");
+        if (scanner.nextLine().toLowerCase().equals("y")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
