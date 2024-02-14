@@ -8,12 +8,18 @@ public class InterfaceModel {
     private String name;
 
     private ArrayList<String> parameters;
+
+    private String description;
+
+    private String paramsDescription;
     private ArrayList<RuleSetModel> ruleSetModels;
     private HashSet<String> tags;
     private boolean isUserDefined;
 
-    public InterfaceModel(String name) {
+    public InterfaceModel(String name, boolean isUserDefined) {
         this.name = name;
+        this.isUserDefined = isUserDefined;
+        this.description = "";
     }
 
     public boolean getIsUserDefined() {
@@ -33,4 +39,17 @@ public class InterfaceModel {
         return null;
     }
 
+    public void addRuleSetModels(RuleSetModel rule) {
+        // First, check if the statement-source-target-targetclass tuple
+        // already exists
+        for (RuleSetModel r : ruleSetModels) {
+            if (RuleSetModel.isEquvStatement(r, rule)) {
+                r.addAction(rule.getActions());
+            }
+        }
+    }
+
+    public void setRuleSetModels(ArrayList<RuleSetModel> rules) {
+        this.ruleSetModels = rules;
+    }
 }

@@ -21,6 +21,8 @@ public class AccessVectorModel {
         return accessVector;
     }
 
+    // EFFECT: update access vectors with new class
+    // MODIFIES: this
     public void addSecurityClass(String className) {
         if (className != null) {
             this.accessVector.putIfAbsent(className,
@@ -33,6 +35,8 @@ public class AccessVectorModel {
         return accessVector.size();
     }
 
+    // EFFECT: update specific access vector class with action
+    // MODIFIES: this
     public void addAccessVector(String className, String actionName) {
         this.accessVector.get(className).add(actionName);
     }

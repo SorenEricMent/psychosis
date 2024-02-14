@@ -14,6 +14,7 @@ public class TrackerModel {
     private HashMap<String, ArrayList<InterfaceModel>> mapSLabelIf;
     private HashMap<String, ArrayList<InterfaceModel>> mapTLabelIf;
 
+
     public TrackerModel() {
         mapSLabelIf = new HashMap<String, ArrayList<InterfaceModel>>();
         mapTLabelIf = new HashMap<String, ArrayList<InterfaceModel>>();
