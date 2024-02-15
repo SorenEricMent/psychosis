@@ -61,4 +61,16 @@ public class InterfaceModel {
     public void setRuleSetModels(ArrayList<RuleSetModel> rules) {
         this.ruleSetModels = rules;
     }
+
+    public String toString() {
+        String res = "";
+        for (RuleSetModel r : ruleSetModels) {
+            res = res.concat(r.toString() + "\n");
+        }
+        return res;
+    }
+
+    public String getName() {
+        return this.name;
+    }
 }

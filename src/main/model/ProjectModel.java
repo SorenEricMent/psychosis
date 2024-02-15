@@ -7,6 +7,7 @@ import model.exception.NotFoundException;
 import model.exception.SyntaxParseException;
 import model.exception.UnknownCapabilityException;
 import model.policy.AccessVectorModel;
+import model.policy.InterfaceModel;
 import model.policy.LayerModel;
 
 import java.util.ArrayList;
@@ -170,14 +171,19 @@ public class ProjectModel {
     }
 
     public void addInterface(String layerName, String moduleName, String interfaceName, int paramNum) {
-
+        this.getLayer(layerName).getPolicyModule(moduleName).addInterface(
+                new InterfaceModel(interfaceName, true));
     }
 
     public void updateInterface() {
 
     }
 
-    public void removeInterface(String layerName, String moduleName) {
+    public void removeInterface(String layerName, String moduleName, String interfaceName) {
+        this.getLayer(layerName).getPolicyModule(moduleName).removeInterface(interfaceName);
+    }
 
+    public void removeModule(String layerName, String moduleName) {
+        this.getLayer(layerName).removePolicyModule(moduleName);
     }
 }

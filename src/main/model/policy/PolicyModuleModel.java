@@ -33,15 +33,20 @@ public class PolicyModuleModel {
         res = res.concat("Module name: " + this.getName() + "\n");
         res = res.concat("Rule statements: " + typeEnfObject.lineCount() + "\n");
         res = res.concat("Declared interfaces: " + interfaceObject.lineCount() + "\n");
+
+        res = res.concat("File context: not implemented. \n");
         return res; //TODO
     }
 
     public void addInterface(InterfaceModel i) {
-        //TODO
+        interfaceObject.addInterface(i);
     }
 
     public InterfaceModel findInterface(String name) {
         return null; //stub
     }
 
+    public void removeInterface(String interfaceName) {
+        interfaceObject.removeinterface(interfaceName);
+    }
 }

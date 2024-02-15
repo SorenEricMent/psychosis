@@ -1,5 +1,7 @@
 package model.policy;
 
+import model.exception.NotFoundException;
+
 import java.util.HashMap;
 
 public class LayerModel {
@@ -43,5 +45,13 @@ public class LayerModel {
             res = res.concat(s + " ");
         }
         return res;
+    }
+
+    public void removePolicyModule(String moduleName) {
+        if (policyModules.containsKey(moduleName)) {
+            policyModules.remove(moduleName);
+        } else {
+            throw new NotFoundException("Policy module not found.");
+        }
     }
 }

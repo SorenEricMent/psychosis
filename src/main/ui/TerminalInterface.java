@@ -193,7 +193,7 @@ public class TerminalInterface {
     private void commandRemoveModule(String[] params) {
         // remove_module <layer_name> <module_name>
         try {
-            this.getFocus().removeInterface(
+            this.getFocus().removeModule(
                     params[1],
                     params[2]
             );
@@ -245,11 +245,12 @@ public class TerminalInterface {
     }
 
     private void commandRemoveInterface(String[] params) {
-        // add_interface <layer_name> <module_name> <interface_name> <param_num>
+        // remove_interface <layer_name> <module_name> <interface_name>
         try {
             this.getFocus().removeInterface(
                     params[1],
-                    params[2]
+                    params[2],
+                    params[3]
             );
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Not enough params.");

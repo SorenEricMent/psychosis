@@ -59,7 +59,7 @@ public class TempProjectModel extends ProjectModel {
     }
 
     @Override
-    public void removeInterface(String layerName, String moduleName) {
+    public void removeInterface(String layerName, String moduleName, String interfaceName) {
 
     }
 }
