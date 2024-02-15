@@ -38,14 +38,14 @@ public class TypeEnfModel extends FileObjectModel {
         return null;
     }
 
-    public String readRaw() {
-        return null;
-    }
-
     // EFFECTS: export content in string;
     public String toString() {
-        String res = "Statements: ";
-        return res; //TODO
+        String res = "";
+        // FUTURE TODO: REQUIRE STATEMENT
+        for (RuleSetModel r : statementsFO) {
+            res = res.concat(r.toString());
+        }
+        return res;
     }
 
     public int lineCount() {

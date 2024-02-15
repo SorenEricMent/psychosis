@@ -7,14 +7,19 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class InterfaceSetModel extends FileObjectModel {
-    protected ArrayList<Pair<Integer, String>> lookupList =
-            new ArrayList<Pair<Integer, String>>();
+
+    private ArrayList<InterfaceModel> interfaces = new ArrayList<>();
 
     public String toString() {
-        return null;
+        String res = "";
+        for (InterfaceModel i : interfaces) {
+            res = res.concat(interfaces.toString() + "\n");
+        }
+        return res;
     }
 
+    // EFFECTS: return number of interfaces
     public int lineCount() {
-        return 0;
+        return interfaces.size();
     }
 }

@@ -31,7 +31,7 @@ class CustomReaderTest {
         }
         try {
             fileResult2 = CustomReader.readAsWhole(testReaderBreak);
-            assertEquals(fileResult2,"Per ardua ad astra?\nPer ardua ad morbis!\n\nĉi tiu estas whatever a test.");
+            assertEquals(fileResult2,"Per ardua ad astra?\nPer ardua ad morbis!\n\ncxi tiu estas whatever a test.");
         } catch (IOException e) {
             fail("Failed to read existing file, current working path: " + currentPath.toAbsolutePath().toString());
         }

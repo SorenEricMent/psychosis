@@ -79,7 +79,7 @@ public class TerminalInterface {
                         break;
                     case "remove_interface": commandRemoveInterface(inputList);
                         break;
-                    case "edit_typeenf": notImplemented();
+                    case "edit_typeenf": commandEditTypeEnf(inputList);
                         break;
                     case "edit_filecontext": notImplemented();
                         break;
@@ -258,7 +258,9 @@ public class TerminalInterface {
         }
     }
 
+    private void commandEditTypeEnf(String[] params) {
 
+    }
 
     // EFFECTS: command: parse and load access vector and class definition from filesystem
     private void commandLoadAccessVectors(String[] inputList) throws SyntaxParseException, IOException {
