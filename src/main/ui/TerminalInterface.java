@@ -36,14 +36,15 @@ public class TerminalInterface {
             System.out.print("Psychosis@" + getFocus().getName() + "$ ");
             String[] inputList = scanner.nextLine().split(" ");
 
-            // Command list:
-            // load_access_vectors, load_capability,
-            // load_rules. load_interface
-            // load_policy
-
-            // lookup_interface, lookup_attribute, lookup_type
             try {
                 switch (inputList[0]) {
+                    case "list": System.out.println("create_project select_project load_project list_project"
+                            + " show_project show_layer create_layer remove_layer show_module add_module remove_module"
+                            + " add_interface show_interface edit_interface remove_interface lookup_interface"
+                            + " load_interface edit_typeenf"
+                            + " edit_filecontext tag_add_interface tag_rm_interface load_access_vectors"
+                            + " show_capability load_capability");
+                        break;
                     case "create_project": notImplemented();
                         break;
                     case "select_project": notImplemented();
@@ -66,7 +67,11 @@ public class TerminalInterface {
                         break;
                     case "remove_module": commandRemoveModule(inputList);
                         break;
+                    case "load_interface": notImplemented();
+                        break;
                     case "add_interface": commandAddInterface(inputList);
+                        break;
+                    case "lookup_interface": notImplemented();
                         break;
                     case "show_interface": commandShowInterface(inputList);
                         break;
@@ -88,11 +93,7 @@ public class TerminalInterface {
                         break;
                     case "load_capability": notImplemented();
                         break;
-                    case "load_interface": notImplemented();
-                        break;
                     case "load_typeenf": notImplemented();
-                        break;
-                    case "lookup_interface": notImplemented();
                         break;
                     case "exit":
                         System.out.println("Goodbye");
@@ -220,6 +221,14 @@ public class TerminalInterface {
     private void commandEditInterface(String[] params) {
         // edit_interface <layer_name> <module_name> <interface_name>
         // <add/remove> <allow/dontaudit> <source_label> <target_label> <target_class> [action_list]
+
+        // VALIDATE WITH WEAK!
+        switch (params[1]) {
+            case "add":
+                break;
+            case "remove":
+                break;
+        }
     }
 
     private void commandShowInterface(String[] params) {

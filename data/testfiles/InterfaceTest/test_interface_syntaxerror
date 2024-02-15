@@ -1,0 +1,14 @@
+interface(`yuuta', `
+    gen_require(`
+        type yuuta_t;
+        type winslow_t;
+    ');
+    allow yuuta_t winslow_t:winslow { hug };
+');
+
+interface(`bendan', `
+    gen_require(`
+        type yuuta_$1_t;
+    ');
+    allow yuuta_$1_t self:yuuta { eat 
+');

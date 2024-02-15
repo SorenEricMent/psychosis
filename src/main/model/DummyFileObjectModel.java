@@ -1,6 +1,6 @@
 package model;
 
-public class DummyFileObjectModel<X> extends FileObjectModel {
+public class DummyFileObjectModel extends FileObjectModel {
     // The file object module for temp objects
 
     // Override all methods related to edit/read
@@ -8,5 +8,13 @@ public class DummyFileObjectModel<X> extends FileObjectModel {
 
     public DummyFileObjectModel() {
 
+    }
+
+    public String readRaw() {
+        return null;
+    }
+
+    public int lineCount() {
+        return 0;
     }
 }

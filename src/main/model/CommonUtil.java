@@ -9,6 +9,8 @@ import java.util.regex.*;
 import java.util.Stack;
 
 public class CommonUtil {
+
+    // EFFECT: return the first # position, if none, return -1
     public static int commentLocate(String line) {
         int commentPosition = -1;
         for (int i = 0; i < line.length(); i++) {
@@ -21,6 +23,7 @@ public class CommonUtil {
         return -1;
     }
 
+    // EFFECTS: replace all continuous space in the string with a single space
     public static String reduceSpace(String text) {
         return text.replaceAll("\\s{2,}", " ").trim();
     }
@@ -74,6 +77,7 @@ public class CommonUtil {
     }
 
     public static ArrayList<String> seTokenizer(String content) throws SyntaxParseException {
+        // TODO
         ArrayList<String> results = new ArrayList<String>();
         String token = "";
         Balancer balancer = new Balancer();
@@ -112,6 +116,8 @@ public class CommonUtil {
         }
 
         @SuppressWarnings({"checkstyle:methodLength", "checkstyle:SuppressWarnings"})
+
+        // EFFECTS: push a value to stack
         public void push(String val) {
             if (readingString) {
                 if (val.equals("'")) {
