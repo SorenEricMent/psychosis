@@ -1,6 +1,7 @@
 package model;
 
 import model.exception.NotFoundException;
+import model.policy.InterfaceModel;
 import model.policy.LayerModel;
 import model.policy.PolicyModuleModel;
 
@@ -43,7 +44,9 @@ public class TempProjectModel extends ProjectModel {
             throws NotFoundException {
         try {
             this.getLayer(layerName)
-                    .getPolicyModule(moduleName);// TODO
+                    .getPolicyModule(moduleName)
+                    .addInterface(
+                            new InterfaceModel(interfaceName, true));
 
         } catch (NullPointerException e) {
             throw new NotFoundException(e.getMessage());

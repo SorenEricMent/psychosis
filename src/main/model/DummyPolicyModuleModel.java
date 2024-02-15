@@ -16,6 +16,12 @@ public class DummyPolicyModuleModel extends PolicyModuleModel {
     private FileContextModel fileContextDummy = new FileContextModel();
     private InterfaceSetModel interfaceSetDummy = new InterfaceSetModel();
 
+    @Override
+    public void addInterface(InterfaceModel i) {
+        //TODO
+    }
+
+
     // EFFECT: Override Object.toString, for tui command show_module
     @Override
     public String toString() {

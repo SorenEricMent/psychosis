@@ -10,7 +10,7 @@ public class InterfaceSetModel extends FileObjectModel {
     protected ArrayList<Pair<Integer, String>> lookupList =
             new ArrayList<Pair<Integer, String>>();
 
-    public String readRaw() {
+    public String toString() {
         return null;
     }
 

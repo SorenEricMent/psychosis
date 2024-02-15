@@ -10,7 +10,7 @@ public class DummyFileObjectModel extends FileObjectModel {
 
     }
 
-    public String readRaw() {
+    public String toString() {
         return null;
     }
 

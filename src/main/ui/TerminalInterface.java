@@ -260,6 +260,7 @@ public class TerminalInterface {
 
 
 
+    // EFFECTS: command: parse and load access vector and class definition from filesystem
     private void commandLoadAccessVectors(String[] inputList) throws SyntaxParseException, IOException {
         if (inputList.length <= 2) {
             System.out.println("Usage:");
@@ -313,10 +314,13 @@ public class TerminalInterface {
         return null; //stub
     }
 
+    // EFFECTS: placeholder for commands not yet implememnted
     public static void notImplemented() {
         System.out.println("Not implemented for phase 1.");
     }
 
+
+    // EFFECTS: create additional confirm prompt for sensitive commands.
     public boolean reassure() {
         System.out.println("Are you sure to proceed? (y/n)");
         if (scanner.nextLine().toLowerCase().equals("y")) {

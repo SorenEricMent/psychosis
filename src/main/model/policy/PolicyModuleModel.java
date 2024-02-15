@@ -31,9 +31,13 @@ public class PolicyModuleModel {
     public String toString() {
         String res = "";
         res = res.concat("Module name: " + this.getName() + "\n");
-        res = res.concat("Rule statements: ");
-        res = res.concat("Declared interfaces: ");
+        res = res.concat("Rule statements: " + typeEnfObject.lineCount() + "\n");
+        res = res.concat("Declared interfaces: " + interfaceObject.lineCount() + "\n");
         return res; //TODO
+    }
+
+    public void addInterface(InterfaceModel i) {
+        //TODO
     }
 
     public InterfaceModel findInterface(String name) {
