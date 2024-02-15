@@ -20,6 +20,15 @@ public class InterfaceModel {
         this.name = name;
         this.isUserDefined = isUserDefined;
         this.description = "";
+        this.ruleSetModels = new ArrayList<>();
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return this.description;
     }
 
     public boolean getIsUserDefined() {

@@ -57,6 +57,9 @@ public class InterfaceTest {
     public void testInterface() {
         assertFalse(i1.getIsUserDefined());
         assertTrue(i3.getIsUserDefined());
+        assertEquals("", i1.getDescription());
+        i2.setDescription("fish tart");
+        assertEquals("fish tart", i2.getDescription());
     }
 
     @Test

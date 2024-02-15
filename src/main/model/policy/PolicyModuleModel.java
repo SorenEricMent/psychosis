@@ -16,9 +16,8 @@ public class PolicyModuleModel {
     private FileObjectModel<TypeEnfModel> typeEnfObject = new FileObjectModel<TypeEnfModel>();
     private FileObjectModel<FileContextModel> fileContentObject =
             new FileObjectModel<FileContextModel>();
-    // Interface is a bit more complicated
-
-
+    private FileObjectModel<InterfaceSetModel> interfaceObject =
+            new FileObjectModel<InterfaceSetModel>();
 
     public PolicyModuleModel(String name) {
         this.name = name;
@@ -28,4 +27,9 @@ public class PolicyModuleModel {
     public String toString() {
         return ""; //stub
     }
+
+    public InterfaceModel findInterface(String name) {
+        return null; //stub
+    }
+
 }

@@ -1,8 +1,11 @@
-package model.policy;
+package model;
+
+import model.policy.LayerModel;
+import model.policy.PolicyModuleModel;
 
 import java.util.HashMap;
 
-public class LayerModel {
+public class DummyLayerModel extends LayerModel {
     // For reference policy, there are only 5 layers
     // For convenience, the first version of Psychosis is not planning to support layers
     // And they will be static.
@@ -11,18 +14,18 @@ public class LayerModel {
     // domain transitions and domains are completely out of Psychosis's scope
 
     private String name;
-    private HashMap<String, PolicyModuleModel> policyModules = new HashMap<String, PolicyModuleModel>();
+    private HashMap<String, DummyPolicyModuleModel> policyModules = new HashMap<String, DummyPolicyModuleModel>();
     // String is the file name.
 
-    public LayerModel(String name) {
-        this.name = name;
+    public DummyLayerModel(String name) {
+        super(name);
     }
 
     public void addPolicyModules(PolicyModuleModel module) {
 
     }
 
-    public PolicyModuleModel getPolicyModule(String name) {
+    public DummyPolicyModuleModel getPolicyModule(String name) {
         return policyModules.getOrDefault(name, null);
     }
 

@@ -175,21 +175,62 @@ public class TerminalInterface {
         }
     }
 
+    private void commandShowModule(String[] params) {
+        // show_interface <layer_name> <module_name>
+        try {
+            System.out.println(this
+                    .getFocus()
+                    .getLayer(params[1])
+                    .getPolicyModule(params[2]));
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Not enough params.");
+        }
+    }
+
     private void commandRemoveModule(String[] params) {
         // remove_module <layer_name> <module_name>
+        try {
+            this.getFocus().removeInterface(
+                    params[1],
+                    params[2]
+            );
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Not enough params.");
+        }
     }
 
     private void commandAddInterface(String[] params) {
         // add_interface <layer_name> <module_name> <interface_name> <param_num>
-    }
-
-    private void commandShowInterface(String[] params) {
-        // show_interface <layer_name> <module_name>
+        try {
+            this.getFocus().addInterface(
+                    params[1],
+                    params[2],
+                    params[3],
+                    Integer.parseInt(params[4])
+            );
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Not enough params.");
+        } catch (NotFoundException e) {
+            System.out.println("The layer/module you are trying to access doesn't exist");
+        }
     }
 
     private void commandEditInterface(String[] params) {
         // edit_interface <layer_name> <module_name> <interface_name>
         // <add/remove> <allow/dontaudit> <source_label> <target_label> <target_class> [action_list]
+    }
+
+    private void commandShowInterface(String[] params) {
+        // show_interface <layer_name> <module_name>
+        try {
+            System.out.println(this
+                    .getFocus()
+                    .getLayer(params[1])
+                    .getPolicyModule(params[2])
+                    .findInterface(params[3]));
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Not enough params.");
+        }
     }
 
     private void commandRemoveInterface(String[] params) {

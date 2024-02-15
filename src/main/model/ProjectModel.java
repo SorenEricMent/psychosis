@@ -48,7 +48,7 @@ public class ProjectModel {
         return this.accessVectors;
     }
 
-    // MODIFIES: access vectors
+    // MODIFIES: this
     public void setAccessVectors(AccessVectorModel accessVectors) {
         this.accessVectors = accessVectors;
     }
@@ -159,5 +159,25 @@ public class ProjectModel {
             result = result.concat(layer.getName() + "\n");
         }
         return result;
+    }
+
+    public void updateRule() {
+
+    }
+
+    public void removeRule() {
+
+    }
+
+    public void addInterface(String layerName, String moduleName, String interfaceName, int paramNum) {
+
+    }
+
+    public void updateInterface() {
+
+    }
+
+    public void removeInterface(String layerName, String moduleName) {
+
     }
 }

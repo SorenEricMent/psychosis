@@ -17,8 +17,8 @@ public class TrackerTest {
     public void testTracker() {
         // Fundamentally there is no difference
         // between SL and TL, so they are integrated into one test
-        InterfaceModel testInf1 = new InterfaceModel("testinf1");
-        InterfaceModel testInf2 = new InterfaceModel("testinf2");
+        InterfaceModel testInf1 = new InterfaceModel("testinf1", false);
+        InterfaceModel testInf2 = new InterfaceModel("testinf2", false);
         ArrayList<InterfaceModel> expected1 = new ArrayList<InterfaceModel>();
         expected1.add(testInf1);
 

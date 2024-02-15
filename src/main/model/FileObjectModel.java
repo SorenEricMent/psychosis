@@ -7,11 +7,10 @@ public class FileObjectModel<X> {
     // Abstraction of a file
     // Correlate line range to objects using a list of triple
 
-    private HashMap<String, X> objectSet;
+    protected HashMap<String, X> objectSet;
 
-    private ArrayList<String> content = new ArrayList<>();
+    protected ArrayList<String> content = new ArrayList<>();
 
-    private ArrayList<Pair<Integer, String>> lookupList =
+    protected ArrayList<Pair<Integer, String>> lookupList =
             new ArrayList<Pair<Integer, String>>();
-
 }
