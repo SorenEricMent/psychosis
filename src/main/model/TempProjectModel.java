@@ -2,15 +2,21 @@ package model;
 
 import model.exception.NotFoundException;
 import model.policy.LayerModel;
+import model.policy.PolicyModuleModel;
+
+import java.util.ArrayList;
 
 public class TempProjectModel extends ProjectModel {
 
     // A temporary project is a project that is not on disk and is for debugging only
-    // It ships with only one layers
+    // It ships with only one layers and one module added to that layer
 
     public TempProjectModel(String name) {
         super(name, null);
-        layers.add(new LayerModel("test"));
+        layers.add(new DummyLayerModel("test"));
+        this.getLayer("test").addPolicyModule(
+                new PolicyModuleModel("test_module")
+        );
     }
 
     // EFFECT: getter for path, nullified for temp project

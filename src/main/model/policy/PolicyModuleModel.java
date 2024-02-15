@@ -23,6 +23,10 @@ public class PolicyModuleModel {
         this.name = name;
     }
 
+    public String getName() {
+        return name;
+    }
+
     // EFFECT: Override Object.toString, for tui command show_module
     public String toString() {
         return ""; //stub

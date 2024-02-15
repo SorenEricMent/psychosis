@@ -60,6 +60,8 @@ public class TerminalInterface {
                         break;
                     case "remove_layer": commandRemoveLayer(inputList);
                         break;
+                    case "show_module": commandShowModule(inputList);
+                        break;
                     case "add_module": commandAddModule(inputList);
                         break;
                     case "remove_module": commandRemoveModule(inputList);
@@ -164,7 +166,7 @@ public class TerminalInterface {
     private void commandAddModule(String[] params) {
         // add_module <layer_name> <module_name>
         try {
-            this.getFocus().getLayer(params[1]).addPolicyModules(
+            this.getFocus().getLayer(params[1]).addPolicyModule(
                     new PolicyModuleModel(params[2])
             );
         } catch (NotFoundException e) {
@@ -176,7 +178,7 @@ public class TerminalInterface {
     }
 
     private void commandShowModule(String[] params) {
-        // show_interface <layer_name> <module_name>
+        // show_module <layer_name> <module_name>
         try {
             System.out.println(this
                     .getFocus()
@@ -221,7 +223,7 @@ public class TerminalInterface {
     }
 
     private void commandShowInterface(String[] params) {
-        // show_interface <layer_name> <module_name>
+        // show_interface <layer_name> <module_name> <interface_name>
         try {
             System.out.println(this
                     .getFocus()
@@ -235,6 +237,16 @@ public class TerminalInterface {
 
     private void commandRemoveInterface(String[] params) {
         // add_interface <layer_name> <module_name> <interface_name> <param_num>
+        try {
+            this.getFocus().removeInterface(
+                    params[1],
+                    params[2]
+            );
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Not enough params.");
+        } catch (NotFoundException e) {
+            System.out.println("The layer/module you are trying to access doesn't exist");
+        }
     }
 
 

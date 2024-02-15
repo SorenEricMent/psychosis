@@ -13,8 +13,6 @@ public class DummyLayerModel extends LayerModel {
     // SELinux roles are not in development plan at all as those are for
     // domain transitions and domains are completely out of Psychosis's scope
 
-    private String name;
-    private HashMap<String, DummyPolicyModuleModel> policyModules = new HashMap<String, DummyPolicyModuleModel>();
     // String is the file name.
 
     public DummyLayerModel(String name) {
@@ -25,7 +23,7 @@ public class DummyLayerModel extends LayerModel {
 
     }
 
-    public DummyPolicyModuleModel getPolicyModule(String name) {
+    public PolicyModuleModel getPolicyModule(String name) {
         return policyModules.getOrDefault(name, null);
     }
 
