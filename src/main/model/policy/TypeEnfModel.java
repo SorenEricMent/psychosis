@@ -1,8 +1,11 @@
 package model.policy;
 
+import model.CommonUtil;
 import model.FileObjectModel;
+import model.exception.SyntaxParseException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 
 public class TypeEnfModel extends FileObjectModel {
@@ -34,8 +37,26 @@ public class TypeEnfModel extends FileObjectModel {
         // TODO: not implemented for p1
     }
 
-    public static TypeEnfModel typeEnfParser(String content) {
-        return null;
+    public static TypeEnfModel typeEnfParser(String content) throws SyntaxParseException {
+        String[] tokenized = CommonUtil.strongTokenizer(content);
+        TypeEnfModel res = new TypeEnfModel();
+        // First line has to be policy_module(name)
+        if (!tokenized[0].equals("policy_module") || !tokenized[1].equals("(") || !tokenized[3].equals(")")) {
+            throw new SyntaxParseException("Bad syntax for name declaration.");
+        }
+        for (int i = 4; i < tokenized.length; i++) {
+            if (RuleSetModel.isStatement(tokenized[i])) {
+                // Find the end of this statement and feed to RuleSetModel parser
+                int end = i + 4; // Minimal ; token distance
+                for (int j = i + 4; j < tokenized.length; j++) {
+                    if (tokenized[j].equals(";")) {
+                        break;
+                    }
+                }
+                res.addStatement(RuleSetModel.ruleSetParser(Arrays.copyOfRange(tokenized, i, end)));
+            }
+        }
+        return res;
     }
 
     // EFFECTS: export content in string;

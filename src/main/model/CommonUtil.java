@@ -39,6 +39,24 @@ public class CommonUtil {
         return res;
     }
 
+    // EFFECTS: tokenize the text with any number of newline or space or symbols
+    public static String[] strongTokenizer(String text) {
+        if (text.endsWith(";")) {
+            text = text.replaceFirst(";$", " ;");
+        }
+        String[] res = text.split(
+                "((\\r\\n|[\\r\\n])+|\\s+)|"
+                + "((\\r\\n|[\\r\\n])+\\{)"
+                + "|((\\r\\n|[\\r\\n])+\\})|\\(|\\)");
+        if (res.length >= 2) { // Remove possible empty first element
+            if (res[0].equals("")) {
+                res = Arrays.copyOfRange(res, 1, res.length);
+            }
+        }
+        return res;
+    }
+
+
     // EFFECTS: return if the string is a valid selinux name (no reserved word, a-zA-Z0-9 and _)
     public static boolean tokenValidate(String text) {
         return text.matches("[a-zA-Z_][a-zA-Z0-9_]*");
@@ -152,6 +170,13 @@ public class CommonUtil {
 
         public void push(char val) {
             this.push(Character.toString(val));
+        }
+
+        // EFFECTS: judge if a String is a char processed by balancer
+        public static boolean isOtherToken(String str) {
+            return !str.equals("`") && !str.equals("'")
+                    && !str.equals("{") && !str.equals("}")
+                    && !str.equals("(") && !str.equals(")");
         }
     }
 }

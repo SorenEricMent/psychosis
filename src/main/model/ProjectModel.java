@@ -171,8 +171,8 @@ public class ProjectModel {
     }
 
     public void addInterface(String layerName, String moduleName, String interfaceName, int paramNum) {
-        this.getLayer(layerName).getPolicyModule(moduleName).addInterface(
-                new InterfaceModel(interfaceName, true));
+//        this.getLayer(layerName).getPolicyModule(moduleName).addInterface(
+//                new InterfaceModel(interfaceName, true));
     }
 
     public void updateInterface() {
@@ -180,10 +180,10 @@ public class ProjectModel {
     }
 
     public void removeInterface(String layerName, String moduleName, String interfaceName) {
-        this.getLayer(layerName).getPolicyModule(moduleName).removeInterface(interfaceName);
+//        this.getLayer(layerName).getPolicyModule(moduleName).removeInterface(interfaceName);
     }
 
     public void removeModule(String layerName, String moduleName) {
-        this.getLayer(layerName).removePolicyModule(moduleName);
+//        this.getLayer(layerName).removePolicyModule(moduleName);
     }
 }

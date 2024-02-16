@@ -1,5 +1,6 @@
 package model;
 
+import model.exception.SyntaxParseException;
 import model.policy.RuleSetModel;
 import org.junit.jupiter.api.*;
 
@@ -77,5 +78,39 @@ public class RuleSetTest {
     public void testRuleToString() {
         assertEquals("allow test_s_t test_t_t:test { testact };", r1.toString());
         assertEquals("allow test_s_t test_t_t:test { testact testact2 };", r3.toString());
+    }
+
+    @Test
+    public void testRuleSetParser() {
+        String t1 = "allow yuuta_t winslow_t:winslow { hug };";
+        String t2 = "allow yuuta_t winslow_t:winslow { { hug } pet };";
+        String t3 = "dontaudit yuuta_t self:mood { happy };";
+
+        act1 = new HashSet<>();
+        act2 = new HashSet<>();
+        act3 = new HashSet<>();
+
+        act1.add("hug");
+        act2.add("hug");
+        act2.add("pet");
+        act3.add("happy");
+
+        r1 = new RuleSetModel(RuleSetModel.RuleType.allow, "yuuta_t", "winslow_t", "winslow", act1);
+        r2 = new RuleSetModel(RuleSetModel.RuleType.allow, "yuuta_t", "winslow_t", "winslow", act2);
+        r3 = new RuleSetModel(RuleSetModel.RuleType.dontaudit, "yuuta_t", "self", "mood", act3);
+        try {
+            assertTrue(RuleSetModel.ruleSetParser(t1).equals(r1));
+            assertTrue(RuleSetModel.ruleSetParser(t2).equals(r2));
+            assertFalse(RuleSetModel.ruleSetParser(t1).equals(r2));
+            assertTrue(RuleSetModel.ruleSetParser(t3).equals(r3));
+            // Can't use assertEquals because overriding hashCode is dirty
+        } catch (SyntaxParseException e) {
+            fail(e);
+        }
+    }
+    @Test
+    public void testExcpRuleSetParser() {
+        String t1 = "allow yuuta_t winslow_t:winslow{wat}";
+        String t2 = "allow yuuta_t winslow_t:winslow { { hug pet };";
     }
 }

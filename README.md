@@ -32,8 +32,14 @@ Project files store the SELinux policy in a specially-compiled format. This comp
 
 As a user, I want to be able to:
 - Opening and performing editing on an arbitrary number of SELinux policy module files (including policy and file context files) in the current workspace
+  - Open and parse .te files into a rule set
+  - Rule set model
+  - .te parser (very simple parser)
+  - Project model
 - Having autocomplete hint lists when editing based on inputted content
+  - Removed
 - Looking up an interface or an attribute that would allow a specific operation. (Only first-order statements am I planning to support)
+  - 
 - Check if the current policy has violated existing dontaudit or neverallow rules (Only first-order statements am I planning to support)
 - Have a track on new interfaces or templates that was defined by the user. (Be able to add or remove interfaces or templates to "user-defined" list)
 - Able to assign interfaces or templates with Tags for easier lookup (Be able to add or remove interfaces or templates to the list corresponding to the Tag via a HashMap)

@@ -2,6 +2,7 @@ package model.policy;
 
 import model.CommonUtil;
 import model.exception.NotFoundException;
+import model.exception.SyntaxParseException;
 
 import java.util.HashSet;
 
@@ -95,11 +96,41 @@ public class RuleSetModel {
         return isEquvStatement(this, b) && this.actions.equals(b.getActions());
     }
 
+    // EFFECTS: judge if a string is a starting of a statement
+    public static boolean isStatement(String str) {
+        return str.equals("allow") || str.equals("dontaudit") || str.equals("neverallow") || str.equals("constrain")
+                || str.equals("mlsconstrain");
+    }
+
     // EFFECTS: parse a line of text to RuleSetModel
-    // TODO
-    public static RuleSetModel ruleSetParser(String str) {
-        String[] tokenized = CommonUtil.basicTokenizer(str);
-        return null; //stub
+    public static RuleSetModel ruleSetParser(String[] tokenized) throws SyntaxParseException {
+        RuleType rt = toRuleType(tokenized[0]);
+        String sourceContext = tokenized[1];
+        String targetContext = tokenized[2].split(":")[0];
+        String targetClass = tokenized[2].split(":")[1];
+
+        HashSet<String> actions = new HashSet<>();
+        CommonUtil.Balancer balancer = new CommonUtil.Balancer();
+
+        for (int i = 3; i < tokenized.length - 1; i++) {
+            if (CommonUtil.Balancer.isOtherToken(tokenized[i])) {
+                actions.add(tokenized[i]);
+            } else {
+                balancer.push(tokenized[i]);
+                if (balancer.isSyntaxError()) {
+                    throw new SyntaxParseException("Unbalanced {}");
+                }
+            }
+        }
+        if (!balancer.check()) {
+            throw new SyntaxParseException("Unbalanced {}");
+        }
+        return new RuleSetModel(rt, sourceContext, targetContext, targetClass, actions);
+    }
+
+    public static RuleSetModel ruleSetParser(String str) throws SyntaxParseException {
+        String[] tokenized = CommonUtil.strongTokenizer(str);
+        return ruleSetParser(tokenized);
     }
 
     // EFFECTS: convert self to SELinux rule format.

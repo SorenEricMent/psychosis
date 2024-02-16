@@ -30,6 +30,22 @@ public class CommonUtilTest {
         assertArrayEquals(expected1, CommonUtil.basicTokenizer(testContent[0]));
     }
     @Test
+    public void testStrongTokenizer() {
+        String[] testContent = {
+                "allow yuuta_t winslow_t:winslow { hug };"
+        };
+        String[] expected1 = {
+                "allow",
+                "yuuta_t",
+                "winslow_t:winslow",
+                "{",
+                "hug",
+                "}",
+                ";"
+        };
+        assertArrayEquals(expected1, CommonUtil.strongTokenizer(testContent[0]));
+    }
+    @Test
     public void testTokenValidate() {
         assertFalse(CommonUtil.tokenValidate(""));
         assertTrue(CommonUtil.tokenValidate("a"));

@@ -60,6 +60,11 @@ public class TempProjectModel extends ProjectModel {
 
     @Override
     public void removeInterface(String layerName, String moduleName, String interfaceName) {
+        this.getLayer(layerName).getPolicyModule(moduleName).removeInterface(interfaceName);
+    }
 
+    @Override
+    public void removeModule(String layerName, String moduleName) {
+        this.getLayer(layerName).removePolicyModule(moduleName);
     }
 }
