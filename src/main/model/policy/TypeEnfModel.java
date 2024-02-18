@@ -1,6 +1,8 @@
 package model.policy;
 
 import model.CommonUtil;
+import model.Decodeable;
+import model.Encodeable;
 import model.FileObjectModel;
 import model.exception.SyntaxParseException;
 
@@ -9,7 +11,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class TypeEnfModel extends FileObjectModel {
+public class TypeEnfModel extends FileObjectModel implements Encodeable, Decodeable {
     // SELinux type enforcement (.te) file
 
     // A statement could be a method call or statement
@@ -42,7 +44,7 @@ public class TypeEnfModel extends FileObjectModel {
         // TODO: not implemented for p1
     }
 
-    public static TypeEnfModel typeEnfParser(String content) throws SyntaxParseException {
+    public static TypeEnfModel parser(String content) throws SyntaxParseException {
         String[] tokenized = CommonUtil.strongTokenizer(content);
         TypeEnfModel res = new TypeEnfModel();
         // First line has to be policy_module(name)

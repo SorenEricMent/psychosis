@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import model.exception.SyntaxParseException;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashSet;
 
@@ -77,7 +76,7 @@ public class TypeEnfTest {
     @Test
     public void testTypeEnfParse() {
         try {
-            assertTrue(t1.equals(TypeEnfModel.typeEnfParser(s1)));
+            assertTrue(t1.equals(TypeEnfModel.parser(s1)));
         } catch (SyntaxParseException e) {
             fail(e);
         }
@@ -86,7 +85,7 @@ public class TypeEnfTest {
     public void testExcpTypeEnfParse() {
         assertThrows(SyntaxParseException.class,
                 () -> {
-                    TypeEnfModel.typeEnfParser(s2);
+                    TypeEnfModel.parser(s2);
                 });
     }
 }

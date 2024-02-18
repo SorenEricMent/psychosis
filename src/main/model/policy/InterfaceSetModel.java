@@ -1,5 +1,7 @@
 package model.policy;
 
+import model.Decodeable;
+import model.Encodeable;
 import model.FileObjectModel;
 import model.Pair;
 import model.exception.NotFoundException;
@@ -7,7 +9,7 @@ import model.exception.NotFoundException;
 import java.io.File;
 import java.util.ArrayList;
 
-public class InterfaceSetModel extends FileObjectModel {
+public class InterfaceSetModel extends FileObjectModel implements Encodeable, Decodeable {
 
     private ArrayList<InterfaceModel> interfaces = new ArrayList<>();
 
@@ -41,5 +43,9 @@ public class InterfaceSetModel extends FileObjectModel {
         } else {
             interfaces.remove(position);
         }
+    }
+
+    public static InterfaceSetModel parser(String str) {
+        return null;
     }
 }
