@@ -41,19 +41,15 @@ public class CommonUtil {
 
     // EFFECTS: tokenize the text with any number of newline or space or symbols
     public static String[] strongTokenizer(String text) {
+        // "((?=@)|(?<=@))" to preserve delimiter
         if (text.endsWith(";")) {
             text = text.replaceFirst(";$", " ;");
         }
         String[] res = text.split(
-                "((\\r\\n|[\\r\\n])+|\\s+)|"
-                + "((\\r\\n|[\\r\\n])+\\{)"
-                + "|((\\r\\n|[\\r\\n])+\\})|\\(|\\)");
-        if (res.length >= 2) { // Remove possible empty first element
-            if (res[0].equals("")) {
-                res = Arrays.copyOfRange(res, 1, res.length);
-            }
-        }
-        return res;
+                "(((\\r\\n|[\\r\\n])+|\\s+)|((?=\\{)|(?<=\\{))"
+                        + "|((?=\\})|(?<=\\}))|((?=\\()|(?<=\\())|((?=\\))|(?<=\\))))"
+                        + "|((?=,)|(?<=,))|((?=;)|(?<=;))");
+        return Arrays.stream(res).filter(t -> !t.equals("")).toArray(String[]::new);
     }
 
 
@@ -90,8 +86,13 @@ public class CommonUtil {
             "bool"
     };
 
-    public static String[] ignored() {
-        return ignoredKeyword;
+    public static boolean isIgnored(String str) {
+        for (String s : ignoredKeyword) {
+            if (str.equals(s)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static ArrayList<String> seTokenizer(String content) throws SyntaxParseException {

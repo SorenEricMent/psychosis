@@ -125,6 +125,9 @@ public class RuleSetModel {
         if (!balancer.check()) {
             throw new SyntaxParseException("Unbalanced {}");
         }
+        if (!tokenized[tokenized.length - 1].equals(";")) {
+            throw new SyntaxParseException("Statement without ending delimiter.");
+        }
         return new RuleSetModel(rt, sourceContext, targetContext, targetClass, actions);
     }
 

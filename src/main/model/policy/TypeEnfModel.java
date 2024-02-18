@@ -6,6 +6,7 @@ import model.exception.SyntaxParseException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class TypeEnfModel extends FileObjectModel {
@@ -16,6 +17,10 @@ public class TypeEnfModel extends FileObjectModel {
 
     private ArrayList<String> requiredType = new ArrayList<>();
     private ArrayList<RuleSetModel> statementsFO = new ArrayList<>();
+
+    public ArrayList<RuleSetModel> getStatementsFO() {
+        return statementsFO;
+    }
 
     public void addStatement(RuleSetModel r) {
         RuleSetModel target = null;
@@ -47,14 +52,22 @@ public class TypeEnfModel extends FileObjectModel {
         for (int i = 4; i < tokenized.length; i++) {
             if (RuleSetModel.isStatement(tokenized[i])) {
                 // Find the end of this statement and feed to RuleSetModel parser
-                int end = i + 4; // Minimal ; token distance
+                int end = -1;
                 for (int j = i + 4; j < tokenized.length; j++) {
                     if (tokenized[j].equals(";")) {
+                        end = j;
                         break;
                     }
                 }
-                res.addStatement(RuleSetModel.ruleSetParser(Arrays.copyOfRange(tokenized, i, end)));
+                if (end == -1) {
+                    throw new SyntaxParseException("Cannot end sequence.");
+                }
+                res.addStatement(RuleSetModel.ruleSetParser(Arrays.copyOfRange(tokenized, i, end + 1)));
+                i = end + 1;
+            } else if (tokenized[i].equals("require") || tokenized[i].equals("gen_require")) {
+                // For now, don't do require Type Check;
             }
+            // For now, ignore not-first-order statements even if they have syntax errors.
         }
         return res;
     }
@@ -71,5 +84,37 @@ public class TypeEnfModel extends FileObjectModel {
 
     public int lineCount() {
         return statementsFO.size();
+    }
+
+    // EFFECTS: Compare if two TypeEnfModel is equivalent
+    // Used only for testing
+    @SuppressWarnings({"checkstyle:MethodLength", "checkstyle:SuppressWarnings"})
+    public boolean equals(TypeEnfModel t) {
+        HashMap<RuleSetModel.RuleType, HashMap<String, HashMap<String, HashMap<String, HashSet<String>>>>> compare = new
+                HashMap<RuleSetModel.RuleType, HashMap<String, HashMap<String, HashMap<String, HashSet<String>>>>>();
+        for (RuleSetModel r : t.getStatementsFO()) {
+            compare.putIfAbsent(r.getRuleType(),
+                    new HashMap<String, HashMap<String, HashMap<String, HashSet<String>>>>());
+            compare.get(r.getRuleType()).putIfAbsent(r.getSourceContext(),
+                    new HashMap<String, HashMap<String, HashSet<String>>>());
+            compare.get(r.getRuleType()).get(r.getSourceContext()).putIfAbsent(r.getTargetContext(),
+                    new HashMap<String, HashSet<String>>());
+            compare.get(r.getRuleType()).get(r.getSourceContext()).get(r.getTargetContext()).put(r.getTargetClass(),
+                    new HashSet<String>());
+            compare.get(r.getRuleType()).get(r.getSourceContext()).get(r.getTargetContext())
+                    .get(r.getTargetClass()).addAll(r.getActions());
+        }
+        for (RuleSetModel r : this.getStatementsFO()) {
+            try {
+                if (!compare.get(r.getRuleType()).get(r.getSourceContext())
+                        .get(r.getTargetContext()).get(r.getTargetClass())
+                        .equals(r.getActions())) {
+                    return false;
+                }
+            } catch (NullPointerException e) {
+                return false;
+            }
+        }
+        return true;
     }
 }

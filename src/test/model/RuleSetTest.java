@@ -1,6 +1,7 @@
 package model;
 
 import model.exception.SyntaxParseException;
+import model.policy.AccessVectorModel;
 import model.policy.RuleSetModel;
 import org.junit.jupiter.api.*;
 
@@ -112,5 +113,13 @@ public class RuleSetTest {
     public void testExcpRuleSetParser() {
         String t1 = "allow yuuta_t winslow_t:winslow{wat}";
         String t2 = "allow yuuta_t winslow_t:winslow { { hug pet };";
+        assertThrows(SyntaxParseException.class,
+                () -> {
+                    RuleSetModel.ruleSetParser(t1);
+                });
+        assertThrows(SyntaxParseException.class,
+                () -> {
+                    RuleSetModel.ruleSetParser(t2);
+                });
     }
 }

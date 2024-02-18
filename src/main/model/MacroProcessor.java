@@ -30,8 +30,19 @@ public class MacroProcessor {
     }
 
     // EFFECTS: parse a .spt file to compiled macros
-    // TODO
-    public static MacroProcessor macroRuleParser() throws SyntaxParseException {
-        return null;
+    // REQUIRE: content should be read from readAsWholeCode
+    public static MacroProcessor macroRuleParser(String content) throws SyntaxParseException {
+        // Macros are defined with define(`from', `to')
+        MacroProcessor res = new MacroProcessor();
+        String[] byLine = content.split("\n");
+        for (String str : byLine) {
+            if (!str.startsWith("define(`") || !str.endsWith("')")) {
+                throw new SyntaxParseException("Broken define syntax.");
+            }
+            String from = str.substring(str.indexOf("`"), str.indexOf("'"));
+            String to = str.substring(str.indexOf("'") + 1, str.length() - 2);
+            res.addMacro(from, to);
+        }
+        return res;
     }
 }

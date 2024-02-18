@@ -32,7 +32,9 @@ public class CommonUtilTest {
     @Test
     public void testStrongTokenizer() {
         String[] testContent = {
-                "allow yuuta_t winslow_t:winslow { hug };"
+                "allow yuuta_t winslow_t:winslow { hug };",
+                "define(`yuuta', `bendan')",
+                "\nbendan"
         };
         String[] expected1 = {
                 "allow",
@@ -43,7 +45,20 @@ public class CommonUtilTest {
                 "}",
                 ";"
         };
+        String[] expected2 = {
+                "define",
+                "(",
+                "`yuuta'",
+                ",",
+                "`bendan'",
+                ")"
+        };
+        String[] expected3 = {
+                "bendan"
+        };
         assertArrayEquals(expected1, CommonUtil.strongTokenizer(testContent[0]));
+        assertArrayEquals(expected2, CommonUtil.strongTokenizer(testContent[1]));
+        assertArrayEquals(expected3, CommonUtil.strongTokenizer(testContent[2]));
     }
     @Test
     public void testTokenValidate() {
@@ -109,7 +124,32 @@ public class CommonUtilTest {
         test.push("'");
         assertFalse(test.isSyntaxError());
         assertTrue(test.check());
-        test.push("'");
+        test.push('\'');
         assertTrue(test.isSyntaxError());
+    }
+
+    @Test
+    public void testIgnored() {
+        assertTrue(CommonUtil.isIgnored("netifcon"));
+        assertTrue(CommonUtil.isIgnored("nodecon"));
+        assertTrue(CommonUtil.isIgnored("portcon"));
+        assertTrue(CommonUtil.isIgnored("allowxperm"));
+        assertTrue(CommonUtil.isIgnored("auditallowxperm"));
+        assertTrue(CommonUtil.isIgnored("ibendportcon"));
+        assertTrue(CommonUtil.isIgnored("neverallowxperm"));
+        assertTrue(CommonUtil.isIgnored("dontauditxperm"));
+        assertTrue(CommonUtil.isIgnored("ibpkeycon"));
+        assertTrue(CommonUtil.isIgnored("typebounds"));
+        assertTrue(CommonUtil.isIgnored("userbounds"));
+        assertTrue(CommonUtil.isIgnored("rolebounds"));
+        assertTrue(CommonUtil.isIgnored("attribute_role"));
+        assertTrue(CommonUtil.isIgnored("role_transition"));
+        assertTrue(CommonUtil.isIgnored("type_member"));
+        assertTrue(CommonUtil.isIgnored("type_transition"));
+        assertTrue(CommonUtil.isIgnored("range_transition"));
+        assertTrue(CommonUtil.isIgnored("bool"));
+
+        assertFalse(CommonUtil.isIgnored("allow"));
+        assertFalse(CommonUtil.isIgnored("dontaudit"));
     }
 }
