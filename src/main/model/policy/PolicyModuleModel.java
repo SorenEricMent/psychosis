@@ -1,9 +1,5 @@
 package model.policy;
 
-import model.FileObjectModel;
-
-import java.io.File;
-
 public class PolicyModuleModel {
     // A policy module contain (AND MUST CONTAIN):
     // A Type enforce file
@@ -42,8 +38,16 @@ public class PolicyModuleModel {
         interfaceObject.addInterface(i);
     }
 
-    public InterfaceModel findInterface(String name) {
-        return null; //stub
+    public InterfaceModel getInterface(String name) {
+        return null; //TODO
+    }
+
+    public InterfaceSetModel getInterfaceSet() {
+        return this.interfaceObject;
+    }
+
+    public TypeEnfModel getTypeEnf() {
+        return this.typeEnfObject;
     }
 
     public void removeInterface(String interfaceName) {

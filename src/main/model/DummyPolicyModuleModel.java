@@ -29,7 +29,7 @@ public class DummyPolicyModuleModel extends PolicyModuleModel {
     }
 
     @Override
-    public InterfaceModel findInterface(String name) {
+    public InterfaceModel getInterface(String name) {
         return null; //stub
     }
 

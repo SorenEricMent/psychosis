@@ -126,6 +126,11 @@ public class CommonUtilTest {
         assertTrue(test.check());
         test.push('\'');
         assertTrue(test.isSyntaxError());
+
+        test = new CommonUtil.Balancer();
+        test.push("(");
+        test.push("}");
+        assertTrue(test.isSyntaxError());
     }
 
     @Test

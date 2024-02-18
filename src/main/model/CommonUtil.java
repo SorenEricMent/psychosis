@@ -95,25 +95,6 @@ public class CommonUtil {
         return false;
     }
 
-    public static ArrayList<String> seTokenizer(String content) throws SyntaxParseException {
-        // TODO
-        ArrayList<String> results = new ArrayList<String>();
-        String token = "";
-        Balancer balancer = new Balancer();
-        for (char chr : content.toCharArray()) {
-            switch (chr) {
-                case '`': case '\'': case '{': case '}': case '(': case ')':
-                    balancer.push(chr);
-                    if (!balancer.check()) {
-                        throw new SyntaxParseException("Unmatching character.");
-                    }
-                default:
-                    token = token.concat(Character.toString(chr));
-            }
-        }
-        return results;
-    }
-
     public static class Balancer {
         // Checker for balancing with a stack
         private Stack<String> stack = new Stack<String>();

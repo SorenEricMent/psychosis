@@ -63,6 +63,8 @@ public class TerminalInterface {
                         break;
                     case "show_module": commandShowModule(inputList);
                         break;
+                    case "export_module": commandExportModule(inputList);
+                        break;
                     case "add_module": commandAddModule(inputList);
                         break;
                     case "remove_module": commandRemoveModule(inputList);
@@ -190,6 +192,26 @@ public class TerminalInterface {
         }
     }
 
+    private void commandExportModule(String[] params) {
+        // export_module <text/file> <te/if/fc> [layer_name] [module_name]
+        // Phase 1: only option text implemented
+        if (params[1].equals("text")) {
+            if (params[2].equals("te")) {
+                System.out.println(this.getFocus().getLayer(params[3]).getPolicyModule(params[4]).getTypeEnf());
+            } else if (params[2].equals("if")) {
+                System.out.println(this.getFocus().getLayer(params[3]).getPolicyModule(params[4]).getInterfaceSet());
+            } else if (params[2].equals("fc")) {
+                notImplemented();
+            } else {
+                System.out.println("Unknown export component option.");
+            }
+        } else if (params[1].equals("file")) {
+            notImplemented();
+        } else {
+            System.out.println("Unknown export option.");
+        }
+    }
+
     private void commandRemoveModule(String[] params) {
         // remove_module <layer_name> <module_name>
         try {
@@ -238,7 +260,7 @@ public class TerminalInterface {
                     .getFocus()
                     .getLayer(params[1])
                     .getPolicyModule(params[2])
-                    .findInterface(params[3]));
+                    .getInterface(params[3]));
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Not enough params.");
         }
@@ -260,7 +282,7 @@ public class TerminalInterface {
     }
 
     private void commandEditTypeEnf(String[] params) {
-
+        // Add rule
     }
 
     // EFFECTS: command: parse and load access vector and class definition from filesystem

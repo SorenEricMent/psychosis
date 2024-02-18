@@ -14,10 +14,13 @@ public class TrackerModel {
     private HashMap<String, ArrayList<InterfaceModel>> mapSLabelIf;
     private HashMap<String, ArrayList<InterfaceModel>> mapTLabelIf;
 
+    private HashMap<String, ArrayList<InterfaceModel>> tagTracker;
+
 
     public TrackerModel() {
         mapSLabelIf = new HashMap<String, ArrayList<InterfaceModel>>();
         mapTLabelIf = new HashMap<String, ArrayList<InterfaceModel>>();
+        tagTracker = new HashMap<String, ArrayList<InterfaceModel>>();
     }
 
     public void insertInterfaceWithSLabel(String key, InterfaceModel val) {

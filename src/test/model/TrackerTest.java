@@ -20,7 +20,9 @@ public class TrackerTest {
         InterfaceModel testInf1 = new InterfaceModel("testinf1", false);
         InterfaceModel testInf2 = new InterfaceModel("testinf2", false);
         ArrayList<InterfaceModel> expected1 = new ArrayList<InterfaceModel>();
+        ArrayList<InterfaceModel> expected2 = new ArrayList<InterfaceModel>();
         expected1.add(testInf1);
+        expected2.add(testInf2);
 
         testTracker1.insertInterfaceWithSLabel("test_t", testInf1);
         testTracker1.insertInterfaceWithTLabel("test2_t", testInf2);
@@ -28,5 +30,7 @@ public class TrackerTest {
         assertNull(testTracker1.queryInterfaceWithSLabel("nonexist"));
         assertEquals(expected1,
                 testTracker1.queryInterfaceWithSLabel("test_t"));
+        assertEquals(expected2,
+                testTracker1.queryInterfaceWithTLabel("test2_t"));
     }
 }
