@@ -12,7 +12,7 @@ public class DummyPolicyModuleModel extends PolicyModuleModel {
         super(name);
     }
 
-    private TypeEnfModel typeEnfDummy = new TypeEnfModel();
+    private TypeEnfModel typeEnfDummy = new TypeEnfModel(getName());
     private FileContextModel fileContextDummy = new FileContextModel();
     private InterfaceSetModel interfaceSetDummy = new InterfaceSetModel();
 

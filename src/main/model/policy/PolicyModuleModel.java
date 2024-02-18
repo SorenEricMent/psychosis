@@ -9,7 +9,7 @@ public class PolicyModuleModel {
     // This also determine the file name!
     private String name;
 
-    private TypeEnfModel typeEnfObject = new TypeEnfModel();
+    private TypeEnfModel typeEnfObject = new TypeEnfModel(this.name);
     private FileContextModel fileContentObject =
             new FileContextModel();
     private InterfaceSetModel interfaceObject =

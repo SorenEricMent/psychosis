@@ -17,11 +17,20 @@ public class TypeEnfModel extends FileObjectModel implements Encodeable, Decodea
     // A statement could be a method call or statement
     // but for now only first order statement is supported
 
+    private String name;
     private ArrayList<String> requiredType = new ArrayList<>();
     private ArrayList<RuleSetModel> statementsFO = new ArrayList<>();
 
     public ArrayList<RuleSetModel> getStatementsFO() {
         return statementsFO;
+    }
+
+    public TypeEnfModel(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void addStatement(RuleSetModel r) {
@@ -40,17 +49,35 @@ public class TypeEnfModel extends FileObjectModel implements Encodeable, Decodea
         }
     }
 
+    // EFFECTS: remove the intersective rules and return rules that are not intersected.
+    public HashSet<String> removeStatement(RuleSetModel r) {
+        RuleSetModel target = null;
+        for (RuleSetModel s : statementsFO) {
+            if (RuleSetModel.isEquvStatement(s, r)) {
+                target = s;
+                break;
+            }
+        }
+        if (target == null) {
+            return null;
+        }
+        HashSet<String> original = (HashSet<String>) target.getActions().clone();
+        target.getActions().removeAll(r.getActions());
+        original.removeAll(r.getActions());
+        return original;
+    }
+
     public void addInterfaceCall() {
         // TODO: not implemented for p1
     }
 
     public static TypeEnfModel parser(String content) throws SyntaxParseException {
         String[] tokenized = CommonUtil.strongTokenizer(content);
-        TypeEnfModel res = new TypeEnfModel();
         // First line has to be policy_module(name)
         if (!tokenized[0].equals("policy_module") || !tokenized[1].equals("(") || !tokenized[3].equals(")")) {
             throw new SyntaxParseException("Bad syntax for name declaration.");
         }
+        TypeEnfModel res = new TypeEnfModel(tokenized[2]);
         for (int i = 4; i < tokenized.length; i++) {
             if (RuleSetModel.isStatement(tokenized[i])) {
                 // Find the end of this statement and feed to RuleSetModel parser
@@ -77,7 +104,11 @@ public class TypeEnfModel extends FileObjectModel implements Encodeable, Decodea
     // EFFECTS: export content in string;
     public String toString() {
         String res = "";
+        res = res.concat("policy_module(" + this.getName() + ")\n\n");
+
         // FUTURE TODO: REQUIRE STATEMENT
+
+        // Concat rules
         for (RuleSetModel r : statementsFO) {
             res = res.concat(r.toString());
         }

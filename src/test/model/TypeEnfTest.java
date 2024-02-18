@@ -14,7 +14,7 @@ import java.util.HashSet;
 public class TypeEnfTest {
     String s1, s2;
     TypeEnfModel t1, t2, t3;
-    HashSet<String> act1, act2, act3;
+    HashSet<String> act1, act2, act3, act4, act5;
     @BeforeEach
     public void init() {
         try {
@@ -23,15 +23,21 @@ public class TypeEnfTest {
         } catch (IOException e) {
             fail("Test source file not found, this should not happen!");
         }
-        t1 = new TypeEnfModel();
-        t2 = new TypeEnfModel();
-        t3 = new TypeEnfModel();
+        t1 = new TypeEnfModel("t1");
+        t2 = new TypeEnfModel("t2");
+        t3 = new TypeEnfModel("t3");
         act1 = new HashSet<String>();
         act2 = new HashSet<String>();
         act3 = new HashSet<String>();
+        act4 = new HashSet<String>();
+        act5 = new HashSet<String>();
         act1.add("hug");
         act2.add("hug");
         act2.add("pet");
+        act3.add("use");
+        act4.add("start");
+        act4.add("use");
+        act5.add("start");
         t1.addStatement(
                 new RuleSetModel(
                         RuleSetModel.RuleType.allow,
@@ -87,5 +93,21 @@ public class TypeEnfTest {
                 () -> {
                     TypeEnfModel.parser(s2);
                 });
+    }
+    @Test
+    public void testTypeEnfToString() {
+        assertEquals("policy_module(t2)\n\nallow yuuta_t winslow_t:winslow { hug };", t2.toString());
+    }
+    @Test
+    public void testAddRemoveStatement() {
+        t1.addStatement(new RuleSetModel(
+                RuleSetModel.RuleType.allow, "yuuta_t", "winslow_laptop_t", "system", act4));
+        HashSet<String> res = t1.removeStatement(new RuleSetModel(
+                RuleSetModel.RuleType.allow, "yuuta_t", "winslow_laptop_t", "system", act3));
+        TypeEnfModel check1 = new TypeEnfModel("t1");
+        t1.addStatement(new RuleSetModel(
+                RuleSetModel.RuleType.allow, "yuuta_t", "winslow_laptop_t", "system", act5));
+        assertEquals(act5, res);
+        assertTrue(check1.equals(t1));
     }
 }

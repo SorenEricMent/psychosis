@@ -1,11 +1,9 @@
 package ui;
 
-import java.util.ArrayList;
+import java.util.*;
 
 import java.io.File;
 import java.io.IOException;
-
-import java.util.Scanner;
 
 import model.CustomReader;
 import model.ProjectModel;
@@ -14,6 +12,8 @@ import model.exception.DuplicateException;
 import model.exception.NotFoundException;
 import model.exception.SyntaxParseException;
 import model.policy.*;
+
+import javax.swing.plaf.nimbus.State;
 
 public class TerminalInterface {
     //Debugging command line for Phase 1
@@ -53,7 +53,7 @@ public class TerminalInterface {
                         break;
                     case "list_project": commandListProject();
                         break;
-                    case "show_project": System.out.println(getFocus().toString());
+                    case "show_project": commandShowProject();
                         break;
                     case "show_layer": commandShowLayer(inputList);
                         break;
@@ -121,6 +121,10 @@ public class TerminalInterface {
     private void commandCreateProject() {
         // create_project <basis (test/refpolicy/custom)> [custom]:<path> name
         // the latter is not yet implemented in Phase 1, TODO
+    }
+
+    private void commandShowProject() {
+        System.out.println(getFocus().toString());
     }
 
     private void commandShowLayer(String[] params) {
@@ -282,7 +286,21 @@ public class TerminalInterface {
     }
 
     private void commandEditTypeEnf(String[] params) {
-        // Add rule
+        // edit_typeenf <layer_name> <module_name> <add/remove> <RuleType>
+        // <source context> <target_context> <target_class> [listof actions]
+        HashSet<String> actions = new HashSet<String>();
+        if (params[3].equals("add")) {
+            Collections.addAll(actions, Arrays.copyOfRange(params, 8, params.length));
+            this.getFocus().getLayer(params[1]).getPolicyModule(params[2]).getTypeEnf().addStatement(
+                    new RuleSetModel(RuleSetModel.toRuleType(
+                            params[4]), params[5], params[6], params[7],
+                            actions));
+        } else if (params[3].equals("remove")) {
+            // Output if exists such rules
+        } else {
+            System.out.println("Unknown actions");
+        }
+
     }
 
     // EFFECTS: command: parse and load access vector and class definition from filesystem
