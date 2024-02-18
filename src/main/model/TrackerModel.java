@@ -1,5 +1,6 @@
 package model;
 
+import model.exception.NotFoundException;
 import model.policy.InterfaceModel;
 
 import java.util.HashMap;
@@ -21,6 +22,21 @@ public class TrackerModel {
         mapSLabelIf = new HashMap<String, ArrayList<InterfaceModel>>();
         mapTLabelIf = new HashMap<String, ArrayList<InterfaceModel>>();
         tagTracker = new HashMap<String, ArrayList<InterfaceModel>>();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: assign an interface into a tag tracker, create the tag if the tag doesn't exists
+    public void insertInterfaceWithTag(String key, InterfaceModel i) {
+        tagTracker.putIfAbsent(key, new ArrayList<InterfaceModel>());
+        tagTracker.get(key).add(i);
+    }
+
+    // EFFECTS: return the list of interfaces with a specific tag
+    public ArrayList<InterfaceModel> queryInterfaceWithTag(String key) {
+        if (!this.tagTracker.containsKey(key)) {
+            throw new NotFoundException("Tag not found");
+        }
+        return this.tagTracker.get(key);
     }
 
     public void insertInterfaceWithSLabel(String key, InterfaceModel val) {

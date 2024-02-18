@@ -1,5 +1,6 @@
 package model;
 
+import model.exception.NotFoundException;
 import model.policy.InterfaceModel;
 import org.junit.jupiter.api.*;
 
@@ -9,16 +10,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class TrackerTest {
     private TrackerModel testTracker1;
+    private InterfaceModel testInf1, testInf2;
     @BeforeEach
     public void init() {
         testTracker1 = new TrackerModel();
+        testInf1 = new InterfaceModel("testinf1", false);
+        testInf2 = new InterfaceModel("testinf2", false);
     }
     @Test
-    public void testTracker() {
+    public void testLabelTracker() {
         // Fundamentally there is no difference
         // between SL and TL, so they are integrated into one test
-        InterfaceModel testInf1 = new InterfaceModel("testinf1", false);
-        InterfaceModel testInf2 = new InterfaceModel("testinf2", false);
+
         ArrayList<InterfaceModel> expected1 = new ArrayList<InterfaceModel>();
         ArrayList<InterfaceModel> expected2 = new ArrayList<InterfaceModel>();
         expected1.add(testInf1);
@@ -32,5 +35,24 @@ public class TrackerTest {
                 testTracker1.queryInterfaceWithSLabel("test_t"));
         assertEquals(expected2,
                 testTracker1.queryInterfaceWithTLabel("test2_t"));
+    }
+    @Test
+    public void testTagTracker() {
+        ArrayList<InterfaceModel> expected1 = new ArrayList<InterfaceModel>();
+        ArrayList<InterfaceModel> expected2 = new ArrayList<InterfaceModel>();
+        expected1.add(testInf1);
+        expected1.add(testInf2);
+        expected2.add(testInf2);
+
+        testTracker1.insertInterfaceWithTag("testtag1", testInf1);
+        testTracker1.insertInterfaceWithTag("testtag1", testInf2);
+        testTracker1.insertInterfaceWithTag("testtag2", testInf2);
+
+        assertThrows(NotFoundException.class, () -> {
+          testTracker1.queryInterfaceWithTag("tag");
+        });
+
+        assertEquals(expected1, testTracker1.queryInterfaceWithTag("testtag1"));
+        assertEquals(expected2, testTracker1.queryInterfaceWithTag("testtag2"));
     }
 }

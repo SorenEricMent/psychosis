@@ -16,7 +16,12 @@ public class MacroProcessor {
     }
 
     public void addMacro(String from, String to) {
-        macros.add(new Pair<Pattern, String>(Pattern.compile(from), to));
+        // REQUIRES: to cannot contain from
+        macros.add(new Pair<Pattern, String>(Pattern.compile(from, Pattern.LITERAL), to));
+    }
+
+    public ArrayList<Pair<Pattern, String>> getMacros() {
+        return macros;
     }
 
     // EFFECTS: apply all compiled macros to the string.
@@ -36,11 +41,16 @@ public class MacroProcessor {
         MacroProcessor res = new MacroProcessor();
         String[] byLine = content.split("\n");
         for (String str : byLine) {
-            if (!str.startsWith("define(`") || !str.endsWith("')")) {
-                throw new SyntaxParseException("Broken define syntax.");
+            str = str.strip();
+            if (str.equals("")) {
+                continue;
             }
-            String from = str.substring(str.indexOf("`"), str.indexOf("'"));
-            String to = str.substring(str.indexOf("'") + 1, str.length() - 2);
+            if (!str.startsWith("define(`") || !str.endsWith("')")) {
+                throw new SyntaxParseException("Broken define syntax. Content: " + str);
+            }
+            String from = str.substring(str.indexOf("`") + 1, str.indexOf("'"));
+            String rest = str.substring(str.indexOf("'") + 1, str.length());
+            String to = rest.substring(rest.indexOf("`") + 1, rest.length() - 2);
             res.addMacro(from, to);
         }
         return res;

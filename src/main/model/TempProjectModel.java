@@ -30,16 +30,6 @@ public class TempProjectModel extends ProjectModel {
     }
 
     @Override
-    public void updateRule() {
-
-    }
-
-    @Override
-    public void removeRule() {
-
-    }
-
-    @Override
     public void addInterface(String layerName, String moduleName, String interfaceName, int paramNum)
             throws NotFoundException {
         try {

@@ -1,3 +1,1 @@
 define(`yuuta', `bendan')
-
-define(`shiftn',`ifelse($1,0,`shift($*)',`shiftn(decr($1),shift(shift($*)))')')
