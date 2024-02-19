@@ -5,7 +5,7 @@ gen_require(`
     type winslow_t;
 ')
 
-allow yuuta_t winslow_t:winslow { hug };
+allow yuuta_t winslow_t:body { hug };
 
 require {
     type yuuta_cute_t;

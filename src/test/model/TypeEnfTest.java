@@ -121,7 +121,7 @@ public class TypeEnfTest {
     }
     @Test
     public void testTypeEnfToString() {
-        assertEquals("policy_module(t2)\n\nallow yuuta_t winslow_t:winslow { hug };", t2.toString(
+        assertEquals("policy_module(t2)\n\nallow yuuta_t winslow_t:winslow { hug };\n", t2.toString(
                 new InterfaceSetModel()
         ));
     }
@@ -143,6 +143,20 @@ public class TypeEnfTest {
             String testStr = CustomReader.readAsWholeCode(
                     new File("./data/testfiles/InterfaceTest/test_te_call_interface_static"));
             TypeEnfModel t = TypeEnfModel.parser(testStr);
+
+            InterfaceSetModel i = InterfaceSetModel.parser(CustomReader.readAsWholeCode(
+                    new File("./data/testfiles/InterfaceTest/test_interface_multidef")
+            ));
+
+            assertEquals("policy_module(yuuta)\n" +
+                    "\n" +
+                    "allow yuuta_t winslow_t:body { hug };\n" +
+                    "yuuta()\n", t.toString());
+            assertEquals("policy_module(yuuta)\n" +
+                    "\n" +
+                    "allow yuuta_t winslow_t:body { hug };\n" +
+                    "allow yuuta_t winslow_t:winslow { hug };\n" +
+                    "\n", t.toString(i));
         } catch (IOException e) {
             fail(e);
         } catch (SyntaxParseException e) {
@@ -155,6 +169,20 @@ public class TypeEnfTest {
             String testStr = CustomReader.readAsWholeCode(
                     new File("./data/testfiles/InterfaceTest/test_te_call_interface_variable"));
             TypeEnfModel t = TypeEnfModel.parser(testStr);
+
+            InterfaceSetModel i = InterfaceSetModel.parser(CustomReader.readAsWholeCode(
+                    new File("./data/testfiles/InterfaceTest/test_interface_multidef")
+            ));
+
+            assertEquals("policy_module(yuuta)\n" +
+                    "\n" +
+                    "allow yuuta_t winslow_t:winslow { hug };\n" +
+                    "bendan(head)\n", t.toString());
+            assertEquals("policy_module(yuuta)\n" +
+                    "\n" +
+                    "allow yuuta_t winslow_t:winslow { hug };\n" +
+                    "allow yuuta_head_t self:yuuta { eat };\n" +
+                    "\n", t.toString(i));
         } catch (IOException e) {
             fail(e);
         } catch (SyntaxParseException e) {

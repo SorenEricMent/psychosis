@@ -102,11 +102,11 @@ public class TypeEnfModel extends FileObjectModel implements Encodeable, Decodea
                 i = end;
             } else {
                 int end = getEnd(i + 1, tokenized) + 2;
-                if (i + 1 == end - 1) {
+                if (tokenized[i + 1].equals("(") && tokenized[i + 2].equals(")")) {
                     String[] placeholder = {};
                     res.addInterfaceCall(tokenized[i], placeholder);
                 } else {
-                    res.addInterfaceCall(tokenized[i], Arrays.copyOfRange(tokenized, i + 1, end - 1));
+                    res.addInterfaceCall(tokenized[i], Arrays.copyOfRange(tokenized, i + 2, end - 2));
                 }
                 i = end;
             }
@@ -147,9 +147,15 @@ public class TypeEnfModel extends FileObjectModel implements Encodeable, Decodea
 
         // Concat interface calls
         for (Pair<String, String[]> p : interfaceCall) {
-            res = res.concat(
-                    p.getFirst() + "(" + String.join(",", p.getSecond()) + ")"
-            );
+            if (p.getSecond().length == 0) {
+                res = res.concat(
+                        p.getFirst() + "()\n"
+                );
+            } else {
+                res = res.concat(
+                        p.getFirst() + "(" + String.join(",", p.getSecond()) + ")\n"
+                );
+            }
         }
         return res;
     }
@@ -164,14 +170,14 @@ public class TypeEnfModel extends FileObjectModel implements Encodeable, Decodea
 
         // Concat rules
         for (RuleSetModel r : statementsFO) {
-            res = res.concat(r.toString());
+            res = res.concat(r.toString() + "\n");
         }
 
         // Concat interface calls
         for (Pair<String, String[]> p : interfaceCall) {
             String compiled = i.getInterface(p.getFirst()).call(p.getSecond()).toString();
             res = res.concat(
-                    compiled.substring(18) // Remove the policy_module line as it return TypeEnf
+                    compiled.substring(18) + "\n" // Remove the policy_module line as it return TypeEnf
             );
         }
         return res;
