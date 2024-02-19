@@ -17,7 +17,7 @@ public class InterfaceSetModel extends FileObjectModel implements Encodeable, De
     public String toString() {
         String res = "";
         for (InterfaceModel i : interfaces) {
-            res = res.concat(interfaces.toString() + "\n");
+            res = res.concat(i.toString() + "\n");
         }
         return res;
     }

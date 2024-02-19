@@ -62,10 +62,11 @@ public class InterfaceModel {
     }
 
     public String toString() {
-        String res = "";
+        String res = "interface(`" + getName() + "',`\n";
         for (RuleSetModel r : ruleSetModels) {
             res = res.concat(r.toString() + "\n");
         }
+        res = res + "')";
         return res;
     }
 

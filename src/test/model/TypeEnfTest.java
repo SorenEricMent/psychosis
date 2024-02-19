@@ -118,6 +118,18 @@ public class TypeEnfTest {
                 () -> {
                     TypeEnfModel.parser(s3);
                 });
+        assertThrows(SyntaxParseException.class,
+                () -> {
+                    TypeEnfModel.parser("policy_module(test)\nbendan(}");
+                });
+        assertThrows(SyntaxParseException.class,
+                () -> {
+                    TypeEnfModel.parser("policy_module(test)\nbendan(");
+                });
+        assertThrows(SyntaxParseException.class,
+                () -> {
+                    TypeEnfModel.parser("policy_module(test)\nrequire }");
+                });
     }
     @Test
     public void testTypeEnfToString() {

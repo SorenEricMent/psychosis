@@ -66,13 +66,27 @@ public class InterfaceTest {
 
     @Test
     public void testInterfaceSet() {
-        InterfaceSetModel testset = new InterfaceSetModel();
-        testset.addInterface(i1);
-        assertEquals(i1, testset.getInterface("test1"));
-        testset.removeInterface("test1");
+        InterfaceSetModel testSet = new InterfaceSetModel();
+        testSet.addInterface(i1);
+        assertEquals(i1, testSet.getInterface("test1"));
+        testSet.removeInterface("test1");
         assertThrows(NotFoundException.class, () -> {
-            testset.getInterface("test1");
+            testSet.getInterface("test1");
         });
+        assertThrows(NotFoundException.class, () -> {
+            testSet.removeInterface("test1");
+        });
+    }
+
+    @Test
+    public void testInterfaceSetToString() {
+        InterfaceSetModel testSet = new InterfaceSetModel();
+        testSet.addInterface(i1);
+        testSet.addInterface(i2);
+        assertEquals("interface(`test1',`\n" +
+                "')\n" +
+                "interface(`test2',`\n" +
+                "')\n", testSet.toString());
     }
 
     @Test
@@ -80,7 +94,9 @@ public class InterfaceTest {
         i1.addRuleSetModels(r1);
         i1.addRuleSetModels(r3);
         assertEquals(
-                "allow test_s_t test_t_t:test { testact testact2 };\n",
+                "interface(`test1',`\n" +
+                        "allow test_s_t test_t_t:test { testact testact2 };\n" +
+                        "')",
                 i1.toString());
     }
     @Test
@@ -109,7 +125,9 @@ public class InterfaceTest {
         InterfaceModel testInf1 = test.getInterface("lovely_yuuta");
         assertEquals(1, testInf1.getRuleNum());
         assertEquals(
-                "allow yuuta_t winslow_t:winslow { hug };\n",
+                "interface(`lovely_yuuta',`\n" +
+                        "allow yuuta_t winslow_t:winslow { hug };\n" +
+                        "')",
                 testInf1.toString()
         );
     }
@@ -130,9 +148,13 @@ public class InterfaceTest {
             fail(e);
         }
         assertEquals(
-                "allow yuuta_t winslow_t:winslow { hug };\n",
+                "interface(`yuuta',`\n" +
+                        "allow yuuta_t winslow_t:winslow { hug };\n" +
+                        "')",
                 test.getInterface("yuuta").toString());
-        assertEquals("allow yuuta_$1_t self:yuuta { eat };\n",
+        assertEquals("interface(`bendan',`\n" +
+                        "allow yuuta_$1_t self:yuuta { eat };\n" +
+                        "')",
                 test.getInterface("bendan").toString());
     }
     @Test
@@ -142,6 +164,18 @@ public class InterfaceTest {
             String fileContent = CustomReader.readAsWholeCode(testFile);
             assertThrows(SyntaxParseException.class, () -> {
                 InterfaceSetModel.parser(fileContent);
+            });
+            assertThrows(SyntaxParseException.class, () -> {
+                InterfaceSetModel.parser("template('x");
+            });
+            assertThrows(SyntaxParseException.class, () -> {
+                InterfaceSetModel.parser("interface('x");
+            });
+            assertThrows(SyntaxParseException.class, () -> {
+                InterfaceSetModel.parser("template(`x',`allow x y:z { a }')");
+            });
+            assertThrows(SyntaxParseException.class, () -> {
+                InterfaceSetModel.parser("template(`x',`allow x y:z { a };");
             });
         } catch (IOException e) {
             fail("IO Exception, this should not happen & check CustomReaderTest!");
