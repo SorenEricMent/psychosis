@@ -5,19 +5,21 @@ import java.io.IOException;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CustomReaderTest {
     Path currentPath;
-    File testReader, testReaderBreak, testReadCommented;
+    File testReader, testReaderBreak, testReadCommented, testReadEmpty;
     @BeforeEach
     public void init() {
         currentPath = Paths.get("");
         testReader = new File("./data/testfiles/CustomReaderTest/test_reader");
         testReaderBreak = new File("./data/testfiles/CustomReaderTest/test_reader_break");
         testReadCommented = new File("./data/testfiles/AccessVectorTest/test_security_classes");
+        testReadEmpty = new File("./data/testfiles/CustomReaderTest/test_reader_empty");
     }
     @Test
     public void testReadAsWhole() {
@@ -53,6 +55,15 @@ class CustomReaderTest {
             assertEquals(expected, fileResult1);
         } catch (IOException e) {
             fail("Failed to read existing file, current working path: " + currentPath.toAbsolutePath().toString());
+        }
+    }
+    @Test
+    public void testReadEmptyFile() {
+        try {
+            assertEquals("", CustomReader.readAsWhole(testReadEmpty));
+            assertEquals("", CustomReader.readAsWholeCode(testReadEmpty));
+        } catch (IOException e) {
+            fail(e);
         }
     }
 }

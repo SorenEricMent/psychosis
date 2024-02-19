@@ -135,6 +135,12 @@ public class CommonUtilTest {
         test.push("(");
         test.push("}");
         assertTrue(test.isSyntaxError());
+
+        test = new CommonUtil.Balancer();
+        test.push("`");
+        test.push("(");
+        test.push("'");
+        assertFalse(test.isSyntaxError());
     }
 
     @Test

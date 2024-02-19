@@ -121,9 +121,6 @@ public class CommonUtil {
                 if (val.equals("`")) {
                     stack.push("`");
                 } else if (val.equals("'")) {
-                    if (!stack.peek().equals("`")) {
-                        this.syntaxError = true;
-                    }
                     stack.pop();
                     if (stack.isEmpty() || !stack.peek().equals("`")) {
                         this.readingString = false;

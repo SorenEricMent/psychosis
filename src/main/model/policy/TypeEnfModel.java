@@ -148,15 +148,6 @@ public class TypeEnfModel extends FileObjectModel implements Encodeable, Decodea
         return res;
     }
 
-    // EFFECTS: export only first order statement
-    public String toStringRuleOnly() {
-        String res = "";
-        for (RuleSetModel r : statementsFO) {
-            res = res.concat(r.toString() + "\n");
-        }
-        return res;
-    }
-
     // REQUIRES: i need to be the global interface list
     // EFFECTS: export content in string, compiled
     public String toString(InterfaceSetModel i) {
@@ -176,6 +167,15 @@ public class TypeEnfModel extends FileObjectModel implements Encodeable, Decodea
             res = res.concat(
                     compiled.substring(18) // Remove the policy_module line as it return TypeEnf
             );
+        }
+        return res;
+    }
+
+    // EFFECTS: export only first order statement
+    public String toStringRuleOnly() {
+        String res = "";
+        for (RuleSetModel r : statementsFO) {
+            res = res.concat(r.toString() + "\n");
         }
         return res;
     }
