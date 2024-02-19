@@ -9,7 +9,7 @@ public class PolicyModuleModel {
     // This also determine the file name!
     private String name;
 
-    private final TypeEnfModel typeEnfObject = new TypeEnfModel(this.name);
+    private TypeEnfModel typeEnfObject;
     private final FileContextModel fileContentObject =
             new FileContextModel();
     private final InterfaceSetModel interfaceObject =
@@ -17,6 +17,7 @@ public class PolicyModuleModel {
 
     public PolicyModuleModel(String name) {
         this.name = name;
+        typeEnfObject = new TypeEnfModel(this.name);
     }
 
     public String getName() {
@@ -31,7 +32,7 @@ public class PolicyModuleModel {
         res = res.concat("Declared interfaces: " + interfaceObject.lineCount() + "\n");
 
         res = res.concat("File context: not implemented. \n");
-        return res; //TODO
+        return res;
     }
 
     public void addInterface(InterfaceModel i) {

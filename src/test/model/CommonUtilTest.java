@@ -72,6 +72,7 @@ public class CommonUtilTest {
         assertFalse(CommonUtil.tokenValidate("1a"));
         assertTrue(CommonUtil.tokenValidate("c1_t"));
         assertFalse(CommonUtil.tokenValidate("$1_t"));
+        assertFalse(CommonUtil.tokenValidate("%1"));
     }
     @Test
     public void testTokenValidateWeak() {

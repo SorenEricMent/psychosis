@@ -32,16 +32,21 @@ public class AccessVectorModel {
         return accessVector.size();
     }
 
+    public HashMap<String, HashSet<String>> getAccessVector() {
+        return accessVector;
+    }
+
     // EFFECT: update specific access vector class with action
     // MODIFIES: this
     public void addAccessVector(String className, String actionName) {
         this.accessVector.get(className).add(actionName);
     }
 
-    public HashMap<String, HashSet<String>> batchAddAction(HashMap<String, HashSet<String>> from) {
-        //
-
-        return null; //stub
+    public void batchAddAction(HashMap<String, HashSet<String>> from) {
+        for (String s : from.keySet()) {
+            this.accessVector.putIfAbsent(s, new HashSet<String>());
+            this.accessVector.get(s).addAll(from.get(s));
+        }
     }
 
     public static String securityClassParser(String line) throws SyntaxParseException {
@@ -103,16 +108,16 @@ public class AccessVectorModel {
                     // next element is name and next-next should be {
                     commons.putIfAbsent((currentCommonName = tokenized[i + 1]), new HashSet<String>());
                     if (!CommonUtil.tokenValidate(currentCommonName)) {
-                        throw new SyntaxParseException("Invalid name token: " + currentCommonName);
+                        throw new SyntaxParseException("Invalid common name token: " + currentCommonName);
                     }
                     commonOrClass = false;
                     i = i + 1;
                 } else if (tokenized[i].equals("class")) {
                     results.putIfAbsent((currentClassName = tokenized[i + 1]), new HashSet<String>());
+                    if (!CommonUtil.tokenValidate(currentClassName)) {
+                        throw new SyntaxParseException("Invalid class name token: " + currentClassName);
+                    }
                     if (tokenized[i + 2].equals("inherits")) {
-                        if (!CommonUtil.tokenValidate(currentClassName)) {
-                            throw new SyntaxParseException("Invalid name token: " + currentClassName);
-                        }
                         if (results.containsKey(currentClassName)) {
                             results.get(currentClassName).addAll(commons.get(tokenized[i + 3]));
                         } else {
