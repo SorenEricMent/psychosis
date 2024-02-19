@@ -9,6 +9,7 @@ import model.exception.UnknownCapabilityException;
 import model.policy.AccessVectorModel;
 import model.policy.InterfaceModel;
 import model.policy.LayerModel;
+import model.policy.PolicyModuleModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -170,7 +171,7 @@ public class ProjectModel {
 
     }
 
-    public void addInterface(String layerName, String moduleName, String interfaceName, int paramNum) {
+    public void addInterface(String layerName, String moduleName, String interfaceName) {
 //        this.getLayer(layerName).getPolicyModule(moduleName).addInterface(
 //                new InterfaceModel(interfaceName, true));
     }
@@ -181,6 +182,12 @@ public class ProjectModel {
 
     public void removeInterface(String layerName, String moduleName, String interfaceName) {
 //        this.getLayer(layerName).getPolicyModule(moduleName).removeInterface(interfaceName);
+    }
+
+    public void addModule(String layerName, String moduleName) {
+//        this.getLayer(layerName).addPolicyModule(
+//                new PolicyModuleModel(moduleName)
+//        );
     }
 
     public void removeModule(String layerName, String moduleName) {

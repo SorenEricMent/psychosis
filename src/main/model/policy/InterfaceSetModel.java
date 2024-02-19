@@ -1,9 +1,6 @@
 package model.policy;
 
-import model.Decodeable;
-import model.Encodeable;
-import model.FileObjectModel;
-import model.Pair;
+import model.*;
 import model.exception.NotFoundException;
 
 import java.io.File;
@@ -30,6 +27,15 @@ public class InterfaceSetModel extends FileObjectModel implements Encodeable, De
         this.interfaces.add(i);
     }
 
+    public InterfaceModel getInterface(String name) {
+        for (InterfaceModel i : this.interfaces) {
+            if (i.getName().equals(name)) {
+                return i;
+            }
+        }
+        throw new NotFoundException("Interface not found");
+    }
+
     public void removeinterface(String interfaceName) {
         int position = -1;
         for (int i = 0; i < interfaces.size(); i++) {
@@ -46,6 +52,14 @@ public class InterfaceSetModel extends FileObjectModel implements Encodeable, De
     }
 
     public static InterfaceSetModel parser(String str) {
+        // A interface file could contain multiple interface definitions
+        // In the design orf psychosis, there is no difference between Interface
+        // and templates as syntaxly speaking template is just interface with more statement types
+        InterfaceSetModel res = new InterfaceSetModel();
+        String[] tokenized = CommonUtil.strongTokenizer(str);
+        for (int i = 0; i < tokenized.length; i++) {
+
+        }
         return null;
     }
 }

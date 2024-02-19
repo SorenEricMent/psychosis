@@ -22,11 +22,18 @@ public class LayerTest {
         l3.addPolicyModule(p1);
     }
     @Test
-    public void testLayer() {
+    public void testLayerAndModule() {
         assertEquals(p1, l1.getPolicyModule("p1"));
     }
     @Test
-    public void testDummyLayer() {
+    public void testDummyLayerAndModule() {
         assertEquals(p1, l3.getPolicyModule("p1"));
+    }
+    @Test
+    public void testLayerToString() {
+        String expected1 = "Layer name: t1\nModule list: \np1 ";
+        String expected2 = "Layer name: t2\nModule list: \n";
+        assertEquals(expected1, l1.toString());
+        assertEquals(expected2, l2.toString());
     }
 }

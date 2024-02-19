@@ -25,7 +25,10 @@ public class LayerModel {
     }
 
     public PolicyModuleModel getPolicyModule(String name) {
-        return policyModules.getOrDefault(name, null);
+        if (policyModules.containsKey(name)) {
+            return policyModules.get(name);
+        }
+        throw new NotFoundException("Policy module not found in layer.");
     }
 
     public int getModulesNum() {

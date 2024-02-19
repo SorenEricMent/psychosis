@@ -1,10 +1,13 @@
 package model;
 
+import model.exception.SyntaxParseException;
 import model.policy.AccessVectorModel;
 import model.policy.InterfaceModel;
 import model.policy.RuleSetModel;
 import org.junit.jupiter.api.*;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -76,7 +79,38 @@ public class InterfaceTest {
     }
 
     @Test
-    public void testInterfaceParserFO() {
-        // TODO
+    public void testInterfaceParserFOSingleDef() {
+        File testFile = new File("./data/testfiles/InterfaceTest/test_interface_singledef");
+        String fileContent = "";
+        try {
+            fileContent = CustomReader.readAsWholeCode(testFile);
+
+        } catch (IOException e) {
+            fail("IO Exception, this should not happen & check CustomReaderTest!");
+        }
+    }
+
+    @Test
+    public void testInterfaceParserFOMultiDef() {
+        File testFile = new File("./data/testfiles/InterfaceTest/test_interface_multidef");
+        String fileContent = "";
+        try {
+            fileContent = CustomReader.readAsWholeCode(testFile);
+
+        } catch (IOException e) {
+            fail("IO Exception, this should not happen & check CustomReaderTest!");
+        }
+    }
+    @Test
+    public void testExcpInterfaceParserFO() {
+        File testFile = new File("./data/testfiles/InterfaceTest/test_interface_syntaxerror");
+        try {
+            String fileContent = CustomReader.readAsWholeCode(testFile);
+//            assertThrows(SyntaxParseException.class, () -> {
+//
+//            });
+        } catch (IOException e) {
+            fail("IO Exception, this should not happen & check CustomReaderTest!");
+        }
     }
 }

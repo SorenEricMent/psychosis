@@ -39,7 +39,7 @@ public class PolicyModuleModel {
     }
 
     public InterfaceModel getInterface(String name) {
-        return null; //TODO
+        return interfaceObject.getInterface(name);
     }
 
     public InterfaceSetModel getInterfaceSet() {

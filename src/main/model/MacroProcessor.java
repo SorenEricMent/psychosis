@@ -11,7 +11,7 @@ public class MacroProcessor {
     // SPT Macros are simple text replacements, nothing fancy
     private ArrayList<Pair<Pattern, String>> macros;
 
-    MacroProcessor() {
+    public MacroProcessor() {
         macros = new ArrayList<Pair<Pattern, String>>();
     }
 

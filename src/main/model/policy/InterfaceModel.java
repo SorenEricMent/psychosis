@@ -1,5 +1,7 @@
 package model.policy;
 
+import model.MacroProcessor;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -72,5 +74,29 @@ public class InterfaceModel {
 
     public String getName() {
         return this.name;
+    }
+
+    public TypeEnfModel call(String[] args) {
+        // Replace args into Interface / template to create a
+        // pseudo TypeEnfModel (a set of rules)
+        TypeEnfModel res = new TypeEnfModel("__psychosis_interface_expand__");
+        MacroProcessor variableSubstitute = new MacroProcessor();
+        for (int i = 0; i < args.length; i++) {
+            variableSubstitute.addMacro("$".concat(Integer.toString(i+1)), args[i]);
+        }
+        for (RuleSetModel r : ruleSetModels) {
+            res.addStatement(
+                    new RuleSetModel(
+                            r.getRuleType(),
+                            variableSubstitute.process(r.getSourceContext()),
+                            variableSubstitute.process(r.getTargetContext()),
+                            variableSubstitute.process(r.getTargetClass()),
+                            r.getActions()
+                            // Technically get Actions should also be parsed with macro
+                            // But I've never seen such usage in Refpolicy
+                    )
+            );
+        }
+        return res;
     }
 }

@@ -113,7 +113,32 @@ public class ProjectTest {
     }
 
     @Test
+    public void testAddRemoveModule() {
+        ProjectModel testProj = new TempProjectModel("test");
+        testProj.addModule("test", "yuuta");
+        assertEquals("yuuta",
+                testProj.getLayer("test").getPolicyModule("yuuta").getName());
+    }
+
+    @Test
     public void testAddRemoveInterface() {
         ProjectModel testProj = new TempProjectModel("test");
+        testProj.addInterface("test", "test_module", "testinf");
+        assertEquals("testinf",
+                testProj.getLayer("test").getPolicyModule("test_module").getInterface("testinf").getName());
+    }
+
+    @Test
+    public void testProjectMainMisc() {
+        // This test is to fix the coverage in ProjectModel
+        // In phase 1, no saving functionality is done, but for future development
+        // purpose, there is a ProjectModel although currently only TempProjectModel which extends it are used
+        // The methods in ProjectModel, although not abstract, doesn't currently do ANYTHING
+        // Therefore a placeholder test is required for coverage
+        ProjectModel testProj = new ProjectModel("test", "/");
+        testProj.addModule("test", "test");
+        testProj.removeModule("test", "test");
+        testProj.addInterface("test", "test", "test");
+
     }
 }

@@ -9,7 +9,15 @@ public class AttributeModel {
     // my plan for this term's project
     private HashMap<String, HashSet<String>> attributes;
 
-    AttributeModel() {
+    public AttributeModel() {
         attributes = new HashMap<String, HashSet<String>>();
+    }
+
+    public HashSet<String> queryAttributeWithType(String name) {
+        return null;
+    }
+
+    public HashSet<String> queryTypeWithAttributes(String name) {
+        return null;
     }
 }

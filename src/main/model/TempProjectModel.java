@@ -30,7 +30,7 @@ public class TempProjectModel extends ProjectModel {
     }
 
     @Override
-    public void addInterface(String layerName, String moduleName, String interfaceName, int paramNum)
+    public void addInterface(String layerName, String moduleName, String interfaceName)
             throws NotFoundException {
         try {
             this.getLayer(layerName)
@@ -51,6 +51,13 @@ public class TempProjectModel extends ProjectModel {
     @Override
     public void removeInterface(String layerName, String moduleName, String interfaceName) {
         this.getLayer(layerName).getPolicyModule(moduleName).removeInterface(interfaceName);
+    }
+
+    @Override
+    public void addModule(String layerName, String moduleName) {
+        this.getLayer(layerName).addPolicyModule(
+                new PolicyModuleModel(moduleName)
+        );
     }
 
     @Override

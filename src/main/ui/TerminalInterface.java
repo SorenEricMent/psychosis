@@ -229,13 +229,12 @@ public class TerminalInterface {
     }
 
     private void commandAddInterface(String[] params) {
-        // add_interface <layer_name> <module_name> <interface_name> <param_num>
+        // add_interface <layer_name> <module_name> <interface_name>
         try {
             this.getFocus().addInterface(
                     params[1],
                     params[2],
-                    params[3],
-                    Integer.parseInt(params[4])
+                    params[3]
             );
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Not enough params.");
