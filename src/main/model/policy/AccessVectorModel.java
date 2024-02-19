@@ -118,14 +118,15 @@ public class AccessVectorModel {
                         throw new SyntaxParseException("Invalid class name token: " + currentClassName);
                     }
                     if (tokenized[i + 2].equals("inherits")) {
-                        if (results.containsKey(currentClassName)) {
-                            results.get(currentClassName).addAll(commons.get(tokenized[i + 3]));
-                        }
+                        results.putIfAbsent(currentClassName, new HashSet<String>());
+                        results.get(currentClassName).addAll(commons.get(tokenized[i + 3]));
                         i = i + 3;
                     } else {
                         i = i + 1;
                     }
                     commonOrClass = true;
+                } else {
+                    throw new SyntaxParseException("Unknown token");
                 }
             }
         }

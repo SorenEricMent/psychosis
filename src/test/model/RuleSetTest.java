@@ -11,7 +11,7 @@ import java.util.HashSet;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class RuleSetTest {
-    RuleSetModel r1, r2, r3, r4, r5;
+    RuleSetModel r1, r2, r3, r4, r5, r6, r7;
     HashSet<String> act1, act2, act3, act4;
     @BeforeEach
     public void init() {
@@ -52,6 +52,16 @@ public class RuleSetTest {
                 "test_t2_t",
                 "test",
                 act4);
+        r6 = new RuleSetModel(RuleSetModel.RuleType.dontaudit,
+                "test_s2_t",
+                "test_t2_t",
+                "test",
+                act4);
+        r7 = new RuleSetModel(RuleSetModel.RuleType.dontaudit,
+                "test_s2_t",
+                "test_t_t",
+                "test",
+                act4);
     }
 
     @Test
@@ -60,8 +70,8 @@ public class RuleSetTest {
         assertTrue(r1.equals(r2));
         r1.addAction("testact2");
         assertTrue(r1.equals(r3));
-
-        assertFalse(r1.equals(r4));
+        assertFalse(r1.equals(r6));
+        assertFalse(r6.equals(r7));
     }
 
     @Test
@@ -74,6 +84,8 @@ public class RuleSetTest {
     public void testIsEquvStatement() {
         assertTrue(RuleSetModel.isEquvStatement(r1, r4));
         assertFalse(RuleSetModel.isEquvStatement(r1, r5));
+        assertFalse(RuleSetModel.isEquvStatement(r6, r7));
+        assertFalse(RuleSetModel.isEquvStatement(r1, r7));
     }
 
     @Test
@@ -137,5 +149,12 @@ public class RuleSetTest {
         assertTrue(RuleSetModel.isProcessed("allow"));
         assertTrue(RuleSetModel.isProcessed("dontaudit"));
         assertFalse(RuleSetModel.isProcessed("mlsconstrain"));
+
+        assertTrue(RuleSetModel.isStatement("allow"));
+        assertTrue(RuleSetModel.isStatement("dontaudit"));
+        assertTrue(RuleSetModel.isStatement("mlsconstrain"));
+        assertTrue(RuleSetModel.isStatement("neverallow"));
+        assertTrue(RuleSetModel.isStatement("constrain"));
+        assertFalse(RuleSetModel.isStatement("random"));
     }
 }

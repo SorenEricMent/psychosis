@@ -75,7 +75,8 @@ public class TypeEnfModel extends FileObjectModel implements Encodeable, Decodea
     public static TypeEnfModel parser(String content) throws SyntaxParseException {
         String[] tokenized = CommonUtil.strongTokenizer(content);
         // First line has to be policy_module(name)
-        if (!tokenized[0].equals("policy_module") || !tokenized[1].equals("(") || !tokenized[3].equals(")")) {
+        if (tokenized.length < 4
+                || !tokenized[0].equals("policy_module") || !tokenized[1].equals("(") || !tokenized[3].equals(")")) {
             throw new SyntaxParseException("Bad syntax for name declaration.");
         }
         TypeEnfModel res = new TypeEnfModel(tokenized[2]);
@@ -102,12 +103,7 @@ public class TypeEnfModel extends FileObjectModel implements Encodeable, Decodea
                 i = end;
             } else {
                 int end = getEnd(i + 1, tokenized) + 2;
-                if (tokenized[i + 1].equals("(") && tokenized[i + 2].equals(")")) {
-                    String[] placeholder = {};
-                    res.addInterfaceCall(tokenized[i], placeholder);
-                } else {
-                    res.addInterfaceCall(tokenized[i], Arrays.copyOfRange(tokenized, i + 2, end - 2));
-                }
+                res.addInterfaceCall(tokenized[i], Arrays.copyOfRange(tokenized, i + 2, end - 2));
                 i = end;
             }
         }

@@ -68,6 +68,7 @@ public class InterfaceTest {
     public void testInterfaceSet() {
         InterfaceSetModel testSet = new InterfaceSetModel();
         testSet.addInterface(i1);
+        testSet.addInterface(i2);
         assertEquals(i1, testSet.getInterface("test1"));
         testSet.removeInterface("test1");
         assertThrows(NotFoundException.class, () -> {
@@ -196,6 +197,15 @@ public class InterfaceTest {
             });
             assertThrows(SyntaxParseException.class, () -> {
                 InterfaceSetModel.parser("interface(`x',})");
+            });
+            assertThrows(SyntaxParseException.class, () -> {
+                InterfaceSetModel.parser("interface(`x'x");
+            });
+            assertThrows(SyntaxParseException.class, () -> {
+                InterfaceSetModel.parser("interface(`x`,`')");
+            });
+            assertThrows(SyntaxParseException.class, () -> {
+                InterfaceSetModel.parser("interface`x',`')");
             });
         } catch (IOException e) {
             fail("IO Exception, this should not happen & check CustomReaderTest!");

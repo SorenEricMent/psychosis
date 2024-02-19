@@ -54,6 +54,7 @@ public class AccessVectorTest {
         File testFile = new File("./data/testfiles/AccessVectorTest/test_access_vectors");
         AccessVectorModel expect = new AccessVectorModel();
         expect.addSecurityClass("ubc");
+        expect.addSecurityClass(null); // Don't do anything
         expect.addAccessVector("ubc", "fail_class");
         expect.addAccessVector("ubc", "sleep");
         expect.addAccessVector("ubc", "eat");
@@ -95,9 +96,12 @@ public class AccessVectorTest {
         }
         assertThrows(SyntaxParseException.class,
                 () -> {
-                    AccessVectorModel.accessVectorParser(fileContent);
+                    AccessVectorModel.accessVectorParser("chocolate winslow inherits matcha");
                 });
-
+        assertThrows(SyntaxParseException.class,
+                () -> {
+                    AccessVectorModel.accessVectorParser("common &WINSLOW&");
+                });
     }
     @Test
     public void testExcpSecurityClassParse() {
