@@ -81,6 +81,10 @@ public class InterfaceTest {
     @Test
     public void testInterfaceAddRuleSet() {
         i1.addRuleSetModels(r1);
+        i1.addRuleSetModels(r3);
+        assertEquals(
+                "allow test_s_t test_t_t:test { testact testact2 };\n",
+                i1.toString());
     }
     @Test
     public void testInterfaceSetRuleSet() {
@@ -88,7 +92,6 @@ public class InterfaceTest {
         rs1.add(r1);
         rs1.add(r5);
         i1.setRuleSetModels(rs1);
-
     }
 
     @Test

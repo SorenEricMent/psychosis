@@ -37,19 +37,6 @@ public class InterfaceModel {
         return this.isUserDefined;
     }
 
-
-    // EFFECTS: parse .if interface definition file
-    // This parser is actually a lexer for now.
-    // For now, only first-order statements are supported!
-    // Conditionals(IFDEF) and Calls will be skipped.
-    public static HashMap<String, InterfaceModel> interfaceParserFO(String content) {
-        HashMap<String, InterfaceModel> results = new HashMap<String, InterfaceModel>();
-        HashSet<String> typeCheck = new HashSet<String>();
-        // interface(`name', `content');
-
-        return null;
-    }
-
     public int getRuleNum() {
         return ruleSetModels.size();
     }
@@ -89,7 +76,7 @@ public class InterfaceModel {
     public TypeEnfModel call(String[] args) {
         // Replace args into Interface / template to create a
         // pseudo TypeEnfModel (a set of rules)
-        TypeEnfModel res = new TypeEnfModel("__psychosis_interface_expand__");
+        TypeEnfModel res = new TypeEnfModel("_");
         MacroProcessor variableSubstitute = new MacroProcessor();
         for (int i = 0; i < args.length; i++) {
             variableSubstitute.addMacro("$".concat(Integer.toString(i + 1)), args[i]);

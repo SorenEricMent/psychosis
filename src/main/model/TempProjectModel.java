@@ -30,10 +30,11 @@ public class TempProjectModel extends ProjectModel {
     public void addInterface(String layerName, String moduleName, String interfaceName)
             throws NotFoundException {
         try {
+            InterfaceModel toAdd = new InterfaceModel(interfaceName, true);
             this.getLayer(layerName)
                     .getPolicyModule(moduleName)
-                    .addInterface(
-                            new InterfaceModel(interfaceName, true));
+                    .addInterface(toAdd);
+            this.getGlobalInterfaceSet().addInterface(toAdd);
 
         } catch (NullPointerException e) {
             throw new NotFoundException(e.getMessage());

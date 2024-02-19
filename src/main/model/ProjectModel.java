@@ -5,6 +5,7 @@ import model.exception.NotFoundException;
 import model.exception.SyntaxParseException;
 import model.exception.UnknownCapabilityException;
 import model.policy.AccessVectorModel;
+import model.policy.InterfaceSetModel;
 import model.policy.LayerModel;
 
 import java.util.ArrayList;
@@ -22,7 +23,14 @@ public class ProjectModel {
     private AccessVectorModel accessVectors;
 
     private final TrackerModel tracker = new TrackerModel();
+
+    private final InterfaceSetModel globalInterfaceSet = new InterfaceSetModel();
+
     protected ArrayList<LayerModel> layers = new ArrayList<LayerModel>();
+
+    public InterfaceSetModel getGlobalInterfaceSet() {
+        return globalInterfaceSet;
+    }
 
     // Layers are often in small sizes
     // Therefore it is defined as an ArrayList

@@ -1,11 +1,9 @@
 package model.policy;
 
-import model.CommonUtil;
-import model.Decodeable;
-import model.Encodeable;
-import model.FileObjectModel;
+import model.*;
 import model.exception.SyntaxParseException;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -21,6 +19,8 @@ public class TypeEnfModel extends FileObjectModel implements Encodeable, Decodea
     private final ArrayList<String> requiredType = new ArrayList<>();
     private final ArrayList<RuleSetModel> statementsFO = new ArrayList<>();
 
+    private final ArrayList<Pair<String, String[]>> interfaceCall = new ArrayList<>();
+
     public ArrayList<RuleSetModel> getStatementsFO() {
         return statementsFO;
     }
@@ -31,6 +31,10 @@ public class TypeEnfModel extends FileObjectModel implements Encodeable, Decodea
 
     public String getName() {
         return name;
+    }
+
+    public void addInterfaceCall(String i, String[] args) {
+        interfaceCall.add(new Pair<String, String[]>(i, args));
     }
 
     public void addStatement(RuleSetModel r) {
@@ -67,10 +71,7 @@ public class TypeEnfModel extends FileObjectModel implements Encodeable, Decodea
         return original;
     }
 
-    public void addInterfaceCall() {
-        // TODO: not implemented for p1
-    }
-
+    @SuppressWarnings({"checkstyle:MethodLength", "checkstyle:SuppressWarnings"})
     public static TypeEnfModel parser(String content) throws SyntaxParseException {
         String[] tokenized = CommonUtil.strongTokenizer(content);
         // First line has to be policy_module(name)
@@ -92,17 +93,42 @@ public class TypeEnfModel extends FileObjectModel implements Encodeable, Decodea
                     throw new SyntaxParseException("Cannot end sequence.");
                 }
                 res.addStatement(RuleSetModel.ruleSetParser(Arrays.copyOfRange(tokenized, i, end + 1)));
-                i = end + 1;
-            } else if (tokenized[i].equals("require") || tokenized[i].equals("gen_require")) {
-                // For now, don't do require Type Check;
+                i = end;
+            } else if (tokenized[i].equals("require")) {
+                int end = getEnd(i + 1, tokenized);
+                i = end;
+            } else if (tokenized[i].equals("gen_require")) {
+                int end = getEnd(i + 1, tokenized);
+                i = end;
+            } else {
+                int end = getEnd(i + 1, tokenized);
+                res.addInterfaceCall(tokenized[i], Arrays.copyOfRange(tokenized, i + 2, end - 1));
             }
-            // For now, ignore not-first-order statements even if they have syntax errors.
         }
         return res;
     }
 
-    // EFFECTS: export content in string;
-    public String toString() {
+    private static int getEnd(int i, String[] tokenized) throws SyntaxParseException {
+        int end = -1;
+        CommonUtil.Balancer findEnd = new CommonUtil.Balancer();
+        for (int j = i; j < tokenized.length; j++) {
+            findEnd.push(tokenized[j]);
+            if (findEnd.isSyntaxError()) {
+                throw new SyntaxParseException("Unbalanced parenthesis in block: stack: " + findEnd.toString());
+            }
+            if (findEnd.check()) {
+                end = j;
+                break;
+            }
+        }
+        if (end == -1) {
+            throw new SyntaxParseException("Cannot end sequence: stack: " + findEnd.toString());
+        }
+        return end;
+    }
+
+    // EFFECTS: export the content without process interface call
+    public String readRaw() {
         String res = "";
         res = res.concat("policy_module(" + this.getName() + ")\n\n");
 
@@ -112,7 +138,42 @@ public class TypeEnfModel extends FileObjectModel implements Encodeable, Decodea
         for (RuleSetModel r : statementsFO) {
             res = res.concat(r.toString());
         }
+
+        // Concat interface calls
+        for (Pair<String, String[]> p : interfaceCall) {
+            res = res.concat(
+                    p.getFirst() + "(" + String.join(",", p.getSecond()) + ")"
+            );
+        }
         return res;
+    }
+
+    // REQUIRES: i need to be the global interface list
+    // EFFECTS: export content in string, compiled
+    public String toString(InterfaceSetModel i) {
+        String res = "";
+        res = res.concat("policy_module(" + this.getName() + ")\n\n");
+
+        // FUTURE TODO: REQUIRE STATEMENT
+
+        // Concat rules
+        for (RuleSetModel r : statementsFO) {
+            res = res.concat(r.toString());
+        }
+
+        // Concat interface calls
+        for (Pair<String, String[]> p : interfaceCall) {
+            String compiled = i.getInterface(p.getFirst()).call(p.getSecond()).toString();
+            res = res.concat(
+                    compiled.substring(18) // Remove the policy_module line as it return TypeEnf
+            );
+        }
+        return res;
+    }
+
+    @Override
+    public String toString() {
+        return null;
     }
 
     public int lineCount() {

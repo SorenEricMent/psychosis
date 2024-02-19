@@ -125,7 +125,7 @@ public class CommonUtil {
                         this.syntaxError = true;
                     }
                     stack.pop();
-                    if (stack.isEmpty()) {
+                    if (stack.isEmpty() || !stack.peek().equals("`")) {
                         this.readingString = false;
                     }
                 }

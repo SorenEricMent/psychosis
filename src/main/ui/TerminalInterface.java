@@ -38,8 +38,8 @@ public class TerminalInterface {
             try {
                 switch (inputList[0]) {
                     case "list":
-                        System.out.println("create_project select_project load_project list_project"
-                                + " show_project show_layer create_layer remove_layer show_module add_module remove_module"
+                        System.out.println("create_project select_project load_project list_project show_project"
+                                + " show_layer create_layer remove_layer show_module add_module remove_module"
                                 + " add_interface show_interface edit_interface remove_interface lookup_interface"
                                 + " load_interface edit_typeenf"
                                 + " edit_filecontext tag_add_interface tag_rm_interface load_access_vectors"
