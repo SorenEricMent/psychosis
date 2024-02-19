@@ -5,6 +5,7 @@ import model.policy.InterfaceModel;
 import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -56,6 +57,12 @@ public class TrackerTest {
 
         assertEquals(expected1, testTracker1.queryInterfaceWithTag("testtag1"));
         assertEquals(expected2, testTracker1.queryInterfaceWithTag("testtag2"));
-
+    }
+    @Test
+    public void testUserDefined() {
+        testTracker1.insertInterfaceUserDefined(testInf1);
+        HashSet<InterfaceModel> expected1 = new HashSet<>();
+        expected1.add(testInf1);
+        assertEquals(expected1, testTracker1.queryInterfaceUserDefined());
     }
 }

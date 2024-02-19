@@ -15,6 +15,7 @@ public class MiscTest {
             fail(e);
         }
         CommonUtil commonUtil = new CommonUtil();
-        // All methods in commonUtil are static but Jacoco complains about it is not being newed.
+        CustomReader customReader = new CustomReader();
+        // All methods in commonUtil/CustomReader are static but Jacoco complains about it is not being newed.
     }
 }

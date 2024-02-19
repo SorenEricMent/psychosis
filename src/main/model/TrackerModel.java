@@ -5,6 +5,7 @@ import model.policy.InterfaceModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class TrackerModel {
     // This serves as a tracker for Psychosis to lookup
@@ -18,11 +19,24 @@ public class TrackerModel {
 
     private final HashMap<String, ArrayList<InterfaceModel>> tagTracker;
 
+    private final HashSet<InterfaceModel> userDefined;
+
 
     public TrackerModel() {
         mapSLabelIf = new HashMap<String, ArrayList<InterfaceModel>>();
         mapTLabelIf = new HashMap<String, ArrayList<InterfaceModel>>();
         tagTracker = new HashMap<String, ArrayList<InterfaceModel>>();
+        userDefined = new HashSet<>();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: assign an interface to user-defined list
+    public void insertInterfaceUserDefined(InterfaceModel i) {
+        userDefined.add(i);
+    }
+
+    public HashSet<InterfaceModel> queryInterfaceUserDefined() {
+        return userDefined;
     }
 
     // MODIFIES: this
@@ -41,16 +55,12 @@ public class TrackerModel {
     }
 
     public void insertInterfaceWithSLabel(String key, InterfaceModel val) {
-        if (!mapSLabelIf.containsKey(key)) {
-            mapSLabelIf.put(key, new ArrayList<InterfaceModel>());
-        }
+        mapSLabelIf.putIfAbsent(key, new ArrayList<InterfaceModel>());
         mapSLabelIf.get(key).add(val);
     }
 
     public void insertInterfaceWithTLabel(String key, InterfaceModel val) {
-        if (!mapTLabelIf.containsKey(key)) {
-            mapTLabelIf.put(key, new ArrayList<InterfaceModel>());
-        }
+        mapTLabelIf.putIfAbsent(key, new ArrayList<InterfaceModel>());
         mapTLabelIf.get(key).add(val);
     }
 

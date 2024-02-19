@@ -150,6 +150,11 @@ public class CommonUtilTest {
         test = new CommonUtil.Balancer();
         test.push("}");
         assertTrue(test.isSyntaxError());
+
+        test = new CommonUtil.Balancer();
+        test.push("{");
+        test.push(")");
+        assertTrue(test.isSyntaxError());
     }
 
     @Test
