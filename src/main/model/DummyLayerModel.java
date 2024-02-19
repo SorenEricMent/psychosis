@@ -3,8 +3,6 @@ package model;
 import model.policy.LayerModel;
 import model.policy.PolicyModuleModel;
 
-import java.util.HashMap;
-
 public class DummyLayerModel extends LayerModel {
     public DummyLayerModel(String name) {
         super(name);

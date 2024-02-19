@@ -3,8 +3,8 @@ package model;
 import model.exception.NotFoundException;
 import model.policy.InterfaceModel;
 
-import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class TrackerModel {
     // This serves as a tracker for Psychosis to lookup
@@ -12,10 +12,10 @@ public class TrackerModel {
 
     // This should be replaced with a relational database
     // but... after the term project is finished.
-    private HashMap<String, ArrayList<InterfaceModel>> mapSLabelIf;
-    private HashMap<String, ArrayList<InterfaceModel>> mapTLabelIf;
+    private final HashMap<String, ArrayList<InterfaceModel>> mapSLabelIf;
+    private final HashMap<String, ArrayList<InterfaceModel>> mapTLabelIf;
 
-    private HashMap<String, ArrayList<InterfaceModel>> tagTracker;
+    private final HashMap<String, ArrayList<InterfaceModel>> tagTracker;
 
 
     public TrackerModel() {

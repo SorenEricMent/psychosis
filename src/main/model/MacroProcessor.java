@@ -2,14 +2,14 @@ package model;
 
 import model.exception.SyntaxParseException;
 
-import java.util.regex.*;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 public class MacroProcessor {
     // Process SELinux .spt macros
 
     // SPT Macros are simple text replacements, nothing fancy
-    private ArrayList<Pair<Pattern, String>> macros;
+    private final ArrayList<Pair<Pattern, String>> macros;
 
     public MacroProcessor() {
         macros = new ArrayList<Pair<Pattern, String>>();
@@ -42,7 +42,7 @@ public class MacroProcessor {
                 throw new SyntaxParseException("Broken define syntax. Content: " + str);
             }
             String from = str.substring(str.indexOf("`") + 1, str.indexOf("'"));
-            String rest = str.substring(str.indexOf("'") + 1, str.length());
+            String rest = str.substring(str.indexOf("'") + 1);
             String to = rest.substring(rest.indexOf("`") + 1, rest.length() - 2);
             res.addMacro(from, to);
         }

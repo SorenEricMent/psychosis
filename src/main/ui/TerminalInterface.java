@@ -1,28 +1,27 @@
 package ui;
 
-import java.util.*;
-
-import java.io.File;
-import java.io.IOException;
-
 import model.CustomReader;
 import model.ProjectModel;
 import model.TempProjectModel;
 import model.exception.DuplicateException;
 import model.exception.NotFoundException;
 import model.exception.SyntaxParseException;
-import model.policy.*;
+import model.policy.AccessVectorModel;
+import model.policy.PolicyModuleModel;
+import model.policy.RuleSetModel;
 
-import javax.swing.plaf.nimbus.State;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 public class TerminalInterface {
     //Debugging command line for Phase 1
 
-    private ArrayList<ProjectModel> loadedProjects = new ArrayList<>();
-    private Integer currentWorkIndex = 0;
+    private final ArrayList<ProjectModel> loadedProjects = new ArrayList<>();
+    private final Integer currentWorkIndex = 0;
     // Object 0 is an empty non-saving test only project
 
-    private Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in);
 
     private boolean isRunning = true;
 
@@ -38,64 +37,91 @@ public class TerminalInterface {
 
             try {
                 switch (inputList[0]) {
-                    case "list": System.out.println("create_project select_project load_project list_project"
-                            + " show_project show_layer create_layer remove_layer show_module add_module remove_module"
-                            + " add_interface show_interface edit_interface remove_interface lookup_interface"
-                            + " load_interface edit_typeenf"
-                            + " edit_filecontext tag_add_interface tag_rm_interface load_access_vectors"
-                            + " show_capability load_capability");
+                    case "list":
+                        System.out.println("create_project select_project load_project list_project"
+                                + " show_project show_layer create_layer remove_layer show_module add_module remove_module"
+                                + " add_interface show_interface edit_interface remove_interface lookup_interface"
+                                + " load_interface edit_typeenf"
+                                + " edit_filecontext tag_add_interface tag_rm_interface load_access_vectors"
+                                + " show_capability load_capability");
                         break;
-                    case "create_project": notImplemented();
+                    case "create_project":
+                        notImplemented();
                         break;
-                    case "select_project": notImplemented();
+                    case "select_project":
+                        notImplemented();
                         break;
-                    case "load_project": notImplemented();
+                    case "load_project":
+                        notImplemented();
                         break;
-                    case "list_project": commandListProject();
+                    case "list_project":
+                        commandListProject();
                         break;
-                    case "show_project": commandShowProject();
+                    case "show_project":
+                        commandShowProject();
                         break;
-                    case "show_layer": commandShowLayer(inputList);
+                    case "show_layer":
+                        commandShowLayer(inputList);
                         break;
-                    case "create_layer": commandCreateLayer(inputList);
+                    case "create_layer":
+                        commandCreateLayer(inputList);
                         break;
-                    case "remove_layer": commandRemoveLayer(inputList);
+                    case "remove_layer":
+                        commandRemoveLayer(inputList);
                         break;
-                    case "show_module": commandShowModule(inputList);
+                    case "show_module":
+                        commandShowModule(inputList);
                         break;
-                    case "export_module": commandExportModule(inputList);
+                    case "export_module":
+                        commandExportModule(inputList);
                         break;
-                    case "add_module": commandAddModule(inputList);
+                    case "add_module":
+                        commandAddModule(inputList);
                         break;
-                    case "remove_module": commandRemoveModule(inputList);
+                    case "remove_module":
+                        commandRemoveModule(inputList);
                         break;
-                    case "load_interface": notImplemented();
+                    case "load_interface":
+                        notImplemented();
                         break;
-                    case "add_interface": commandAddInterface(inputList);
+                    case "add_interface":
+                        commandAddInterface(inputList);
                         break;
-                    case "lookup_interface": notImplemented();
+                    case "lookup_interface":
+                        notImplemented();
                         break;
-                    case "show_interface": commandShowInterface(inputList);
+                    case "show_interface":
+                        commandShowInterface(inputList);
                         break;
-                    case "edit_interface": commandEditInterface(inputList);
+                    case "edit_interface":
+                        commandEditInterface(inputList);
                         break;
-                    case "remove_interface": commandRemoveInterface(inputList);
+                    case "remove_interface":
+                        commandRemoveInterface(inputList);
                         break;
-                    case "edit_typeenf": commandEditTypeEnf(inputList);
+                    case "edit_typeenf":
+                        commandEditTypeEnf(inputList);
                         break;
-                    case "edit_filecontext": notImplemented();
+                    case "edit_filecontext":
+                        notImplemented();
                         break;
-                    case "tag_add_interface": notImplemented();
+                    case "tag_add_interface":
+                        notImplemented();
                         break;
-                    case "tag_rm_interface": notImplemented();
+                    case "tag_rm_interface":
+                        notImplemented();
                         break;
-                    case "load_access_vectors": commandLoadAccessVectors(inputList);
+                    case "load_access_vectors":
+                        commandLoadAccessVectors(inputList);
                         break;
-                    case "show_capability": notImplemented();
+                    case "show_capability":
+                        notImplemented();
                         break;
-                    case "load_capability": notImplemented();
+                    case "load_capability":
+                        notImplemented();
                         break;
-                    case "load_typeenf": notImplemented();
+                    case "load_typeenf":
+                        notImplemented();
                         break;
                     case "exit":
                         System.out.println("Goodbye");
@@ -365,10 +391,6 @@ public class TerminalInterface {
     // EFFECTS: create additional confirm prompt for sensitive commands.
     public boolean reassure() {
         System.out.println("Are you sure to proceed? (y/n)");
-        if (scanner.nextLine().toLowerCase().equals("y")) {
-            return true;
-        } else {
-            return false;
-        }
+        return scanner.nextLine().equalsIgnoreCase("y");
     }
 }

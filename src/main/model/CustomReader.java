@@ -1,8 +1,6 @@
 package model;
 
 import java.io.File;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -41,7 +39,7 @@ public class CustomReader {
             content = content.concat(temp + "\n");
         }
         if (content.endsWith("\n")) {
-            content = content.substring(0,content.length() - 1);
+            content = content.substring(0, content.length() - 1);
         }
         scan.close();
         return content;

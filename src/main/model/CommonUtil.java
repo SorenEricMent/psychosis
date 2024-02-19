@@ -1,11 +1,6 @@
 package model;
 
-import model.exception.SyntaxParseException;
-
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.regex.*;
-
 import java.util.Stack;
 
 public class CommonUtil {
@@ -64,7 +59,7 @@ public class CommonUtil {
 
     // Those are statement keywords not planned to be supported
     // by Psychosis for now
-    private static String[] ignoredKeyword = {
+    private static final String[] ignoredKeyword = {
             "netifcon",
             "nodecon",
             "portcon",
@@ -96,7 +91,7 @@ public class CommonUtil {
 
     public static class Balancer {
         // Checker for balancing with a stack
-        private Stack<String> stack = new Stack<String>();
+        private final Stack<String> stack = new Stack<String>();
         private boolean readingString = false;
 
         private boolean syntaxError = false;
@@ -152,7 +147,8 @@ public class CommonUtil {
                         break;
                     case "`":
                         this.readingString = true;
-                    case "(": case "{":
+                    case "(":
+                    case "{":
                         stack.push(val);
                     default:
                         break;

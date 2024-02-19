@@ -1,31 +1,27 @@
 package model;
 
-import model.CommonUtil;
-import model.TrackerModel;
 import model.exception.DuplicateException;
 import model.exception.NotFoundException;
 import model.exception.SyntaxParseException;
 import model.exception.UnknownCapabilityException;
 import model.policy.AccessVectorModel;
-import model.policy.InterfaceModel;
 import model.policy.LayerModel;
-import model.policy.PolicyModuleModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ProjectModel {
     // A psychosis project. Basically the whole policy
-    private String name;
+    private final String name;
 
-    private String projectPath;
+    private final String projectPath;
 
     private HashMap<PolicyCapabilities, Boolean>
             capabilities = new HashMap<PolicyCapabilities, Boolean>();
 
     private AccessVectorModel accessVectors;
 
-    private TrackerModel tracker = new TrackerModel();
+    private final TrackerModel tracker = new TrackerModel();
     protected ArrayList<LayerModel> layers = new ArrayList<LayerModel>();
 
     // Layers are often in small sizes
@@ -94,21 +90,29 @@ public class ProjectModel {
             if (tokenized[i].equals("policycap")) {
                 i = i + 1;
                 switch (tokenized[i]) {
-                    case "network_peer_controls;": results.put(PolicyCapabilities.network_peer_controls, true);
+                    case "network_peer_controls;":
+                        results.put(PolicyCapabilities.network_peer_controls, true);
                         break;
-                    case "open_perms;": results.put(PolicyCapabilities.open_perms, true);
+                    case "open_perms;":
+                        results.put(PolicyCapabilities.open_perms, true);
                         break;
-                    case "always_check_network;": results.put(PolicyCapabilities.always_check_network, true);
+                    case "always_check_network;":
+                        results.put(PolicyCapabilities.always_check_network, true);
                         break;
-                    case "extended_socket_class;": results.put(PolicyCapabilities.extended_socket_class, true);
+                    case "extended_socket_class;":
+                        results.put(PolicyCapabilities.extended_socket_class, true);
                         break;
-                    case "cgroup_seclabel;": results.put(PolicyCapabilities.cgroup_seclabel, true);
+                    case "cgroup_seclabel;":
+                        results.put(PolicyCapabilities.cgroup_seclabel, true);
                         break;
-                    case "nnp_nosuid_transition;": results.put(PolicyCapabilities.nnp_nosuid_transition, true);
+                    case "nnp_nosuid_transition;":
+                        results.put(PolicyCapabilities.nnp_nosuid_transition, true);
                         break;
-                    case "genfs_seclabel_symlinks;": results.put(PolicyCapabilities.genfs_seclabel_symlinks, true);
+                    case "genfs_seclabel_symlinks;":
+                        results.put(PolicyCapabilities.genfs_seclabel_symlinks, true);
                         break;
-                    case "ioctl_skip_cloexec;": results.put(PolicyCapabilities.ioctl_skip_cloexec, true);
+                    case "ioctl_skip_cloexec;":
+                        results.put(PolicyCapabilities.ioctl_skip_cloexec, true);
                         break;
                     default:
                         throw new UnknownCapabilityException(tokenized[i]);

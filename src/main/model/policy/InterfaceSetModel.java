@@ -1,6 +1,9 @@
 package model.policy;
 
-import model.*;
+import model.CommonUtil;
+import model.Decodeable;
+import model.Encodeable;
+import model.FileObjectModel;
 import model.exception.NotFoundException;
 import model.exception.SyntaxParseException;
 
@@ -9,7 +12,7 @@ import java.util.Arrays;
 
 public class InterfaceSetModel extends FileObjectModel implements Encodeable, Decodeable {
 
-    private ArrayList<InterfaceModel> interfaces = new ArrayList<>();
+    private final ArrayList<InterfaceModel> interfaces = new ArrayList<>();
 
     public String toString() {
         String res = "";

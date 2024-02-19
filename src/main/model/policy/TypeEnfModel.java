@@ -17,9 +17,9 @@ public class TypeEnfModel extends FileObjectModel implements Encodeable, Decodea
     // A statement could be a method call or statement
     // but for now only first order statement is supported
 
-    private String name;
-    private ArrayList<String> requiredType = new ArrayList<>();
-    private ArrayList<RuleSetModel> statementsFO = new ArrayList<>();
+    private final String name;
+    private final ArrayList<String> requiredType = new ArrayList<>();
+    private final ArrayList<RuleSetModel> statementsFO = new ArrayList<>();
 
     public ArrayList<RuleSetModel> getStatementsFO() {
         return statementsFO;

@@ -18,10 +18,10 @@ public class RuleSetModel {
         mlsconstrain
     }
 
-    private RuleType ruleType;
-    private String sourceContext;
-    private String targetContext;
-    private String targetClass;
+    private final RuleType ruleType;
+    private final String sourceContext;
+    private final String targetContext;
+    private final String targetClass;
     private HashSet<String> actions = new HashSet<String>();
 
     public RuleSetModel(RuleType ruleType, String source, String target, String targetClass, HashSet<String> actions) {
@@ -133,7 +133,7 @@ public class RuleSetModel {
             }
         }
         if (!balancer.check()) {
-            throw new SyntaxParseException("Unbalanced {}, stack content: " + balancer.toString());
+            throw new SyntaxParseException("Unbalanced {}, stack content: " + balancer);
         }
 
         return new RuleSetModel(rt, sourceContext, targetContext, targetClass, actions);

@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class InterfaceModel {
-    private String name;
+    private final String name;
 
     private ArrayList<String> parameters;
 
@@ -16,7 +16,7 @@ public class InterfaceModel {
     private String paramsDescription;
     private ArrayList<RuleSetModel> ruleSetModels;
     private HashSet<String> tags;
-    private boolean isUserDefined;
+    private final boolean isUserDefined;
 
     public InterfaceModel(String name, boolean isUserDefined) {
         this.name = name;
@@ -92,7 +92,7 @@ public class InterfaceModel {
         TypeEnfModel res = new TypeEnfModel("__psychosis_interface_expand__");
         MacroProcessor variableSubstitute = new MacroProcessor();
         for (int i = 0; i < args.length; i++) {
-            variableSubstitute.addMacro("$".concat(Integer.toString(i+1)), args[i]);
+            variableSubstitute.addMacro("$".concat(Integer.toString(i + 1)), args[i]);
         }
         for (RuleSetModel r : ruleSetModels) {
             res.addStatement(

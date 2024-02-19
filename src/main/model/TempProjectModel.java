@@ -2,10 +2,7 @@ package model;
 
 import model.exception.NotFoundException;
 import model.policy.InterfaceModel;
-import model.policy.LayerModel;
 import model.policy.PolicyModuleModel;
-
-import java.util.ArrayList;
 
 public class TempProjectModel extends ProjectModel {
 

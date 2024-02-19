@@ -1,17 +1,14 @@
 package model.policy;
 
 import model.CommonUtil;
-import model.Pair;
 import model.exception.SyntaxParseException;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.regex.Pattern;
 
 public class AccessVectorModel {
 
-    private HashMap<String, HashSet<String>> accessVector;
+    private final HashMap<String, HashSet<String>> accessVector;
 
     public AccessVectorModel() {
         accessVector = new HashMap<String, HashSet<String>>();
