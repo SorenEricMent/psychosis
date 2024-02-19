@@ -136,7 +136,19 @@ public class TypeEnfTest {
                 });
         assertThrows(SyntaxParseException.class,
                 () -> {
+                    TypeEnfModel.parser("policy_module)))");
+                });
+        assertThrows(SyntaxParseException.class,
+                () -> {
                     TypeEnfModel.parser("yuuta_module(winslow)");
+                });
+        assertThrows(SyntaxParseException.class,
+                () -> {
+                    TypeEnfModel.parser("yuuta_module");
+                });
+        assertThrows(SyntaxParseException.class,
+                () -> {
+                    TypeEnfModel.parser("()");
                 });
         assertThrows(SyntaxParseException.class,
                 () -> {

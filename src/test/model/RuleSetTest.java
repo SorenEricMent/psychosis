@@ -60,7 +60,7 @@ public class RuleSetTest {
         r7 = new RuleSetModel(RuleSetModel.RuleType.dontaudit,
                 "test_s2_t",
                 "test_t_t",
-                "test",
+                "test2",
                 act4);
     }
 
