@@ -11,7 +11,7 @@ import java.util.HashSet;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class RuleSetTest {
-    RuleSetModel r1, r2, r3, r4, r5, r6, r7;
+    RuleSetModel r1, r2, r3, r4, r5, r6, r7, r8;
     HashSet<String> act1, act2, act3, act4;
     @BeforeEach
     public void init() {
@@ -62,6 +62,11 @@ public class RuleSetTest {
                 "test_t_t",
                 "test2",
                 act4);
+        r8 = new RuleSetModel(RuleSetModel.RuleType.dontaudit,
+                "test_s2_t",
+                "test_t_t",
+                "test3",
+                act4);
     }
 
     @Test
@@ -72,6 +77,8 @@ public class RuleSetTest {
         assertTrue(r1.equals(r3));
         assertFalse(r1.equals(r6));
         assertFalse(r6.equals(r7));
+        assertFalse(r7.equals(r8));
+        assertFalse(r1.equals(r8));
     }
 
     @Test

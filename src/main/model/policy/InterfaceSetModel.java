@@ -31,6 +31,10 @@ public class InterfaceSetModel extends FileObjectModel implements Encodeable, De
         this.interfaces.add(i);
     }
 
+    public ArrayList<InterfaceModel> getInterfaces() {
+        return interfaces;
+    }
+
     public InterfaceModel getInterface(String name) {
         for (InterfaceModel i : this.interfaces) {
             if (i.getName().equals(name)) {

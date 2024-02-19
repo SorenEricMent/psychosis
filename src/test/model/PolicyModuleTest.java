@@ -1,14 +1,22 @@
 package model;
 
+import model.policy.FileContextModel;
+import model.policy.InterfaceSetModel;
 import model.policy.PolicyModuleModel;
+import model.policy.TypeEnfModel;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PolicyModuleTest {
-    PolicyModuleModel p1;
+    PolicyModuleModel p1, p2;
     @BeforeEach
     public void init() {
         p1 = new PolicyModuleModel("p1");
+        p2 = new PolicyModuleModel("p2",
+                new TypeEnfModel("p2"),
+                new InterfaceSetModel(),
+                new FileContextModel()
+        );
     }
     @Test
     public void testPolicyModuleToString() {
@@ -18,5 +26,6 @@ public class PolicyModuleTest {
                 "File context: not implemented. \n", p1.toString());
         p1.getInterfaceSet(); // InterfaceSet is internally managed and cannot test equals
         assertEquals("p1", p1.getTypeEnf().getName());
+        assertEquals("p2", p2.getTypeEnf().getName());
     }
 }

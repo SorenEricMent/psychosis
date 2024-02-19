@@ -234,5 +234,8 @@ public class InterfaceTest {
                 test.getInterface("yuuta").call(args1).toStringRuleOnly());
         assertEquals("allow yuuta_head_t self:yuuta { eat };\n",
                 test.getInterface("bendan").call(args2).toStringRuleOnly());
+        test.getInterfaces();
+        // Only for coverage, it is internally managed and can't really be tested
+        // the getter is only used for tracking global set of interfaces
     }
 }

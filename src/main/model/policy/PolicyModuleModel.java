@@ -1,5 +1,7 @@
 package model.policy;
 
+import java.lang.reflect.Type;
+
 public class PolicyModuleModel {
     // A policy module contain (AND MUST CONTAIN):
     // A Type enforce file
@@ -10,14 +12,21 @@ public class PolicyModuleModel {
     private String name;
 
     private TypeEnfModel typeEnfObject;
-    private final FileContextModel fileContentObject =
+    private FileContextModel fileContentObject =
             new FileContextModel();
-    private final InterfaceSetModel interfaceObject =
+    private InterfaceSetModel interfaceObject =
             new InterfaceSetModel();
 
     public PolicyModuleModel(String name) {
         this.name = name;
         typeEnfObject = new TypeEnfModel(this.name);
+    }
+
+    public PolicyModuleModel(String name, TypeEnfModel t, InterfaceSetModel i, FileContextModel f) {
+        this.name = name;
+        this.typeEnfObject = t;
+        this.interfaceObject = i;
+        this.fileContentObject = f;
     }
 
     public String getName() {

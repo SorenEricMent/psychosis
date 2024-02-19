@@ -1,14 +1,13 @@
 package ui;
 
+import model.CommonUtil;
 import model.CustomReader;
 import model.ProjectModel;
 import model.TempProjectModel;
 import model.exception.DuplicateException;
 import model.exception.NotFoundException;
 import model.exception.SyntaxParseException;
-import model.policy.AccessVectorModel;
-import model.policy.PolicyModuleModel;
-import model.policy.RuleSetModel;
+import model.policy.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -69,6 +68,8 @@ public class TerminalInterface {
                     case "remove_layer":
                         commandRemoveLayer(inputList);
                         break;
+                    case "load_module": // Have to load module in complete as .te might rely on .if
+                        commandLoadModule(inputList);
                     case "show_module":
                         commandShowModule(inputList);
                         break;
@@ -81,14 +82,11 @@ public class TerminalInterface {
                     case "remove_module":
                         commandRemoveModule(inputList);
                         break;
-                    case "load_interface":
-                        notImplemented();
-                        break;
                     case "add_interface":
                         commandAddInterface(inputList);
                         break;
                     case "lookup_interface":
-                        notImplemented();
+                        commandLookUpInterface(inputList);
                         break;
                     case "show_interface":
                         commandShowInterface(inputList);
@@ -196,6 +194,24 @@ public class TerminalInterface {
         }
     }
 
+    private void commandLoadModule(String[] params) {
+        // load_module <to layer> <name> <te path> <if path> <fc path>
+        try {
+            InterfaceSetModel i = InterfaceSetModel.parser(CustomReader.readAsWholeCode(new File(params[4])));
+            for (InterfaceModel x : i.getInterfaces()) {
+                this.getFocus().getGlobalInterfaceSet().addInterface(x);
+            }
+            TypeEnfModel t = TypeEnfModel.parser(CustomReader.readAsWholeCode(new File(params[3])));
+            FileContextModel f = new FileContextModel();
+            PolicyModuleModel m = new PolicyModuleModel(params[2], t, i, f);
+            this.getFocus().getLayer(params[1]).addPolicyModule(m);
+        } catch (SyntaxParseException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private void commandAddModule(String[] params) {
         // add_module <layer_name> <module_name>
         try {
@@ -280,6 +296,10 @@ public class TerminalInterface {
             case "remove":
                 break;
         }
+    }
+
+    private void commandLookUpInterface(String[] params) {
+
     }
 
     private void commandShowInterface(String[] params) {
