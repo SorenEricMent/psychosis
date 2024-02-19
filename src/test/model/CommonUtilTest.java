@@ -48,9 +48,13 @@ public class CommonUtilTest {
         String[] expected2 = {
                 "define",
                 "(",
-                "`yuuta'",
+                "`",
+                "yuuta",
+                "'",
                 ",",
-                "`bendan'",
+                "`",
+                "bendan",
+                "'",
                 ")"
         };
         String[] expected3 = {

@@ -51,6 +51,6 @@ public class PolicyModuleModel {
     }
 
     public void removeInterface(String interfaceName) {
-        interfaceObject.removeinterface(interfaceName);
+        interfaceObject.removeInterface(interfaceName);
     }
 }

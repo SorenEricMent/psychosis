@@ -71,6 +71,7 @@ public class RuleSetModel {
                 return RuleType.allow;
             case "dontaudit":
                 return RuleType.dontaudit;
+            // THE REST STATEMENTS ARE NOT IMPLEMENTED
             case "neverallow":
                 return RuleType.neverallow;
             case "constrain":
@@ -80,6 +81,10 @@ public class RuleSetModel {
             default:
                 throw new NotFoundException("Unknown rule type" + str);
         }
+    }
+
+    public static boolean isProcessed(String token) {
+        return token.equals("allow") || token.equals("dontaudit");
     }
 
     // EFFECTS: judge if two RuleSetModel is same in rule type
@@ -102,6 +107,7 @@ public class RuleSetModel {
                 || str.equals("mlsconstrain");
     }
 
+    // REQUIRES: last element must be ";"
     // EFFECTS: parse a line of text to RuleSetModel
     public static RuleSetModel ruleSetParser(String[] tokenized) throws SyntaxParseException {
         RuleType rt = toRuleType(tokenized[0]);
@@ -111,6 +117,10 @@ public class RuleSetModel {
 
         HashSet<String> actions = new HashSet<>();
         CommonUtil.Balancer balancer = new CommonUtil.Balancer();
+
+        if (!tokenized[tokenized.length - 1].equals(";")) {
+            throw new SyntaxParseException("Statement without ending delimiter.");
+        }
 
         for (int i = 3; i < tokenized.length - 1; i++) {
             if (CommonUtil.Balancer.isOtherToken(tokenized[i])) {
@@ -123,11 +133,9 @@ public class RuleSetModel {
             }
         }
         if (!balancer.check()) {
-            throw new SyntaxParseException("Unbalanced {}");
+            throw new SyntaxParseException("Unbalanced {}, stack content: " + balancer.toString());
         }
-        if (!tokenized[tokenized.length - 1].equals(";")) {
-            throw new SyntaxParseException("Statement without ending delimiter.");
-        }
+
         return new RuleSetModel(rt, sourceContext, targetContext, targetClass, actions);
     }
 

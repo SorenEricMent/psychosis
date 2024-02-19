@@ -14,6 +14,7 @@ public class FileContextTest {
     @Test
     public void testFileContext() {
         assertNull(fc1.toString());
+        assertNull(fc1.parser(""));
         assertEquals(0, fc1.lineCount());
     }
 }

@@ -48,10 +48,9 @@ public class CommonUtil {
         String[] res = text.split(
                 "(((\\r\\n|[\\r\\n])+|\\s+)|((?=\\{)|(?<=\\{))"
                         + "|((?=\\})|(?<=\\}))|((?=\\()|(?<=\\())|((?=\\))|(?<=\\))))"
-                        + "|((?=,)|(?<=,))|((?=;)|(?<=;))");
+                        + "|((?=,)|(?<=,))|((?=;)|(?<=;))|((?=`)|(?<=`))|((?=')|(?<='))");
         return Arrays.stream(res).filter(t -> !t.equals("")).toArray(String[]::new);
     }
-
 
     // EFFECTS: return if the string is a valid selinux name (no reserved word, a-zA-Z0-9 and _)
     public static boolean tokenValidate(String text) {
@@ -111,6 +110,10 @@ public class CommonUtil {
             return syntaxError;
         }
 
+        public String toString() {
+            return readingString + " " + syntaxError + " " + stack.toString();
+        }
+
         public boolean check() {
             return stack.isEmpty();
         }
@@ -120,9 +123,16 @@ public class CommonUtil {
         // EFFECTS: push a value to stack
         public void push(String val) {
             if (readingString) {
-                if (val.equals("'")) {
+                if (val.equals("`")) {
+                    stack.push("`");
+                } else if (val.equals("'")) {
+                    if (!stack.peek().equals("`")) {
+                        this.syntaxError = true;
+                    }
                     stack.pop();
-                    readingString = false;
+                    if (stack.isEmpty()) {
+                        this.readingString = false;
+                    }
                 }
             } else {
                 switch (val) {

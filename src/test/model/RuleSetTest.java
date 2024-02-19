@@ -122,4 +122,16 @@ public class RuleSetTest {
                     RuleSetModel.ruleSetParser(t2);
                 });
     }
+    @Test
+    public void testToRuleTypeNotImplemented() {
+        assertEquals(RuleSetModel.RuleType.neverallow, RuleSetModel.toRuleType("neverallow"));
+        assertEquals(RuleSetModel.RuleType.constrain, RuleSetModel.toRuleType("constrain"));
+        assertEquals(RuleSetModel.RuleType.mlsconstrain, RuleSetModel.toRuleType("mlsconstrain"));
+    }
+    @Test
+    public void testTokenIsProcessed() {
+        assertTrue(RuleSetModel.isProcessed("allow"));
+        assertTrue(RuleSetModel.isProcessed("dontaudit"));
+        assertFalse(RuleSetModel.isProcessed("mlsconstrain"));
+    }
 }

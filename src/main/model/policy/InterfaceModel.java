@@ -50,13 +50,23 @@ public class InterfaceModel {
         return null;
     }
 
+    public int getRuleNum() {
+        return ruleSetModels.size();
+    }
+
     public void addRuleSetModels(RuleSetModel rule) {
         // First, check if the statement-source-target-targetclass tuple
         // already exists
+        Boolean containEquv = false;
         for (RuleSetModel r : ruleSetModels) {
             if (RuleSetModel.isEquvStatement(r, rule)) {
+                containEquv = true;
                 r.addAction(rule.getActions());
+                break;
             }
+        }
+        if (!containEquv) {
+            ruleSetModels.add(rule);
         }
     }
 
