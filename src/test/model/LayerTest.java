@@ -36,4 +36,10 @@ public class LayerTest {
         assertEquals(expected1, l1.toString());
         assertEquals(expected2, l2.toString());
     }
+    @Test
+    public void testLayerModuleNum() {
+        assertEquals(1, l1.getModulesNum());
+        assertEquals(0, l2.getModulesNum());
+        assertEquals(1, l3.getModulesNum());
+    }
 }

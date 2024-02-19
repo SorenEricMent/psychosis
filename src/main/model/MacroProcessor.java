@@ -20,10 +20,6 @@ public class MacroProcessor {
         macros.add(new Pair<Pattern, String>(Pattern.compile(from, Pattern.LITERAL), to));
     }
 
-    public ArrayList<Pair<Pattern, String>> getMacros() {
-        return macros;
-    }
-
     // EFFECTS: apply all compiled macros to the string.
     public String process(String text) {
         for (Pair<Pattern, String> p : macros) {
@@ -42,9 +38,6 @@ public class MacroProcessor {
         String[] byLine = content.split("\n");
         for (String str : byLine) {
             str = str.strip();
-            if (str.equals("")) {
-                continue;
-            }
             if (!str.startsWith("define(`") || !str.endsWith("')")) {
                 throw new SyntaxParseException("Broken define syntax. Content: " + str);
             }

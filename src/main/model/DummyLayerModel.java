@@ -10,9 +10,11 @@ public class DummyLayerModel extends LayerModel {
         super(name);
     }
 
-    public void addPolicyModules(PolicyModuleModel module) {
-
+    @Override
+    public void addPolicyModule(PolicyModuleModel module) {
+        this.policyModules.put(module.getName(), module);
     }
+
 
     public PolicyModuleModel getPolicyModule(String name) {
         return policyModules.getOrDefault(name, null);
