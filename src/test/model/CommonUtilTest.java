@@ -142,6 +142,14 @@ public class CommonUtilTest {
         test.push("(");
         test.push("'");
         assertFalse(test.isSyntaxError());
+
+        test = new CommonUtil.Balancer();
+        test.push(")");
+        assertTrue(test.isSyntaxError());
+
+        test = new CommonUtil.Balancer();
+        test.push("}");
+        assertTrue(test.isSyntaxError());
     }
 
     @Test
@@ -167,5 +175,15 @@ public class CommonUtilTest {
 
         assertFalse(CommonUtil.isIgnored("allow"));
         assertFalse(CommonUtil.isIgnored("dontaudit"));
+    }
+    @Test
+    public void testIsOtherToken() {
+        assertFalse(CommonUtil.Balancer.isOtherToken("`"));
+        assertFalse(CommonUtil.Balancer.isOtherToken("'"));
+        assertFalse(CommonUtil.Balancer.isOtherToken("{"));
+        assertFalse(CommonUtil.Balancer.isOtherToken("}"));
+        assertFalse(CommonUtil.Balancer.isOtherToken("("));
+        assertFalse(CommonUtil.Balancer.isOtherToken(")"));
+        assertTrue(CommonUtil.Balancer.isOtherToken("a"));
     }
 }

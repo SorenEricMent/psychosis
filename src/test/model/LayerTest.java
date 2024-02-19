@@ -1,5 +1,6 @@
 package model;
 
+import model.exception.NotFoundException;
 import model.policy.LayerModel;
 import model.policy.PolicyModuleModel;
 import org.junit.jupiter.api.*;
@@ -24,6 +25,9 @@ public class LayerTest {
     @Test
     public void testLayerAndModule() {
         assertEquals(p1, l1.getPolicyModule("p1"));
+        assertThrows(NotFoundException.class, () -> {
+           l1.getPolicyModule("not_exist");
+        });
     }
     @Test
     public void testDummyLayerAndModule() {

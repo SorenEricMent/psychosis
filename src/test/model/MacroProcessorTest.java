@@ -65,5 +65,8 @@ public class MacroProcessorTest {
         assertThrows(SyntaxParseException.class, () -> {
             MacroProcessor.macroRuleParser(CustomReader.readAsWholeCode(testFile));
         });
+        assertThrows(SyntaxParseException.class, () -> {
+            MacroProcessor.macroRuleParser("define(`broken");
+        });
     }
 }

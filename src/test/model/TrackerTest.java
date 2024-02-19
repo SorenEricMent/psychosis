@@ -35,6 +35,8 @@ public class TrackerTest {
                 testTracker1.queryInterfaceWithSLabel("test_t"));
         assertEquals(expected2,
                 testTracker1.queryInterfaceWithTLabel("test2_t"));
+        testTracker1.insertInterfaceWithSLabel("test2_t", testInf1);
+        testTracker1.insertInterfaceWithTLabel("test_t", testInf2);
     }
     @Test
     public void testTagTracker() {
@@ -54,5 +56,6 @@ public class TrackerTest {
 
         assertEquals(expected1, testTracker1.queryInterfaceWithTag("testtag1"));
         assertEquals(expected2, testTracker1.queryInterfaceWithTag("testtag2"));
+
     }
 }

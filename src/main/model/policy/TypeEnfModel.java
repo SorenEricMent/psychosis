@@ -101,8 +101,14 @@ public class TypeEnfModel extends FileObjectModel implements Encodeable, Decodea
                 int end = getEnd(i + 1, tokenized);
                 i = end;
             } else {
-                int end = getEnd(i + 1, tokenized);
-                res.addInterfaceCall(tokenized[i], Arrays.copyOfRange(tokenized, i + 2, end - 1));
+                int end = getEnd(i + 1, tokenized) + 2;
+                if (i + 1 == end - 1) {
+                    String[] placeholder = {};
+                    res.addInterfaceCall(tokenized[i], placeholder);
+                } else {
+                    res.addInterfaceCall(tokenized[i], Arrays.copyOfRange(tokenized, i + 1, end - 1));
+                }
+                i = end;
             }
         }
         return res;

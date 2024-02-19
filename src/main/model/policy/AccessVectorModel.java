@@ -120,8 +120,6 @@ public class AccessVectorModel {
                     if (tokenized[i + 2].equals("inherits")) {
                         if (results.containsKey(currentClassName)) {
                             results.get(currentClassName).addAll(commons.get(tokenized[i + 3]));
-                        } else {
-                            results.put(currentClassName, new HashSet<String>());
                         }
                         i = i + 3;
                     } else {

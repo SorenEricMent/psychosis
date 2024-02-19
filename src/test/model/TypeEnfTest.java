@@ -10,6 +10,7 @@ import model.exception.SyntaxParseException;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.HashSet;
 
 public class TypeEnfTest {
@@ -135,5 +136,29 @@ public class TypeEnfTest {
                 RuleSetModel.RuleType.allow, "yuuta_t", "winslow_laptop_t", "system", act5));
         assertEquals(act5, res);
         assertTrue(check1.equals(t1));
+    }
+    @Test
+    public void testTypeEnfParseWithInterface() {
+        try {
+            String testStr = CustomReader.readAsWholeCode(
+                    new File("./data/testfiles/InterfaceTest/test_te_call_interface_static"));
+            TypeEnfModel t = TypeEnfModel.parser(testStr);
+        } catch (IOException e) {
+            fail(e);
+        } catch (SyntaxParseException e) {
+            fail(e);
+        }
+    }
+    @Test
+    public void testTypeEnfParseWithInterfaceVar() {
+        try {
+            String testStr = CustomReader.readAsWholeCode(
+                    new File("./data/testfiles/InterfaceTest/test_te_call_interface_variable"));
+            TypeEnfModel t = TypeEnfModel.parser(testStr);
+        } catch (IOException e) {
+            fail(e);
+        } catch (SyntaxParseException e) {
+            fail(e);
+        }
     }
 }

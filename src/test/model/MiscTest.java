@@ -14,5 +14,7 @@ public class MiscTest {
         } catch (SyntaxParseException e) {
             fail(e);
         }
+        CommonUtil commonUtil = new CommonUtil();
+        // All methods in commonUtil are static but Jacoco complains about it is not being newed.
     }
 }
