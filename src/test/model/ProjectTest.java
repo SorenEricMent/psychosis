@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
+import model.policy.AccessVectorModel;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -139,6 +140,23 @@ public class ProjectTest {
         testProj.addModule("test", "test");
         testProj.removeModule("test", "test");
         testProj.addInterface("test", "test", "test");
+        testProj.removeInterface("test", "test", "test");
 
+        AccessVectorModel testAV = new AccessVectorModel();
+        testProj.setAccessVectors(testAV);
+        assertEquals(testAV, testProj.getAccessVectors());
+    }
+    @Test
+    public void testProjectTempMisc() {
+        // TempProject has actually functionality to test for Phase 1
+        ProjectModel testProj = new TempProjectModel("test");
+        testProj.addInterface("test", "test_module", "yuuta");
+        assertThrows(NotFoundException.class, () -> {
+            testProj.addInterface("test", "excp", "yuuta");
+            // Adding to a non-exist module
+        });
+        testProj.removeInterface("test", "test_module", "yuuta");
+        testProj.removeModule("test", "test_module");
+        assertEquals(0, testProj.getLayer("test").getModulesNum());
     }
 }

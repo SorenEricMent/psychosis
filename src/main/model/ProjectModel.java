@@ -59,11 +59,6 @@ public class ProjectModel {
         this.accessVectors = accessVectors;
     }
 
-    // EFFECT: getter for layers
-    public ArrayList<LayerModel> getLayers() {
-        return this.layers;
-    }
-
     public enum PolicyCapabilities {
         network_peer_controls,
         open_perms,
@@ -175,21 +170,9 @@ public class ProjectModel {
         return result;
     }
 
-    public void updateRule() {
-
-    }
-
-    public void removeRule() {
-
-    }
-
     public void addInterface(String layerName, String moduleName, String interfaceName) {
 //        this.getLayer(layerName).getPolicyModule(moduleName).addInterface(
 //                new InterfaceModel(interfaceName, true));
-    }
-
-    public void updateInterface() {
-
     }
 
     public void removeInterface(String layerName, String moduleName, String interfaceName) {

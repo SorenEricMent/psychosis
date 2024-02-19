@@ -2,10 +2,7 @@ package model;
 
 import model.exception.NotFoundException;
 import model.exception.SyntaxParseException;
-import model.policy.AccessVectorModel;
-import model.policy.InterfaceModel;
-import model.policy.InterfaceSetModel;
-import model.policy.RuleSetModel;
+import model.policy.*;
 import org.junit.jupiter.api.*;
 
 import java.io.File;
@@ -149,5 +146,29 @@ public class InterfaceTest {
         } catch (IOException e) {
             fail("IO Exception, this should not happen & check CustomReaderTest!");
         }
+    }
+    @Test
+    public void testInterfaceCall() {
+        File testFile = new File("./data/testfiles/InterfaceTest/test_interface_multidef");
+        InterfaceSetModel test = null;
+        String fileContent = "";
+        try {
+            fileContent = CustomReader.readAsWholeCode(testFile);
+        } catch (IOException e) {
+            fail("IO Exception, this should not happen & check CustomReaderTest!");
+        }
+        try {
+            test = InterfaceSetModel.parser(fileContent);
+        } catch (SyntaxParseException e) {
+            fail(e);
+        }
+        String[] args1 = {};
+        String[] args2 = {"head"};
+
+        assertEquals(
+                "allow yuuta_t winslow_t:winslow { hug };\n",
+                test.getInterface("yuuta").call(args1).toStringRuleOnly());
+        assertEquals("allow yuuta_head_t self:yuuta { eat };\n",
+                test.getInterface("bendan").call(args2).toStringRuleOnly());
     }
 }

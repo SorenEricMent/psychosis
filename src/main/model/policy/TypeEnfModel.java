@@ -128,7 +128,7 @@ public class TypeEnfModel extends FileObjectModel implements Encodeable, Decodea
     }
 
     // EFFECTS: export the content without process interface call
-    public String readRaw() {
+    public String toString() {
         String res = "";
         res = res.concat("policy_module(" + this.getName() + ")\n\n");
 
@@ -136,7 +136,7 @@ public class TypeEnfModel extends FileObjectModel implements Encodeable, Decodea
 
         // Concat rules
         for (RuleSetModel r : statementsFO) {
-            res = res.concat(r.toString());
+            res = res.concat(r.toString() + "\n");
         }
 
         // Concat interface calls
@@ -144,6 +144,15 @@ public class TypeEnfModel extends FileObjectModel implements Encodeable, Decodea
             res = res.concat(
                     p.getFirst() + "(" + String.join(",", p.getSecond()) + ")"
             );
+        }
+        return res;
+    }
+
+    // EFFECTS: export only first order statement
+    public String toStringRuleOnly() {
+        String res = "";
+        for (RuleSetModel r : statementsFO) {
+            res = res.concat(r.toString() + "\n");
         }
         return res;
     }
@@ -169,11 +178,6 @@ public class TypeEnfModel extends FileObjectModel implements Encodeable, Decodea
             );
         }
         return res;
-    }
-
-    @Override
-    public String toString() {
-        return null;
     }
 
     public int lineCount() {

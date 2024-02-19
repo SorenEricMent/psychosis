@@ -82,16 +82,17 @@ public class InterfaceModel {
             variableSubstitute.addMacro("$".concat(Integer.toString(i + 1)), args[i]);
         }
         for (RuleSetModel r : ruleSetModels) {
+            RuleSetModel parsed = new RuleSetModel(
+                    r.getRuleType(),
+                    variableSubstitute.process(r.getSourceContext()),
+                    variableSubstitute.process(r.getTargetContext()),
+                    variableSubstitute.process(r.getTargetClass()),
+                    r.getActions()
+                    // Technically get Actions should also be parsed with macro
+                    // But I've never seen such usage in Refpolicy
+            );
             res.addStatement(
-                    new RuleSetModel(
-                            r.getRuleType(),
-                            variableSubstitute.process(r.getSourceContext()),
-                            variableSubstitute.process(r.getTargetContext()),
-                            variableSubstitute.process(r.getTargetClass()),
-                            r.getActions()
-                            // Technically get Actions should also be parsed with macro
-                            // But I've never seen such usage in Refpolicy
-                    )
+                    parsed
             );
         }
         return res;

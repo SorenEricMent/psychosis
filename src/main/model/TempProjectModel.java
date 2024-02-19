@@ -35,15 +35,9 @@ public class TempProjectModel extends ProjectModel {
                     .getPolicyModule(moduleName)
                     .addInterface(toAdd);
             this.getGlobalInterfaceSet().addInterface(toAdd);
-
         } catch (NullPointerException e) {
             throw new NotFoundException(e.getMessage());
         }
-    }
-
-    @Override
-    public void updateInterface() {
-
     }
 
     @Override
