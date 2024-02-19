@@ -299,6 +299,7 @@ public class TerminalInterface {
     }
 
     private void commandLookUpInterface(String[] params) {
+        // lookup_interface <unspec/userdefined> name=name tag=tag1,tag2
 
     }
 
@@ -331,8 +332,8 @@ public class TerminalInterface {
     }
 
     private void commandEditTypeEnf(String[] params) {
-        // edit_typeenf <layer_name> <module_name> <add/remove> <RuleType>
-        // <source context> <target_context> <target_class> [listof actions]
+        // edit_typeenf <layer_name> <module_name> <add/remove/add_inf/remove_inf> <RuleType>
+        // <source context> <target_context> <target_class> [listof actions] (add_inf/remove_inf infname [listof args])
         HashSet<String> actions = new HashSet<String>();
         if (params[3].equals("add")) {
             Collections.addAll(actions, Arrays.copyOfRange(params, 8, params.length));
