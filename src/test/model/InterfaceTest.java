@@ -98,6 +98,20 @@ public class InterfaceTest {
                         "allow test_s_t test_t_t:test { testact testact2 };\n" +
                         "')",
                 i1.toString());
+        i1.addRuleSetModels(r1);
+        assertEquals(
+                "interface(`test1',`\n" +
+                        "allow test_s_t test_t_t:test { testact testact2 };\n" +
+                        "')",
+                i1.toString());
+        i2.addRuleSetModels(r3);
+        i2.addRuleSetModels(r5);
+        assertEquals(
+                "interface(`test2',`\n" +
+                        "allow test_s_t test_t_t:test { testact testact2 };\n" +
+                        "allow test_s2_t test_t2_t:test { testact testact3 testact2 };\n" +
+                        "')",
+                i2.toString());
     }
     @Test
     public void testInterfaceSetRuleSet() {
@@ -176,6 +190,12 @@ public class InterfaceTest {
             });
             assertThrows(SyntaxParseException.class, () -> {
                 InterfaceSetModel.parser("template(`x',`allow x y:z { a };");
+            });
+            assertThrows(SyntaxParseException.class, () -> {
+                InterfaceSetModel.parser("interface(`x',`require {}})");
+            });
+            assertThrows(SyntaxParseException.class, () -> {
+                InterfaceSetModel.parser("interface(`x',})");
             });
         } catch (IOException e) {
             fail("IO Exception, this should not happen & check CustomReaderTest!");

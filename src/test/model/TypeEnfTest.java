@@ -148,6 +148,12 @@ public class TypeEnfTest {
                 RuleSetModel.RuleType.allow, "yuuta_t", "winslow_laptop_t", "system", act5));
         assertEquals(act5, res);
         assertTrue(check1.equals(t1));
+        assertNull(t1.removeStatement(new RuleSetModel(
+                RuleSetModel.RuleType.allow,
+                "yuuta_arm_t",
+                "winslow_t",
+                "winslow",
+                act1)));
     }
     @Test
     public void testTypeEnfParseWithInterface() {

@@ -42,8 +42,7 @@ public class InterfaceModel {
     }
 
     public void addRuleSetModels(RuleSetModel rule) {
-        // First, check if the statement-source-target-targetclass tuple
-        // already exists
+        // First, check if the statement-source-target-targetclass tuple already exists
         Boolean containEquv = false;
         for (RuleSetModel r : ruleSetModels) {
             if (RuleSetModel.isEquvStatement(r, rule)) {

@@ -1,5 +1,6 @@
 package model;
 
+import model.exception.NotFoundException;
 import model.exception.SyntaxParseException;
 import model.policy.AccessVectorModel;
 import model.policy.RuleSetModel;
@@ -127,6 +128,9 @@ public class RuleSetTest {
         assertEquals(RuleSetModel.RuleType.neverallow, RuleSetModel.toRuleType("neverallow"));
         assertEquals(RuleSetModel.RuleType.constrain, RuleSetModel.toRuleType("constrain"));
         assertEquals(RuleSetModel.RuleType.mlsconstrain, RuleSetModel.toRuleType("mlsconstrain"));
+        assertThrows(NotFoundException.class, () -> {
+            RuleSetModel.toRuleType("yuuta");
+        });
     }
     @Test
     public void testTokenIsProcessed() {

@@ -28,6 +28,9 @@ public class LayerTest {
         assertThrows(NotFoundException.class, () -> {
            l1.getPolicyModule("not_exist");
         });
+        assertThrows(NotFoundException.class, () -> {
+            l1.removePolicyModule("not_exist");
+        });
     }
     @Test
     public void testDummyLayerAndModule() {

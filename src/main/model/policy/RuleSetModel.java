@@ -40,10 +40,6 @@ public class RuleSetModel {
         this.actions.addAll(actions);
     }
 
-    public boolean existAction(String str) {
-        return actions.contains(str);
-    }
-
     public RuleType getRuleType() {
         return this.ruleType;
     }
