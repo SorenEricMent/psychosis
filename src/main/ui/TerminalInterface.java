@@ -300,7 +300,20 @@ public class TerminalInterface {
 
     private void commandLookUpInterface(String[] params) {
         // lookup_interface <unspec/userdefined> name=name tag=tag1,tag2
-
+        try {
+            // lookup in global interface object
+            ArrayList<String> res = new ArrayList<>();
+            for (InterfaceModel i : this.getFocus().getGlobalInterfaceSet().getInterfaces()) {
+                if ((params[2].equals("unspec") && !i.getIsUserDefined())
+                        || (params[2].equals("userdefined") && i.getIsUserDefined())) {
+                    // TODO: tags
+                    res.add(i.getName());
+                }
+            }
+            System.out.println("Interfaces matches your search: " + String.join(" ", res));
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Not enough params.");
+        }
     }
 
     private void commandShowInterface(String[] params) {
@@ -343,6 +356,23 @@ public class TerminalInterface {
                             actions));
         } else if (params[3].equals("remove")) {
             // Output if exists such rules
+            Collections.addAll(actions, Arrays.copyOfRange(params, 8, params.length));
+            HashSet<String> res =
+                    this.getFocus().getLayer(params[1]).getPolicyModule(params[2]).getTypeEnf().removeStatement(
+                            new RuleSetModel(RuleSetModel.toRuleType(
+                            params[4]), params[5], params[6], params[7],
+                            actions));
+            System.out.println("Success. The following actions in the original type enforcement are preserved: "
+                    + String.join(" ", res));
+        } else if (params[3].equals("add_inf")) {
+            // Output if exists such rules
+            this.getFocus().getLayer(params[1]).getPolicyModule(params[2]).getTypeEnf().addInterfaceCall(params[3],
+                    Arrays.copyOfRange(params, 4, params.length));
+        } else if (params[3].equals("remove_inf")) {
+            // Output if exists such rules
+            // this.getFocus().getLayer(params[1]).
+            // getPolicyModule(params[2]).getTypeEnf().removeInterfaceCall(params[3]);
+            //todo
         } else {
             System.out.println("Unknown actions");
         }
