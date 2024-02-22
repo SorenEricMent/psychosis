@@ -12,6 +12,7 @@ import model.policy.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class TerminalInterface {
     //Debugging command line for Phase 1
@@ -142,9 +143,28 @@ public class TerminalInterface {
         return loadedProjects.get(currentWorkIndex);
     }
 
-    private void commandCreateProject() {
-        // create_project <basis (test/refpolicy/custom)> [custom]:<path> name
+    private void commandCreateProject(String[] params) {
+        // create_project <basis (test/refpolicy/empty)> [custom]:<path> name
         // the latter is not yet implemented in Phase 1, TODO
+        try {
+            //TODO
+            ProjectModel proj;
+            if (params[1].equals("test")) {
+                proj = new TempProjectModel(params[2]);
+                System.out.println("Created new test project " + params[2]);
+                loadedProjects.add(proj);
+            } else if (params[1].equals("refpolicy")) {
+                notImplemented();
+            } else if (params[1].equals("empty")) {
+                proj = new ProjectModel(params[2], params[3]);
+                System.out.println("Created new empty project " + params[2]);
+                loadedProjects.add(proj);
+            } else {
+                System.out.println("Unknown project-creation basis");
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Not enough params.");
+        }
     }
 
     private void commandShowProject() {
@@ -286,31 +306,67 @@ public class TerminalInterface {
     }
 
     private void commandEditInterface(String[] params) {
-        // edit_interface <layer_name> <module_name> <interface_name>
+        // edit_interface <interface_name>
         // <add/remove> <allow/dontaudit> <source_label> <target_label> <target_class> [action_list]
 
         // VALIDATE WITH WEAK!
-        switch (params[1]) {
+        HashSet<String> actions = new HashSet<String>();
+        switch (params[2]) {
             case "add":
+                Collections.addAll(actions, Arrays.copyOfRange(params, 7, params.length));
+                this.getFocus().getGlobalInterfaceSet().getInterface(params[2]).addRuleSetModels(
+                        new RuleSetModel(RuleSetModel.toRuleType(
+                                params[3]), params[4], params[5], params[6],
+                                actions)
+                );
                 break;
             case "remove":
-                break;
+                Collections.addAll(actions, Arrays.copyOfRange(params, 7, params.length));
+//                this.getFocus().getGlobalInterfaceSet().getInterface(params[2]).removeRuleSetModels(
+//                        new RuleSetModel(RuleSetModel.toRuleType(
+//                                params[3]), params[4], params[5], params[6],
+//                                actions)
+//                );
+//                break;
+                // TODO
         }
     }
 
     private void commandLookUpInterface(String[] params) {
-        // lookup_interface <unspec/userdefined> name=name tag=tag1,tag2
+        // lookup_interface <unspec/userdefined> name=name sl=<name/none> tl=<name/none> tag=tag1,tag2
         try {
             // lookup in global interface object
-            ArrayList<String> res = new ArrayList<>();
-            for (InterfaceModel i : this.getFocus().getGlobalInterfaceSet().getInterfaces()) {
-                if ((params[2].equals("unspec") && !i.getIsUserDefined())
-                        || (params[2].equals("userdefined") && i.getIsUserDefined())) {
-                    // TODO: tags
-                    res.add(i.getName());
-                }
+            HashSet<InterfaceModel> search = new HashSet<>();
+            Collections.addAll(search,
+                    this.getFocus().getGlobalInterfaceSet().getInterfaces().toArray(InterfaceModel[]::new));
+
+            // getInterfaces has the guarantee of uniqueness
+            // Truncate search range corresponding to source label / target label
+            if (!params[2].equals("none")) {
+                // intersection set with Tracker-sl
+                // search.retainAll();
             }
-            System.out.println("Interfaces matches your search: " + String.join(" ", res));
+            if (!params[3].equals("none")) {
+                // intersection set with Tracker-tl
+            }
+
+//            for (InterfaceModel i : this.getFocus().getGlobalInterfaceSet().getInterfaces()) {
+//                if ((params[2].equals("unspec") && !i.getIsUserDefined())
+//                        || (params[2].equals("userdefined") && i.getIsUserDefined())) {
+//                    // TODO: tags
+//                    res.add(i.getName());
+//                }
+//            }
+
+            // User-defined & tag filter
+            search = (HashSet<InterfaceModel>) search.stream().filter(x -> {
+                return (params[2].equals("userdefined") && x.getIsUserDefined())
+                        || (params[2].equals("unspec") && x.getIsUserDefined());
+            }).collect(Collectors.toSet());
+
+            System.out.println("Interfaces matches your search: " + String.join(" ", search.stream().map((x) -> {
+                return x.getName();
+            }).toArray(String[]::new)));
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Not enough params.");
         }
