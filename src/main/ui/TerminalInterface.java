@@ -1,9 +1,6 @@
 package ui;
 
-import model.CommonUtil;
-import model.CustomReader;
-import model.ProjectModel;
-import model.TempProjectModel;
+import model.*;
 import model.exception.DuplicateException;
 import model.exception.NotFoundException;
 import model.exception.SyntaxParseException;
@@ -17,7 +14,8 @@ import java.util.stream.Collectors;
 public class TerminalInterface {
     //Debugging command line for Phase 1
 
-    private final ArrayList<ProjectModel> loadedProjects = new ArrayList<>();
+    private final ArrayList<
+            Pair<ProjectModel, TrackerModel>> loadedProjects = new ArrayList<>();
     private final Integer currentWorkIndex = 0;
     // Object 0 is an empty non-saving test only project
 
@@ -26,7 +24,9 @@ public class TerminalInterface {
     private boolean isRunning = true;
 
     TerminalInterface() {
-        this.loadedProjects.add(new TempProjectModel("temp"));
+        this.loadedProjects.add(
+                new Pair<>(new TempProjectModel("temp"),
+                        new TrackerModel()));
     }
 
     @SuppressWarnings("methodlength")
@@ -140,7 +140,7 @@ public class TerminalInterface {
 
     // EFFECT: return the project that is currently working on
     private ProjectModel getFocus() {
-        return loadedProjects.get(currentWorkIndex);
+        return loadedProjects.get(currentWorkIndex).getFirst();
     }
 
     private void commandCreateProject(String[] params) {
@@ -152,13 +152,15 @@ public class TerminalInterface {
             if (params[1].equals("test")) {
                 proj = new TempProjectModel(params[2]);
                 System.out.println("Created new test project " + params[2]);
-                loadedProjects.add(proj);
+                loadedProjects.add(
+                        new Pair<>(proj, new TrackerModel()));
             } else if (params[1].equals("refpolicy")) {
                 notImplemented();
             } else if (params[1].equals("empty")) {
                 proj = new ProjectModel(params[2], params[3]);
                 System.out.println("Created new empty project " + params[2]);
-                loadedProjects.add(proj);
+                loadedProjects.add(
+                        new Pair<>(proj, new TrackerModel()));
             } else {
                 System.out.println("Unknown project-creation basis");
             }
@@ -209,8 +211,8 @@ public class TerminalInterface {
 
     private void commandListProject() {
         System.out.print("Loaded projects: ");
-        for (ProjectModel project : loadedProjects) {
-            System.out.print(project.getName() + " ");
+        for (Pair<ProjectModel, TrackerModel> project : loadedProjects) {
+            System.out.print(project.getFirst().getName() + " ");
         }
     }
 

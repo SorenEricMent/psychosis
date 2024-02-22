@@ -23,10 +23,7 @@ Psychosis allow you to live-view the documentations on modules, interfaces and t
 All Psychosis's persistentize files are in JSON, therefore an ASCII text file.
 ### Workspace files (.pcsw)
 Workspace files store the workspace information, including:
-- Labs opened
-
-### Project files (.pcsp)
-Project files store the SELinux policy in a specially-compiled format. This compilation is not the compilation when you are building the SELinux policy to binary format but a processed version of the policy so it is easier for Psychosis to work with. This is necessary because Psychosis need to process the policy before working on it to provide most of the funcionalities.
+- Project opened
 
 ## User Stories
 
