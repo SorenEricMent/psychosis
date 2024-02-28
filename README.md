@@ -33,11 +33,17 @@ As a user, I want to be able to:
   - Rule set model
   - .te parser (very simple parser)
   - Project model
-- Having autocomplete hint lists when editing based on inputted content
-  - Removed
+- Opening and performing editing on an arbitrary number of SELinux policy interface files (including policy and file context files) in the current workspace
+
+- Use interface to compile .te rulesets into full rulesets
+
+- Add new layers (a set of Modules) and new Modules(a .te, .if and a .fc file) to projects
+
 - Looking up an interface or an attribute that would allow a specific operation. (Only first-order statements am I planning to support)
 - Have a track on new interfaces or templates that was defined by the user. (Be able to add or remove interfaces or templates to "user-defined" list)
 - Able to assign interfaces or templates with Tags for easier lookup (Be able to add or remove interfaces or templates to the list corresponding to the Tag via a HashMap)
 - Lookup interfaces or templates via tags, name or description.
+
+
 - (EXTRA FUNCTIONALITY) Full SELinux language parser for the funcionality above (I only plan to support first-order statements with no advanced supports like Interface calls and a full language parser would be extremely hard, but I will try if it's possible)
 ## Instructions

@@ -16,7 +16,7 @@ public class TerminalInterface {
 
     private final ArrayList<
             Pair<ProjectModel, TrackerModel>> loadedProjects = new ArrayList<>();
-    private final Integer currentWorkIndex = 0;
+    private Integer currentWorkIndex = 0;
     // Object 0 is an empty non-saving test only project
 
     private final Scanner scanner = new Scanner(System.in);
@@ -45,11 +45,13 @@ public class TerminalInterface {
                                 + " edit_filecontext tag_add_interface tag_rm_interface load_access_vectors"
                                 + " show_capability load_capability");
                         break;
+                    case "load_workspace":
+                    case "save_workspace":
                     case "create_project":
-                        notImplemented();
+                        commandCreateProject(inputList);
                         break;
                     case "select_project":
-                        notImplemented();
+                        commandSelectProject(inputList);
                         break;
                     case "load_project":
                         notImplemented();
@@ -114,7 +116,7 @@ public class TerminalInterface {
                         commandLoadAccessVectors(inputList);
                         break;
                     case "show_capability":
-                        notImplemented();
+                        commandShowCapability(inputList);
                         break;
                     case "load_capability":
                         notImplemented();
@@ -167,6 +169,10 @@ public class TerminalInterface {
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Not enough params.");
         }
+    }
+
+    private void commandSelectProject(String[] params) {
+        this.currentWorkIndex = Integer.parseInt(params[1]);
     }
 
     private void commandShowProject() {
@@ -228,9 +234,9 @@ public class TerminalInterface {
             PolicyModuleModel m = new PolicyModuleModel(params[2], t, i, f);
             this.getFocus().getLayer(params[1]).addPolicyModule(m);
         } catch (SyntaxParseException e) {
-            throw new RuntimeException(e);
+            System.out.println("Error in syntax: " + e);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("Exception in reading file: " + e);
         }
     }
 
@@ -461,6 +467,11 @@ public class TerminalInterface {
         }
     }
 
+    private void commandShowCapability(String[] params) {
+        // show_capability
+    }
+
+    
 
     public static AccessVectorModel loadAccessVectors(String accessVectorPath, String securityClassPath)
             throws IOException, SyntaxParseException {
