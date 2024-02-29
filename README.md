@@ -37,7 +37,9 @@ As a user, I want to be able to:
 
 - Use interface to compile .te rulesets into full rulesets
 
-- Add new layers (a set of Modules) and new Modules(a .te, .if and a .fc file) to projects
+- Add new layers (a set of Modules) to projects
+- Add new Modules(a .te, .if and a .fc file) to layers
+- Check the overview of Project / Layer / Modules
 
 - Looking up an interface or an attribute that would allow a specific operation. (Only first-order statements am I planning to support)
 - Have a track on new interfaces or templates that was defined by the user. (Be able to add or remove interfaces or templates to "user-defined" list)
