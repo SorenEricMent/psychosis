@@ -73,9 +73,10 @@ public class InterfaceModel {
         return this.name;
     }
 
+
+    // EFFECTS: Replace args into Interface / template to create a
+    //      pseudo TypeEnfModel (a set of rules)
     public TypeEnfModel call(String[] args) {
-        // Replace args into Interface / template to create a
-        // pseudo TypeEnfModel (a set of rules)
         TypeEnfModel res = new TypeEnfModel("_");
         MacroProcessor variableSubstitute = new MacroProcessor();
         for (int i = 0; i < args.length; i++) {

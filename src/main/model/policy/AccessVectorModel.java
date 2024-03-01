@@ -6,10 +6,14 @@ import model.exception.SyntaxParseException;
 import java.util.HashMap;
 import java.util.HashSet;
 
+// The model of refpolicy's type system (access_vectors and security_classes)
+// not currently enforced
+// TODO: enforce security_classes matches with access_vectors and lookup method for future enf system
 public class AccessVectorModel {
 
     private final HashMap<String, HashSet<String>> accessVector;
 
+    // EFFECTS: init AccessVectorModel with a empty set of accessVector
     public AccessVectorModel() {
         accessVector = new HashMap<String, HashSet<String>>();
     }
@@ -42,6 +46,7 @@ public class AccessVectorModel {
         this.accessVector.get(className).add(actionName);
     }
 
+    // EFFECTS: add all actions from "from" to access vectors with key as the key
     public void batchAddAction(HashMap<String, HashSet<String>> from) {
         for (String s : from.keySet()) {
             this.accessVector.putIfAbsent(s, new HashSet<String>());
@@ -49,6 +54,8 @@ public class AccessVectorModel {
         }
     }
 
+    // REQUIRES: this parser does not specially require readAsWholeCode like others as it is implemented differently
+    // EFFECTS: parse a line of security class definition to the class's name
     public static String securityClassParser(String line) throws SyntaxParseException {
         // Within a line, all content after # is considered a comment;
         // Note: could return null - no definition from the line

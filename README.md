@@ -11,7 +11,7 @@ Psychosis will provide auto-complete on
 - Interface names
 - Template names
 ### Constraint check
-Psychosis provides in-edit neverallow, and dontaudit violation hecks.
+Psychosis provides in-edit neverallow, and dontaudit violation checks.
 Psychosis will also prompt you if a rule is not in effect due to factors like policy capability.
 ### Hinting
 Psychosis will hint you on using interfaces. When you created a rule that can be allowed via interface, you will be prompted to use that interface.
@@ -21,9 +21,11 @@ Psychosis allow you to live-view the documentations on modules, interfaces and t
 
 ## Persistent 
 All Psychosis's persistentize files are in JSON, therefore an ASCII text file.
+
+### Workspace files (.pcsj)
+A file that could be used to restore a whole Psychosis project(.te, .if and .fc)
 ### Workspace files (.pcsw)
-Workspace files store the workspace information, including:
-- Project opened
+Workspace files store the workspace information, including all the projects and their filesystem path.
 
 ## User Stories
 
@@ -47,5 +49,11 @@ As a user, I want to be able to:
 - Lookup interfaces or templates via tags, name or description.
 
 
-- (EXTRA FUNCTIONALITY) Full SELinux language parser for the funcionality above (I only plan to support first-order statements with no advanced supports like Interface calls and a full language parser would be extremely hard, but I will try if it's possible)
+- (EXTRA FUNCTIONALITY) Full SELinux language parser for the functionality above (I only plan to support first-order statements with no advanced supports like Interface calls and a full language parser would be extremely hard, but I will try if it's possible)
+	- First-order Interface calls are already supported!
+
+- Save project independently to a .pcsj file
+- Load .pcsj file to a project in the workspace
+- Save the whole program state to a .pcsw workspace file
+- Load from a .pcsw workspace file to recover the whole previous program state
 ## Instructions

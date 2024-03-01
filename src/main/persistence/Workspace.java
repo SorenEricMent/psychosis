@@ -1,4 +1,4 @@
-package persistent;
+package persistence;
 
 import model.Decodeable;
 import model.Encodeable;

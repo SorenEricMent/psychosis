@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Stack;
 
 public class CommonUtil {
+    // Helper functions that is used (or expected to be used) commonly across Psychosis
 
     // EFFECT: return the first # position, if none, return -1
     public static int commentLocate(String line) {

@@ -46,7 +46,9 @@ public class TerminalInterface {
                                 + " show_capability load_capability");
                         break;
                     case "load_workspace":
-                    case "save_workspace":
+                        commandLoadWorkspace(inputList);
+                    case "export_workspace":
+                        commandExportWorkspace(inputList);
                     case "create_project":
                         commandCreateProject(inputList);
                         break;
@@ -54,8 +56,10 @@ public class TerminalInterface {
                         commandSelectProject(inputList);
                         break;
                     case "load_project":
-                        notImplemented();
+                        commandLoadProject(inputList);
                         break;
+                    case "export_project":
+                        commandExportProject(inputList);
                     case "list_project":
                         commandListProject();
                         break;
@@ -145,6 +149,24 @@ public class TerminalInterface {
         return loadedProjects.get(currentWorkIndex).getFirst();
     }
 
+    // EFFECTS: export a single project to a JSON
+    private void commandExportProject(String[] params) {
+        // export_project: <path>
+    }
+
+    // EFFECTS: export all current projects into a workspace file (name and a list of projects / path)
+    private void commandExportWorkspace(String[] params) {
+        // export_workspace <workspace_name> <path>
+    }
+
+    private void commandLoadWorkspace(String[] params) {
+        // load_workspace
+    }
+
+    private void commandLoadProject(String[] params) {
+        // load_project: <path>
+    }
+
     private void commandCreateProject(String[] params) {
         // create_project <basis (test/refpolicy/empty)> [custom]:<path> name
         // the latter is not yet implemented in Phase 1, TODO
@@ -153,14 +175,15 @@ public class TerminalInterface {
             ProjectModel proj;
             if (params[1].equals("test")) {
                 proj = new TempProjectModel(params[2]);
-                System.out.println("Created new test project " + params[2]);
+                System.out.println("Created new test project (not on filesystem!) " + params[2]);
                 loadedProjects.add(
                         new Pair<>(proj, new TrackerModel()));
             } else if (params[1].equals("refpolicy")) {
                 notImplemented();
+                System.out.println("Psychosis dropped plan for refpolicy support ");
             } else if (params[1].equals("empty")) {
                 proj = new ProjectModel(params[2], params[3]);
-                System.out.println("Created new empty project " + params[2]);
+                System.out.println("Created new empty project " + params[2] + "at filesystem location " + params[3]);
                 loadedProjects.add(
                         new Pair<>(proj, new TrackerModel()));
             } else {
@@ -171,8 +194,9 @@ public class TerminalInterface {
         }
     }
 
+    // EFFECTS: update the project selected
     private void commandSelectProject(String[] params) {
-        this.currentWorkIndex = Integer.parseInt(params[1]);
+        this.currentWorkIndex = Integer.parseInt(params[1]) - 1;
     }
 
     private void commandShowProject() {
@@ -267,7 +291,7 @@ public class TerminalInterface {
     }
 
     private void commandExportModule(String[] params) {
-        // export_module <text/file> <te/if/fc> [layer_name] [module_name]
+        // export_module <text/file> <te/if/fc/compiled> [layer_name] [module_name]
         // Phase 1: only option text implemented
         if (params[1].equals("text")) {
             if (params[2].equals("te")) {
@@ -276,6 +300,11 @@ public class TerminalInterface {
                 System.out.println(this.getFocus().getLayer(params[3]).getPolicyModule(params[4]).getInterfaceSet());
             } else if (params[2].equals("fc")) {
                 notImplemented();
+            } else if (params[2].equals("compiled")) {
+                // WHERE DID MY PREV CALL GO I DEFINITELY DID IT
+                System.out.println(this.getFocus().getLayer(params[3]).getPolicyModule(params[4]).getTypeEnf().toString(
+                        this.getFocus().getGlobalInterfaceSet()
+                ));
             } else {
                 System.out.println("Unknown export component option.");
             }

@@ -4,6 +4,8 @@ import model.policy.LayerModel;
 import model.policy.PolicyModuleModel;
 
 public class DummyLayerModel extends LayerModel {
+    // A layer that is in memory only, changes not flushed into fs
+
     public DummyLayerModel(String name) {
         super(name);
     }

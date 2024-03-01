@@ -172,7 +172,7 @@ public class AccessVectorTest {
         actions.get("yuuta").add("love");
         actions.get("winslow").add("love");
         accessVectorModel.batchAddAction(actions);
-        accessVectorModel.getAccessVector().get("yuuta").contains("love");
-        accessVectorModel.getAccessVector().get("winslow").contains("love");
+        assertTrue(accessVectorModel.getAccessVector().get("yuuta").contains("love"));
+        assertTrue(accessVectorModel.getAccessVector().get("winslow").contains("love"));
     }
 }

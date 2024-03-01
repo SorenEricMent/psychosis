@@ -1,6 +1,7 @@
 package model;
 
 public class Pair<X, Y> {
+    // A 2-tuple
     // It is a huge pain that java doesn't have Tuple
     private final X first;
     private final Y second;

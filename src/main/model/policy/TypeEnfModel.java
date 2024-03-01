@@ -71,6 +71,8 @@ public class TypeEnfModel extends FileObjectModel implements Encodeable, Decodea
         return original;
     }
 
+    // REQUIRES: content to be deprived of comments (read from readAsWholeCode)
+    // EFFECTS: parse a string content to a TypeEnfModel
     @SuppressWarnings({"checkstyle:MethodLength", "checkstyle:SuppressWarnings"})
     public static TypeEnfModel parser(String content) throws SyntaxParseException {
         String[] tokenized = CommonUtil.strongTokenizer(content);
@@ -110,6 +112,7 @@ public class TypeEnfModel extends FileObjectModel implements Encodeable, Decodea
         return res;
     }
 
+    // EFFECTS: from position i, find the index where parenthesis are balanced. SyntaxParseException if not found
     private static int getEnd(int i, String[] tokenized) throws SyntaxParseException {
         int end = -1;
         CommonUtil.Balancer findEnd = new CommonUtil.Balancer();
@@ -188,6 +191,7 @@ public class TypeEnfModel extends FileObjectModel implements Encodeable, Decodea
         return res;
     }
 
+    // EFFECTS: return the amount of first-order statements
     public int lineCount() {
         return statementsFO.size();
     }
