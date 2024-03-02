@@ -3,9 +3,8 @@ package model;
 import java.util.Arrays;
 import java.util.Stack;
 
+// Helper functions that is used (or expected to be used) commonly across Psychosis
 public class CommonUtil {
-    // Helper functions that is used (or expected to be used) commonly across Psychosis
-
     // EFFECT: return the first # position, if none, return -1
     public static int commentLocate(String line) {
         int commentPosition = -1;
@@ -81,6 +80,8 @@ public class CommonUtil {
             "bool"
     };
 
+
+    // EFFECTS: return if the str is in ignoredKeyword
     public static boolean isIgnored(String str) {
         for (String s : ignoredKeyword) {
             if (str.equals(s)) {
@@ -90,8 +91,8 @@ public class CommonUtil {
         return false;
     }
 
+    // Checker for balancing with a stack
     public static class Balancer {
-        // Checker for balancing with a stack
         private final Stack<String> stack = new Stack<String>();
         private boolean readingString = false;
 
@@ -110,12 +111,14 @@ public class CommonUtil {
             return readingString + " " + syntaxError + " " + stack.toString();
         }
 
+        // EFFECTS: return if the stack is empty;
         public boolean check() {
             return stack.isEmpty();
         }
 
         @SuppressWarnings({"checkstyle:methodLength", "checkstyle:SuppressWarnings"})
 
+        // REQUIRES: should be a single letter
         // EFFECTS: push a value to stack
         public void push(String val) {
             if (readingString) {
@@ -154,6 +157,7 @@ public class CommonUtil {
             }
         }
 
+        // EFFECTS: helper for calling push with a char
         public void push(char val) {
             this.push(Character.toString(val));
         }

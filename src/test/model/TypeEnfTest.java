@@ -20,9 +20,9 @@ public class TypeEnfTest {
     @BeforeEach
     public void init() {
         try {
-            s1 = CustomReader.readAsWholeCode(new File("./data/testfiles/TypeEnfTest/test_te_file"));
-            s2 = CustomReader.readAsWholeCode(new File("./data/testfiles/TypeEnfTest/test_te_file_excp"));
-            s3 = CustomReader.readAsWholeCode(new File("./data/testfiles/TypeEnfTest/test_te_file_excp_head"));
+            s1 = CustomReader.readAsWholeCode(new File("./data/testfiles/TypeEnfTest/test_te_file")).getFirst();
+            s2 = CustomReader.readAsWholeCode(new File("./data/testfiles/TypeEnfTest/test_te_file_excp")).getFirst();
+            s3 = CustomReader.readAsWholeCode(new File("./data/testfiles/TypeEnfTest/test_te_file_excp_head")).getFirst();
         } catch (IOException e) {
             fail("Test source file not found, this should not happen!");
         }
@@ -187,12 +187,12 @@ public class TypeEnfTest {
     public void testTypeEnfParseWithInterface() {
         try {
             String testStr = CustomReader.readAsWholeCode(
-                    new File("./data/testfiles/InterfaceTest/test_te_call_interface_static"));
+                    new File("./data/testfiles/InterfaceTest/test_te_call_interface_static")).getFirst();
             TypeEnfModel t = TypeEnfModel.parser(testStr);
 
             InterfaceSetModel i = InterfaceSetModel.parser(CustomReader.readAsWholeCode(
                     new File("./data/testfiles/InterfaceTest/test_interface_multidef")
-            ));
+            ).getFirst());
 
             assertEquals("policy_module(yuuta)\n" +
                     "\n" +
@@ -213,12 +213,12 @@ public class TypeEnfTest {
     public void testTypeEnfParseWithInterfaceVar() {
         try {
             String testStr = CustomReader.readAsWholeCode(
-                    new File("./data/testfiles/InterfaceTest/test_te_call_interface_variable"));
+                    new File("./data/testfiles/InterfaceTest/test_te_call_interface_variable")).getFirst();
             TypeEnfModel t = TypeEnfModel.parser(testStr);
 
             InterfaceSetModel i = InterfaceSetModel.parser(CustomReader.readAsWholeCode(
                     new File("./data/testfiles/InterfaceTest/test_interface_multidef")
-            ));
+            ).getFirst());
 
             assertEquals("policy_module(yuuta)\n" +
                     "\n" +

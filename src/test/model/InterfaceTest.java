@@ -127,7 +127,7 @@ public class InterfaceTest {
         File testFile = new File("./data/testfiles/InterfaceTest/test_interface_singledef");
         String fileContent = "";
         try {
-            fileContent = CustomReader.readAsWholeCode(testFile);
+            fileContent = CustomReader.readAsWholeCode(testFile).getFirst();
         } catch (IOException e) {
             fail("IO Exception, this should not happen & check CustomReaderTest!");
         }
@@ -153,7 +153,7 @@ public class InterfaceTest {
         InterfaceSetModel test = null;
         String fileContent = "";
         try {
-            fileContent = CustomReader.readAsWholeCode(testFile);
+            fileContent = CustomReader.readAsWholeCode(testFile).getFirst();
         } catch (IOException e) {
             fail("IO Exception, this should not happen & check CustomReaderTest!");
         }
@@ -176,7 +176,7 @@ public class InterfaceTest {
     public void testExcpInterfaceParserFO() {
         File testFile = new File("./data/testfiles/InterfaceTest/test_interface_syntaxerror");
         try {
-            String fileContent = CustomReader.readAsWholeCode(testFile);
+            String fileContent = CustomReader.readAsWholeCode(testFile).getFirst();
             assertThrows(SyntaxParseException.class, () -> {
                 InterfaceSetModel.parser(fileContent);
             });
@@ -217,7 +217,7 @@ public class InterfaceTest {
         InterfaceSetModel test = null;
         String fileContent = "";
         try {
-            fileContent = CustomReader.readAsWholeCode(testFile);
+            fileContent = CustomReader.readAsWholeCode(testFile).getFirst();
         } catch (IOException e) {
             fail("IO Exception, this should not happen & check CustomReaderTest!");
         }

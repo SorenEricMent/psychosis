@@ -3,8 +3,8 @@ package model;
 import model.policy.LayerModel;
 import model.policy.PolicyModuleModel;
 
+// A layer that is in memory only, changes not flushed into fs
 public class DummyLayerModel extends LayerModel {
-    // A layer that is in memory only, changes not flushed into fs
 
     public DummyLayerModel(String name) {
         super(name);

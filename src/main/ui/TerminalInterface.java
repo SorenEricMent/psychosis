@@ -11,6 +11,11 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import persistence.ProjectSL;
+import persistence.Workspace;
+
+import javax.sound.midi.Track;
+
 public class TerminalInterface {
     //Debugging command line for Phase 1
 
@@ -135,9 +140,7 @@ public class TerminalInterface {
                     default:
                         System.out.println("Unknown command.");
                 }
-            } catch (SyntaxParseException e) {
-                throw new RuntimeException(e);
-            } catch (IOException e) {
+            } catch (SyntaxParseException | IOException e) {
                 throw new RuntimeException(e);
             }
             System.out.println();
@@ -160,11 +163,35 @@ public class TerminalInterface {
     }
 
     private void commandLoadWorkspace(String[] params) {
-        // load_workspace
+        // load_workspace <path>
+        try {
+            String fileContent = CustomReader.readAsWhole(
+                    new File(params[1]));
+
+        } catch (IOException e) {
+            System.out.println("Error when reading file: " + e);
+        }
     }
 
     private void commandLoadProject(String[] params) {
-        // load_project: <path>
+        // load_project <compiled/meta> <path>
+        try {
+            String fileContent = CustomReader.readAsWhole(
+                    new File(params[2]));
+            Pair<ProjectModel, TrackerModel> projLoaded;
+            if (params[2].equals("compiled")) {
+                projLoaded = ProjectSL.loadProjectFromJsonCompiled(fileContent);
+            } else if (params[2].equals("meta")) {
+                projLoaded = ProjectSL.loadProjectFromJsonMeta(fileContent);
+            } else {
+                System.out.println("Unknown load format, valid values: compiled/meta.");
+                return;
+            }
+            this.loadedProjects.add(projLoaded);
+            System.out.println("New project loaded to workspace.");
+        } catch (IOException e) {
+            System.out.println("Error when reading file: " + e);
+        }
     }
 
     private void commandCreateProject(String[] params) {
@@ -249,16 +276,19 @@ public class TerminalInterface {
     private void commandLoadModule(String[] params) {
         // load_module <to layer> <name> <te path> <if path> <fc path>
         try {
-            InterfaceSetModel i = InterfaceSetModel.parser(CustomReader.readAsWholeCode(new File(params[4])));
+            InterfaceSetModel i = InterfaceSetModel.parser(CustomReader.readAsWholeCode(new File(params[4]))
+                    .getFirst());
             for (InterfaceModel x : i.getInterfaces()) {
                 this.getFocus().getGlobalInterfaceSet().addInterface(x);
             }
-            TypeEnfModel t = TypeEnfModel.parser(CustomReader.readAsWholeCode(new File(params[3])));
+            TypeEnfModel t = TypeEnfModel.parser(CustomReader.readAsWholeCode(new File(params[3])).getFirst());
             FileContextModel f = new FileContextModel();
             PolicyModuleModel m = new PolicyModuleModel(params[2], t, i, f);
             this.getFocus().getLayer(params[1]).addPolicyModule(m);
         } catch (SyntaxParseException e) {
             System.out.println("Error in syntax: " + e);
+        } catch (NotFoundException e) {
+            System.out.println("Failed to load module to the layer: " + e);
         } catch (IOException e) {
             System.out.println("Exception in reading file: " + e);
         }
@@ -521,7 +551,7 @@ public class TerminalInterface {
         fileReader.close();
         String accessVectorFileContent;
 
-        accessVectorFileContent = CustomReader.readAsWholeCode(accessVectorFile);
+        accessVectorFileContent = CustomReader.readAsWholeCode(accessVectorFile).getFirst();
 
         accessVectorModel.batchAddAction(AccessVectorModel.accessVectorParser(accessVectorFileContent));
         return accessVectorModel;

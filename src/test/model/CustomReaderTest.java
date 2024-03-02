@@ -51,7 +51,7 @@ class CustomReaderTest {
                 "\n" +
                 "class ubc";
         try {
-            fileResult1 = CustomReader.readAsWholeCode(testReadCommented);
+            fileResult1 = CustomReader.readAsWholeCode(testReadCommented).getFirst();
             assertEquals(expected, fileResult1);
         } catch (IOException e) {
             fail("Failed to read existing file, current working path: " + currentPath.toAbsolutePath().toString());
@@ -61,7 +61,7 @@ class CustomReaderTest {
     public void testReadEmptyFile() {
         try {
             assertEquals("", CustomReader.readAsWhole(testReadEmpty));
-            assertEquals("", CustomReader.readAsWholeCode(testReadEmpty));
+            assertEquals("", CustomReader.readAsWholeCode(testReadEmpty).getFirst());
         } catch (IOException e) {
             fail(e);
         }

@@ -27,7 +27,7 @@ public class ProjectTest {
 
         String content = null;
         try {
-            content = CustomReader.readAsWholeCode(testFile);
+            content = CustomReader.readAsWholeCode(testFile).getFirst();
         } catch (IOException e) {
             fail("IO Exception, should not happen! " + e);
         }
@@ -42,7 +42,7 @@ public class ProjectTest {
         testFile = new File("./data/testfiles/ProjectTest/policy_capabilities_full");
 
         try {
-            content = CustomReader.readAsWholeCode(testFile);
+            content = CustomReader.readAsWholeCode(testFile).getFirst();
         } catch (IOException e) {
             fail("IO Exception, should not happen! " + e);
         }
@@ -66,7 +66,7 @@ public class ProjectTest {
     public void testExcpCapabilityParser() {
         File testFile = new File("./data/testfiles/ProjectTest/fail_policy_capabilities");
         try {
-            String content = CustomReader.readAsWholeCode(testFile);
+            String content = CustomReader.readAsWholeCode(testFile).getFirst();
             assertThrows(UnknownCapabilityException.class, () ->
             {
                 ProjectModel.capabilitiesParser(content);
@@ -77,7 +77,7 @@ public class ProjectTest {
 
         testFile = new File("./data/testfiles/ProjectTest/fail_policy_capabilities_token");
         try {
-            String content = CustomReader.readAsWholeCode(testFile);
+            String content = CustomReader.readAsWholeCode(testFile).getFirst();
             assertThrows(SyntaxParseException.class, () ->
             {
                 ProjectModel.capabilitiesParser(content);

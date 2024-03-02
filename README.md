@@ -55,5 +55,7 @@ As a user, I want to be able to:
 - Save project independently to a .pcsj file
 - Load .pcsj file to a project in the workspace
 - Save the whole program state to a .pcsw workspace file
+    - Comments in the original files are discarded on read.
 - Load from a .pcsw workspace file to recover the whole previous program state
+
 ## Instructions

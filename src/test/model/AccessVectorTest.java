@@ -65,7 +65,7 @@ public class AccessVectorTest {
         expect.addSecurityClass("test2");
         expect.addAccessVector("test2", "test3");
         try {
-            fileContent = CustomReader.readAsWholeCode(testFile);
+            fileContent = CustomReader.readAsWholeCode(testFile).getFirst();
             assertEquals(expect.getValue(),
                     AccessVectorModel.accessVectorParser(fileContent));
             assertEquals(3, expect.size());
@@ -77,7 +77,7 @@ public class AccessVectorTest {
 
         testFile = new File("./data/testfiles/AccessVectorTest/test_fail_invalidclass");
         try {
-            fileContent =  CustomReader.readAsWholeCode(testFile);
+            fileContent =  CustomReader.readAsWholeCode(testFile).getFirst();
         } catch (IOException e) {
             fail("Test source file not found, this should not happen!");
         }
@@ -90,7 +90,7 @@ public class AccessVectorTest {
         testFile = new File("./data/testfiles/AccessVectorTest/test_fail_invalidcommon");
 
         try {
-            fileContent =  CustomReader.readAsWholeCode(testFile);
+            fileContent =  CustomReader.readAsWholeCode(testFile).getFirst();
         } catch (IOException e) {
             fail("Test source file not found, this should not happen!");
         }
@@ -156,7 +156,7 @@ public class AccessVectorTest {
     public void testExcpAccessVectorParseTest() {
         File testFile = new File("./data/testfiles/AccessVectorTest/test_fail_access_vectors");
         try {
-            fileContent = CustomReader.readAsWholeCode(testFile);
+            fileContent = CustomReader.readAsWholeCode(testFile).getFirst();
             assertThrows(SyntaxParseException.class, () -> {
                 AccessVectorModel.accessVectorParser(fileContent);
             });

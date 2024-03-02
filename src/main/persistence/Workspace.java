@@ -1,40 +1,40 @@
 package persistence;
 
-import model.Decodeable;
+import model.ProjectModel;
 import model.Encodeable;
-import model.policy.LayerModel;
+import model.Decodeable;
 
 import java.util.ArrayList;
 
+// A Workspace is an abstract to the intermediate form of persistent saving/loading
 public class Workspace implements Encodeable, Decodeable {
+    private ArrayList<ProjectModel> projects;
+    private String name;
 
-    int index;
-    String name;
-    ArrayList<LayerModel> layers;
-
-    public Workspace() {
-        index = 0;
-        name = "workspace";
-        layers = new ArrayList<>();
+    public Workspace(String name) {
+        this.name = name;
+        this.projects = new ArrayList<>();
     }
 
     public String getName() {
         return name;
     }
 
-    public int getIndex() {
-        return index;
+    public ArrayList<ProjectModel> getProjects() {
+        return projects;
     }
 
-    public ArrayList<LayerModel> getLayers() {
-        return layers;
+    public int getProjectNum() {
+        return projects.size();
     }
 
-    public Workspace parser(String content) {
-        return null; //stub
-    }
-
+    // EFFECTS: Encode the workspace to a .pcsw file
     public String toString() {
         return "";
+    }
+
+    // EFFECTS: Load workspace from a .pcsw file
+    public void parser(String content) {
+
     }
 }

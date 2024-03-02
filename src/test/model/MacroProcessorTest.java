@@ -40,7 +40,7 @@ public class MacroProcessorTest {
         String content = "";
 
         try {
-            content = CustomReader.readAsWholeCode(testFile);
+            content = CustomReader.readAsWholeCode(testFile).getFirst();
         } catch (FileNotFoundException e) {
             fail("Test source file not found, this should not happen!");
         } catch (IOException e) {
@@ -63,7 +63,7 @@ public class MacroProcessorTest {
     public void testExcpMacroRuleParser() {
         File testFile = new File("./data/testfiles/MacroProcessorTest/test_macrofile_excp");
         assertThrows(SyntaxParseException.class, () -> {
-            MacroProcessor.macroRuleParser(CustomReader.readAsWholeCode(testFile));
+            MacroProcessor.macroRuleParser(CustomReader.readAsWholeCode(testFile).getFirst());
         });
         assertThrows(SyntaxParseException.class, () -> {
             MacroProcessor.macroRuleParser("define(`broken");
