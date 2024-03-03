@@ -6,7 +6,7 @@ import java.util.Stack;
 // Helper functions that is used (or expected to be used) commonly across Psychosis
 public class CommonUtil {
     // EFFECT: return the first # position, if none, return -1
-    public static int commentLocate(String line) {
+    public static final int commentLocate(String line) {
         int commentPosition = -1;
         for (int i = 0; i < line.length(); i++) {
             commentPosition += 1;
@@ -19,12 +19,12 @@ public class CommonUtil {
     }
 
     // EFFECTS: replace all continuous space in the string with a single space
-    public static String reduceSpace(String text) {
+    public static final String reduceSpace(String text) {
         return text.replaceAll("\\s{2,}", " ").trim();
     }
 
     // EFFECTS: tokenize the text with any number of newline or space
-    public static String[] basicTokenizer(String text) {
+    public static final String[] basicTokenizer(String text) {
         String[] res = text.split("(\\r\\n|[\\r\\n])+|\\s+");
         if (res.length >= 2) { // Remove possible empty first element
             if (res[0].equals("")) {
@@ -35,7 +35,7 @@ public class CommonUtil {
     }
 
     // EFFECTS: tokenize the text with any number of newline or space or symbols
-    public static String[] strongTokenizer(String text) {
+    public static final String[] strongTokenizer(String text) {
         // "((?=@)|(?<=@))" to preserve delimiter
         if (text.endsWith(";")) {
             text = text.replaceFirst(";$", " ;");
@@ -48,12 +48,12 @@ public class CommonUtil {
     }
 
     // EFFECTS: return if the string is a valid selinux name (no reserved word, a-zA-Z0-9 and _)
-    public static boolean tokenValidate(String text) {
+    public static final boolean tokenValidate(String text) {
         return text.matches("[a-zA-Z_][a-zA-Z0-9_]*");
     }
 
     // EFFECTS: return if the string is a valid selinux variable name (no reserved word, a-zA-Z0-9 and _, can include $)
-    public static boolean tokenValidateWeak(String text) {
+    public static final boolean tokenValidateWeak(String text) {
         return text.matches("([a-zA-Z_]|(\\$\\d))([a-zA-Z0-9_]|(\\$\\d))*");
     }
 
@@ -82,7 +82,7 @@ public class CommonUtil {
 
 
     // EFFECTS: return if the str is in ignoredKeyword
-    public static boolean isIgnored(String str) {
+    public static final boolean isIgnored(String str) {
         for (String s : ignoredKeyword) {
             if (str.equals(s)) {
                 return true;
@@ -120,7 +120,7 @@ public class CommonUtil {
 
         // REQUIRES: should be a single letter
         // EFFECTS: push a value to stack
-        public void push(String val) {
+        public final void push(String val) {
             if (readingString) {
                 if (val.equals("`")) {
                     stack.push("`");
@@ -158,12 +158,12 @@ public class CommonUtil {
         }
 
         // EFFECTS: helper for calling push with a char
-        public void push(char val) {
+        public final void push(char val) {
             this.push(Character.toString(val));
         }
 
         // EFFECTS: judge if a String is a char processed by balancer
-        public static boolean isOtherToken(String str) {
+        public static final boolean isOtherToken(String str) {
             return !str.equals("`") && !str.equals("'")
                     && !str.equals("{") && !str.equals("}")
                     && !str.equals("(") && !str.equals(")");

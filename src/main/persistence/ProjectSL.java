@@ -83,7 +83,15 @@ public abstract class ProjectSL {
     // EFFECTS: create a InterfaceSetModel from a compiled JSON
     private static InterfaceSetModel parseIfSetFromJsonCompiled(JSONObject obj) throws JSONException {
         InterfaceSetModel res = new InterfaceSetModel();
+        obj.getJSONArray("content").forEach(c -> {
+            JSONObject line = (JSONObject) c;
+            if (line.getString("type").equals("interface") || line.getString("type").equals("template")) {
+                // Currently Psychosis does not treat interface and template differently internally
 
+            } else {
+                return;// jump to next iteration, ignore unknown type
+            }
+        });
         return null; //stub
     }
 
@@ -100,7 +108,13 @@ public abstract class ProjectSL {
         return null;
     }
 
+    // EFFECTS: convert a ProjectModel to Psychosis .pcsj file (JSON storing project metadata)
     public String saveWholeProjectToJson(ProjectModel proj) {
+        return null;
+    }
+
+    // EFFECTS: convert a ProjectModel to Psychosis .xpcsj file (JSON containing all project information)
+    public String saveWholeProjectToJsonCompiled(ProjectModel proj) {
         return null;
     }
 }
