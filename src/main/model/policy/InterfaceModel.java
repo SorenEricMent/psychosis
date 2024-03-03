@@ -18,6 +18,7 @@ public class InterfaceModel {
     private HashSet<String> tags;
     private final boolean isUserDefined;
 
+    // EFFECTS: initialize new InterfaceModel
     public InterfaceModel(String name, boolean isUserDefined) {
         this.name = name;
         this.isUserDefined = isUserDefined;
@@ -41,6 +42,7 @@ public class InterfaceModel {
         return ruleSetModels.size();
     }
 
+    // EFFECTS: add a rule to ruleset, combine based on action when possible
     public void addRuleSetModels(RuleSetModel rule) {
         // First, check if the statement-source-target-targetclass tuple already exists
         Boolean containEquv = false;

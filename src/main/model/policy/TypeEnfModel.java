@@ -71,6 +71,11 @@ public class TypeEnfModel extends FileObjectModel implements Encodeable, Decodea
         return original;
     }
 
+    // For testing only
+    public ArrayList<Pair<String, String[]>> getInterfaceCall() {
+        return interfaceCall;
+    }
+
     // REQUIRES: content to be deprived of comments (read from readAsWholeCode)
     // EFFECTS: parse a string content to a TypeEnfModel
     @SuppressWarnings({"checkstyle:MethodLength", "checkstyle:SuppressWarnings"})

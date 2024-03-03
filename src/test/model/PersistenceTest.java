@@ -30,6 +30,9 @@ public class PersistenceTest {
         ArrayList<RuleSetModel> teStatementRes = res.getFirst().getLayer("example_layer")
                 .getPolicyModule("example_module")
                 .getTypeEnf().getStatementsFO();
+        ArrayList<Pair<String, String[]>> teCallRes = res.getFirst().getLayer("example_layer")
+                .getPolicyModule("example_module")
+                .getTypeEnf().getInterfaceCall();
         assertTrue(teStatementRes.get(0).equals(
                 new RuleSetModel(
                         RuleSetModel.RuleType.allow,
@@ -37,6 +40,9 @@ public class PersistenceTest {
                         new HashSet<>(Arrays.asList("pet", "hug"))
                 )
         ));
+        assertEquals("yuuta", teCallRes.get(0).getFirst());
+        String[] expectedActions1 = {"winslow", "chocolate"};
+        assertArrayEquals(expectedActions1, teCallRes.get(0).getSecond());
     }
     @Test
     public void testProjectSaveCompiled() {
