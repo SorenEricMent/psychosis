@@ -1,0 +1,48 @@
+{
+  "name": "example_proj",
+  "layers": [
+    {
+      "name": "example_layer",
+      "modules": [
+        {
+          "name": "example_module",
+          "te": {
+            "content": [
+              {
+                "type": "call",
+                "name": "yuuta",
+                "params": ["winslow", "chocolate"]
+              },
+              {
+                "type": "statement",
+                "rule": "allow",
+                "source": "winslow_t",
+                "target": "yuuta_t",
+                "target_class": "body",
+                "actions": ["pet", "hug"]
+              }
+            ]
+          },
+          "if": {
+            "content": [
+              {
+                "type": "interface/template",
+                "name": "yuuta",
+                "statements": {
+                  "rule": "allow",
+                  "source": "$1",
+                  "target": "$2",
+                  "target_class": "candy",
+                  "actions": ["eat"]
+                }
+              }
+            ]
+          },
+          "fc":  {
+
+          }
+        }
+      ]
+    }
+  ]
+}

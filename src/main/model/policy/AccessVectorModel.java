@@ -22,7 +22,7 @@ public class AccessVectorModel {
         return accessVector;
     }
 
-    // EFFECT: update access vectors with new class
+    // EFFECTS: update access vectors with new class
     // MODIFIES: this
     public void addSecurityClass(String className) {
         if (className != null) {
@@ -31,7 +31,7 @@ public class AccessVectorModel {
         }
     }
 
-    // EFFECT: getter for class number
+    // EFFECTS: getter for class number
     public int size() {
         return accessVector.size();
     }
@@ -40,7 +40,7 @@ public class AccessVectorModel {
         return accessVector;
     }
 
-    // EFFECT: update specific access vector class with action
+    // EFFECTS: update specific access vector class with action
     // MODIFIES: this
     public void addAccessVector(String className, String actionName) {
         this.accessVector.get(className).add(actionName);
@@ -82,7 +82,7 @@ public class AccessVectorModel {
     }
 
     // REQUIRE: content must be derived of comment - e.g. read from readAsWholeCode.
-    // Effect: parse SELinux access_vectors to a HashMap
+    // EFFECTS: parse SELinux access_vectors to a HashMap
     @SuppressWarnings("methodlength")
     // Explained at https://canvas.ubc.ca/courses/130128/external_tools/48698
     // TLDR: it doesn't make sense to split this parser
@@ -133,7 +133,7 @@ public class AccessVectorModel {
                     }
                     commonOrClass = true;
                 } else {
-                    throw new SyntaxParseException("Unknown token");
+                    throw new SyntaxParseException("Unknown token.");
                 }
             }
         }

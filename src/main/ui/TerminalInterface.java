@@ -50,10 +50,15 @@ public class TerminalInterface {
                                 + " edit_filecontext tag_add_interface tag_rm_interface load_access_vectors"
                                 + " show_capability load_capability");
                         break;
+                    case "help":
+                        commandLoadHelp(inputList[1]);
+                        break;
                     case "load_workspace":
                         commandLoadWorkspace(inputList);
+                        break;
                     case "export_workspace":
                         commandExportWorkspace(inputList);
+                        break;
                     case "create_project":
                         commandCreateProject(inputList);
                         break;
@@ -140,8 +145,8 @@ public class TerminalInterface {
                     default:
                         System.out.println("Unknown command.");
                 }
-            } catch (SyntaxParseException | IOException e) {
-                throw new RuntimeException(e);
+            } catch (Exception e) {
+                System.out.println("Unknown exception happened during the command's execution: " + e);
             }
             System.out.println();
         }
@@ -150,6 +155,19 @@ public class TerminalInterface {
     // EFFECT: return the project that is currently working on
     private ProjectModel getFocus() {
         return loadedProjects.get(currentWorkIndex).getFirst();
+    }
+
+    // EFFECTS: lookup the help information for a command
+    private void commandLoadHelp(String commandName) {
+        switch (commandName) {
+            case "export_project":
+                System.out.println("export_project: <compiled/meta> <path>");
+                System.out.println("Export a project to <path> in <compiled/meta> format.");
+                System.out.println("For phase 2, temp project could only be exported as compiled.");
+                break;
+            case "default":
+                System.out.println("Unknown command you are looking up");
+        }
     }
 
     // EFFECTS: export a single project to a JSON

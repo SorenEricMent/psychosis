@@ -1,5 +1,6 @@
 package model;
 
+import model.exception.DuplicateException;
 import model.exception.NotFoundException;
 import model.policy.InterfaceModel;
 import model.policy.PolicyModuleModel;
@@ -16,6 +17,12 @@ public class TempProjectModel extends ProjectModel {
                 new PolicyModuleModel("test_module")
         );
     }
+
+    public TempProjectModel(String name, Boolean ignoredEmptiness) {
+        super(name, null);
+        // Emptyness is used for polymorph a completely empty TempProject
+    }
+
 
     // EFFECT: getter for path, nullified for temp project
     public String getProjectPath() {
@@ -46,14 +53,16 @@ public class TempProjectModel extends ProjectModel {
     }
 
     @Override
-    public void addModule(String layerName, String moduleName) {
+    public void addModule(String layerName, String moduleName) throws DuplicateException {
         this.getLayer(layerName).addPolicyModule(
                 new PolicyModuleModel(moduleName)
         );
+        // TODO: incorporate newly defined interface to globalSet
     }
 
     @Override
     public void removeModule(String layerName, String moduleName) {
         this.getLayer(layerName).removePolicyModule(moduleName);
+        // TODO: remove interface from globalSet
     }
 }

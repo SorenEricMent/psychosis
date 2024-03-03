@@ -11,8 +11,13 @@ import model.policy.LayerModel;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+// A psychosis project. Basically the whole policy
+// This is the version with autosave
+// However, currently psychosis operate fully on virtual objects and require manual save
+// To make it simpler and comply with Phase 2 requirements.
+
 public class ProjectModel {
-    // A psychosis project. Basically the whole policy
+
     private final String name;
 
     private final String projectPath;
@@ -35,6 +40,7 @@ public class ProjectModel {
     // Layers are often in small sizes
     // Therefore it is defined as an ArrayList
 
+    // EFFECTS: create a new Project with name and points to projectPath
     public ProjectModel(String name, String projectPath) {
         this.name = name;
         this.projectPath = projectPath;
@@ -59,6 +65,7 @@ public class ProjectModel {
         this.accessVectors = accessVectors;
     }
 
+    // EnumType for SELinux refpolicy's policy_capabilities
     public enum PolicyCapabilities {
         network_peer_controls,
         open_perms,
@@ -128,6 +135,9 @@ public class ProjectModel {
         return results;
     }
 
+    // MODIFIES: this
+    // EFFECTS: add a layer with layerName, throw DuplicateException if a layer with that name already exists
+    // Layer is not a set but an ArrayList because it is often in small size
     public void addLayer(String layerName) throws DuplicateException {
         for (int i = 0; i < layers.size(); i++) {
             if (layers.get(i).getName().equals(layerName)) {
@@ -137,6 +147,8 @@ public class ProjectModel {
         this.layers.add(new LayerModel(layerName));
     }
 
+    // MODIFIES: this
+    // EFFECTS: remove the layer with LayerName, throw NotFoundException if there is no layer with that name
     public void removeLayer(String layerName) throws NotFoundException {
         int index = -1;
         for (int i = 0; i < layers.size(); i++) {
@@ -151,6 +163,7 @@ public class ProjectModel {
         }
     }
 
+    // EFFECTS: lookup and return the layer with layerName, throw NotFoundException if there is no layer with that name
     public LayerModel getLayer(String layerName) throws NotFoundException {
         for (LayerModel layer : layers) {
             if (layer.getName().equals(layerName)) {
