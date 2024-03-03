@@ -62,6 +62,11 @@ public class InterfaceModel {
         this.ruleSetModels = rules;
     }
 
+    // For testing only
+    public ArrayList<RuleSetModel> getRuleSetModels() {
+        return ruleSetModels;
+    }
+
     public String toString() {
         String res = "interface(`" + getName() + "',`\n";
         for (RuleSetModel r : ruleSetModels) {

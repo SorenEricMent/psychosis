@@ -1,5 +1,6 @@
 package model;
 
+import model.policy.InterfaceModel;
 import model.policy.RuleSetModel;
 import org.junit.jupiter.api.*;
 import persistence.ProjectSL;
@@ -43,6 +44,19 @@ public class PersistenceTest {
         assertEquals("yuuta", teCallRes.get(0).getFirst());
         String[] expectedActions1 = {"winslow", "chocolate"};
         assertArrayEquals(expectedActions1, teCallRes.get(0).getSecond());
+
+        InterfaceModel testInterface = res.getFirst().getLayer("example_layer")
+                .getPolicyModule("example_module").getInterfaceSet().getInterface("yuuta");
+        assertEquals("yuuta", testInterface.getName());
+        assertFalse(testInterface.getIsUserDefined());
+        assertTrue(testInterface.getRuleSetModels().get(0).equals(
+                new RuleSetModel(
+                        RuleSetModel.RuleType.allow,
+                        "$1",
+                        "$2",
+                        "candy",
+                        new HashSet<>(Arrays.asList("eat")))
+        ));
     }
     @Test
     public void testProjectSaveCompiled() {

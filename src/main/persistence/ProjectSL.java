@@ -71,8 +71,7 @@ public abstract class ProjectSL {
                             RuleSetModel.toRuleType(line.getString("rule")),
                             line.getString("source"),
                             line.getString("target"),
-                            line.getString("target_class"),
-                            actions));
+                            line.getString("target_class"), actions));
             } else {
                 return; // jump to next iteration, ignore unknown type
             }
@@ -87,17 +86,29 @@ public abstract class ProjectSL {
             JSONObject line = (JSONObject) c;
             if (line.getString("type").equals("interface") || line.getString("type").equals("template")) {
                 // Currently Psychosis does not treat interface and template differently internally
-
+                InterfaceModel ifToAdd = new InterfaceModel(line.getString("name"), false);
+                line.getJSONArray("statements").forEach(s -> {
+                    JSONObject statement = (JSONObject) s;
+                    ifToAdd.addRuleSetModels(new RuleSetModel(
+                            RuleSetModel.toRuleType(statement.getString("rule")),
+                            statement.getString("source"),
+                            statement.getString("target"),
+                            statement.getString("target_class"),
+                            statement.getJSONArray("actions").toList().stream().map(x -> {
+                                return (String) x;
+                            }).collect(Collectors.toCollection(HashSet::new))));
+                });
+                res.addInterface(ifToAdd);
             } else {
                 return;// jump to next iteration, ignore unknown type
             }
         });
-        return null; //stub
+        return res; //stub
     }
 
     // EFFECTS: placeholder for creating a FileContextModel from a compiled JSON
     private static FileContextModel parseFileContextFromJsonCompiled(JSONObject obj) throws JSONException {
-        return null; // No functionality about .fc
+        return new FileContextModel(); // No functionality about .fc
     }
 
 

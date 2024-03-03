@@ -28,13 +28,15 @@
                             {
                                 "type": "interface/template",
                                 "name": "yuuta",
-                                "statements": {
-                                    "rule": "allow",
-                                    "source": "$1",
-                                    "target": "$2",
-                                    "target_class": "candy",
-                                    "actions": ["eat"]
-                                }
+                                "statements": [
+                                    {
+                                        "rule": "allow",
+                                        "source": "$1",
+                                        "target": "$2",
+                                        "target_class": "candy",
+                                        "actions": ["eat"]
+                                    }
+                                ]
                             }
                         ]
                     },
