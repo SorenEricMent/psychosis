@@ -16,6 +16,10 @@ import java.util.stream.Collectors;
 
 import java.util.HashSet;
 
+// FUTURE TODO: Use AoP to call gc after load
+// ik call gc is normally bad practice but makes sense here as a huge object is just loaded
+// and user could def wait for some more miliseconds for a load
+
 // Providing methods of loading/saving a project to/from a .pcsp file
 public abstract class ProjectSL {
 
@@ -25,6 +29,7 @@ public abstract class ProjectSL {
     // EFFECTS: Load a project from a compiled JSON format
     public static Pair<ProjectModel, TrackerModel> loadProjectFromJsonCompiled(String content) throws JSONException {
         JSONObject parsed = new JSONObject(content);
+        System.out.println("Loaded xpcsp JSON content.");
         Pair<ProjectModel, TrackerModel> res = new Pair<>(new TempProjectModel(parsed.getString("name"), true),
                 new TrackerModel());
         parsed.getJSONArray("layers").forEach(i -> {
@@ -40,6 +45,10 @@ public abstract class ProjectSL {
                 res.getFirst().getLayer(layerObj.getString("name")).addPolicyModule(p);
             });
         });
+        System.out.println("Loaded project structure and content.");
+        // FUTURE TODO: regenerate Tracker
+        System.out.println("Regenerated Tracker database.");
+        System.gc();
         return res;
     }
 
