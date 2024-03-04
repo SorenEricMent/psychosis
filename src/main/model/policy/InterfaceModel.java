@@ -5,6 +5,10 @@ import model.MacroProcessor;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+// A model for SELinux interface/templates
+// Syntactically templates is just interfaces with more possible statements
+// So Psychosis does not currently differ them internally.
+
 public class InterfaceModel {
     private final String name;
 
@@ -44,7 +48,7 @@ public class InterfaceModel {
     // EFFECTS: add a rule to ruleset, combine based on action when possible
     public void addRuleSetModels(RuleSetModel rule) {
         // First, check if the statement-source-target-targetclass tuple already exists
-        Boolean containEquv = false;
+        boolean containEquv = false;
         for (RuleSetModel r : ruleSetModels) {
             if (RuleSetModel.isEquvStatement(r, rule)) {
                 containEquv = true;

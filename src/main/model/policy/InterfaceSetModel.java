@@ -10,6 +10,8 @@ import model.exception.SyntaxParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+// A set of interfaces as a module could contain multiple interfaces
+
 public class InterfaceSetModel extends FileObjectModel implements Encodeable, Decodeable {
 
     private final ArrayList<InterfaceModel> interfaces = new ArrayList<>();
@@ -61,7 +63,7 @@ public class InterfaceSetModel extends FileObjectModel implements Encodeable, De
 
     @SuppressWarnings({"checkstyle:MethodLength", "checkstyle:SuppressWarnings"})
     public static InterfaceSetModel parser(String str) throws SyntaxParseException {
-        // A interface file could contain multiple interface definitions
+        // AN interface file could contain multiple interface definitions
         // In the design of psychosis, there is no difference between Interface
         // and templates as syntactically speaking template is just interface with more statement types
         InterfaceSetModel res = new InterfaceSetModel();

@@ -6,8 +6,9 @@ import model.exception.SyntaxParseException;
 
 import java.util.HashSet;
 
+// A RuleSetModel is a SELinux first-order rule - a four-tuple and a hashset
+
 public class RuleSetModel {
-    // A rule is a three-tuple and a hashset
 
     public enum RuleType {
         allow,
@@ -22,7 +23,7 @@ public class RuleSetModel {
     private final String sourceContext;
     private final String targetContext;
     private final String targetClass;
-    private HashSet<String> actions = new HashSet<String>();
+    private final HashSet<String> actions;
 
     public RuleSetModel(RuleType ruleType, String source, String target, String targetClass, HashSet<String> actions) {
         this.ruleType = ruleType;

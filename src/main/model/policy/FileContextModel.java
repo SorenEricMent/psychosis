@@ -4,9 +4,9 @@ import model.Decodeable;
 import model.Encodeable;
 import model.FileObjectModel;
 
+// Psychosis does not have functionality correlated to file context (.fc) files
+// This is a placeholder for file context files.
 public class FileContextModel extends FileObjectModel implements Encodeable, Decodeable {
-    // Psychosis does not have functionality correlated to file context (.fc) files
-    // This is a placeholder for file context files.
     public String toString() {
         return null;
     }

@@ -148,7 +148,7 @@ public class TerminalInterface {
         }
     }
 
-    // EFFECT: return the project that is currently working on
+    // EFFECTS: return the project that is currently working on
     private ProjectModel getFocus() {
         return loadedProjects.get(currentWorkIndex).getFirst();
     }
@@ -440,14 +440,12 @@ public class TerminalInterface {
 //            }
 
             // User-defined & tag filter
-            search = (HashSet<InterfaceModel>) search.stream().filter(x -> {
-                return (params[2].equals("userdefined") && x.getIsUserDefined())
-                        || (params[2].equals("unspec") && x.getIsUserDefined());
-            }).collect(Collectors.toSet());
+            search = (HashSet<InterfaceModel>) search.stream().filter(x ->
+                    (params[2].equals("userdefined") && x.getIsUserDefined())
+                            || (params[2].equals("unspec") && x.getIsUserDefined())).collect(Collectors.toSet());
 
-            System.out.println("Interfaces matches your search: " + String.join(" ", search.stream().map((x) -> {
-                return x.getName();
-            }).toArray(String[]::new)));
+            System.out.println("Interfaces matches your search: " + String.join(" ",
+                    search.stream().map(InterfaceModel::getName).toArray(String[]::new)));
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Not enough params.");
         }
@@ -484,7 +482,7 @@ public class TerminalInterface {
     private void commandEditTypeEnf(String[] params) {
         // edit_typeenf <layer_name> <module_name> <add/remove/add_inf/remove_inf> <RuleType>
         // <source context> <target_context> <target_class> [listof actions] (add_inf/remove_inf infname [listof args])
-        HashSet<String> actions = new HashSet<String>();
+        HashSet<String> actions = new HashSet<>();
         if (params[3].equals("add")) {
             Collections.addAll(actions, Arrays.copyOfRange(params, 8, params.length));
             this.getFocus().getLayer(params[1]).getPolicyModule(params[2]).getTypeEnf().addStatement(
@@ -549,7 +547,7 @@ public class TerminalInterface {
             throws IOException, SyntaxParseException {
         File securityClassFile = new File(securityClassPath);
         File accessVectorFile = new File(accessVectorPath);
-        Scanner fileReader = null;
+        Scanner fileReader;
 
         fileReader = new Scanner(securityClassFile);
 
