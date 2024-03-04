@@ -8,6 +8,7 @@ import model.policy.*;
 import persistence.ProjectSL;
 import persistence.Workspace;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -34,7 +35,15 @@ public class TerminalInterface {
     @SuppressWarnings("methodlength")
     public void startInterface() {
         while (isRunning) {
-            System.out.print("Psychosis@" + getFocus().getName() + "$ ");
+            System.out.println(" _______                         __                      _          \n"
+                    + "|_   __ \\                       [  |                    (_)         \n"
+                    + "  | |__) |.--.    _   __  .---.  | |--.   .--.   .--.   __   .--.   \n"
+                    + "  |  ___/( (`\\]  [ \\ [  ]/ /'`\\] | .-. |/ .'`\\ \\( (`\\] [  | ( (`\\]  \n"
+                    + " _| |_    `'.'.   \\ '/ / | \\__.  | | | || \\__. | `'.'.  | |  `'.'.  \n"
+                    + "|_____|  [\\__) )[\\_:  /  '.___.'[___]|__]'.__.' [\\__) )[___][\\__) ) \n"
+                    + "                 \\__.'                                              ");
+            System.out.println("Psychosis Studio Shell version " + Main.getVersion());
+            System.out.print("\u001B[34mPsychosis\u001B[0m@\u001B[36m" + getFocus().getName() + "\u001B[0m$ ");
             String[] inputList = scanner.nextLine().split(" ");
 
             try {
