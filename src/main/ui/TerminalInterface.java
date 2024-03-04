@@ -201,7 +201,12 @@ public class TerminalInterface {
 
     // EFFECTS: export all current projects into a workspace file (name and a list of projects / path)
     private void commandExportWorkspace(String[] params) {
-        // export_workspace <compiled/meta> <workspace_name> <path>
+        // export_workspace <compiled/meta> <workspace_name> <path> [compiled_list]
+
+        // Compiled: export everything in compiled format
+        // meta: export in meta format when possible, use [compiled_list] for compiled export
+
+        // Currently only compiled is supported
         String content =
                 params[1].equals("compiled")
                         ? ((new Workspace(params[1], this.currentWorkIndex, new ArrayList<>(this.loadedProjects.stream()

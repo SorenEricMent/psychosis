@@ -1,0 +1,49 @@
+plugins {
+    id 'application' 
+}
+
+repositories {
+    mavenCentral() 
+}
+
+dependencies {
+    testImplementation libs.junit.jupiter 
+
+    implementation fileTree(dir: 'lib', include: '*.jar')
+    implementation fileTree(dir: 'lib/spec', include: '*.jar')
+
+    implementation libs.guava 
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main']
+        }
+        resources {
+            srcDirs = ['data']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['src/test/model']
+        }
+	compileClasspath += main.output
+        runtimeClasspath += main.output
+    }
+}
+
+application {
+    mainClass = 'ui.Main'
+}
+
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'ui.Main'
+    }
+}
+
+tasks.named('test') {
+    useJUnitPlatform() 
+}

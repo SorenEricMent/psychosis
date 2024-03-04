@@ -3,10 +3,13 @@ package persistence;
 import model.Decodeable;
 import model.Encodeable;
 import model.ProjectModel;
+import model.TempProjectModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 // A Workspace is an abstract to the intermediate form of persistent saving/loading of the entire state
 public class Workspace implements Encodeable, Decodeable {
@@ -46,6 +49,33 @@ public class Workspace implements Encodeable, Decodeable {
     // By default, meta when possible
     public String toString() {
         return null; //stub
+    }
+
+    // EFFECTS: Encode the workspace to a .pcsw file, use meta when possible,
+    // but compile for the index in compiledIndex
+    public String toStringAuto(int[] compiledIndex) {
+        // Convert compiledIndex to a Set for easier lookup
+        Set<Integer> compiledIndexSet = Arrays.stream(compiledIndex).collect(HashSet::new, Set::add, Set::addAll);
+        JSONObject res = new JSONObject();
+        res.put("name", this.name);
+        res.put("index", index);
+        for (int i = 0; i < this.getProjects().size(); i++) {
+            ProjectModel proj = this.getProjects().get(i);
+            if (proj.getClass().equals(TempProjectModel.class)) {
+                // Use reflection to judge if the project cannot be meta
+
+            } else if (proj.getClass().equals(ProjectModel.class)) {
+                // Class must be ProjectModel
+                if (compiledIndexSet.contains(i)) {
+                    // use compiled
+                } else {
+
+                }
+            } else {
+                throw new RuntimeException("Reflection received a unknown class when encoding project.");
+            }
+        }
+        return res.toString();
     }
 
     // EFFECTS: Encode the workspace to a .pcsw file, fully compiled
