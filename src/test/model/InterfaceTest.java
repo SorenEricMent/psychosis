@@ -2,8 +2,11 @@ package model;
 
 import model.exception.NotFoundException;
 import model.exception.SyntaxParseException;
-import model.policy.*;
-import org.junit.jupiter.api.*;
+import model.policy.InterfaceModel;
+import model.policy.InterfaceSetModel;
+import model.policy.RuleSetModel;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,6 +19,7 @@ public class InterfaceTest {
     InterfaceModel i1, i2, i3;
     RuleSetModel r1, r2, r3, r5;
     HashSet<String> act1, act2, act3, act4;
+
     @BeforeEach
     public void init() {
         act1 = new HashSet<>();
@@ -114,6 +118,7 @@ public class InterfaceTest {
                         "')",
                 i2.toString());
     }
+
     @Test
     public void testInterfaceSetRuleSet() {
         ArrayList<RuleSetModel> rs1 = new ArrayList<>();
@@ -172,6 +177,7 @@ public class InterfaceTest {
                         "')",
                 test.getInterface("bendan").toString());
     }
+
     @Test
     public void testExcpInterfaceParserFO() {
         File testFile = new File("./data/testfiles/InterfaceTest/test_interface_syntaxerror");
@@ -211,6 +217,7 @@ public class InterfaceTest {
             fail("IO Exception, this should not happen & check CustomReaderTest!");
         }
     }
+
     @Test
     public void testInterfaceCall() {
         File testFile = new File("./data/testfiles/InterfaceTest/test_interface_multidef");

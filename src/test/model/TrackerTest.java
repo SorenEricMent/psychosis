@@ -2,7 +2,8 @@ package model;
 
 import model.exception.NotFoundException;
 import model.policy.InterfaceModel;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -12,12 +13,14 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TrackerTest {
     private TrackerModel testTracker1;
     private InterfaceModel testInf1, testInf2;
+
     @BeforeEach
     public void init() {
         testTracker1 = new TrackerModel();
         testInf1 = new InterfaceModel("testinf1", false);
         testInf2 = new InterfaceModel("testinf2", false);
     }
+
     @Test
     public void testLabelTracker() {
         // Fundamentally there is no difference
@@ -39,6 +42,7 @@ public class TrackerTest {
         testTracker1.insertInterfaceWithSLabel("test2_t", testInf1);
         testTracker1.insertInterfaceWithTLabel("test_t", testInf2);
     }
+
     @Test
     public void testTagTracker() {
         ArrayList<InterfaceModel> expected1 = new ArrayList<InterfaceModel>();
@@ -52,12 +56,13 @@ public class TrackerTest {
         testTracker1.insertInterfaceWithTag("testtag2", testInf2);
 
         assertThrows(NotFoundException.class, () -> {
-          testTracker1.queryInterfaceWithTag("tag");
+            testTracker1.queryInterfaceWithTag("tag");
         });
 
         assertEquals(expected1, testTracker1.queryInterfaceWithTag("testtag1"));
         assertEquals(expected2, testTracker1.queryInterfaceWithTag("testtag2"));
     }
+
     @Test
     public void testUserDefined() {
         testTracker1.insertInterfaceUserDefined(testInf1);

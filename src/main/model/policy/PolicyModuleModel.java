@@ -1,7 +1,5 @@
 package model.policy;
 
-import java.lang.reflect.Type;
-
 public class PolicyModuleModel {
     // A policy module contain (AND MUST CONTAIN):
     // A Type enforce file
@@ -9,9 +7,9 @@ public class PolicyModuleModel {
     // A file context file ( not used by Psychosis )
 
     // This also determine the file name!
-    private String name;
+    private final String name;
 
-    private TypeEnfModel typeEnfObject;
+    private final TypeEnfModel typeEnfObject;
     private FileContextModel fileContentObject =
             new FileContextModel();
     private InterfaceSetModel interfaceObject =

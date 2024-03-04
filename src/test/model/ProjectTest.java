@@ -4,13 +4,13 @@ import model.exception.DuplicateException;
 import model.exception.NotFoundException;
 import model.exception.SyntaxParseException;
 import model.exception.UnknownCapabilityException;
+import model.policy.AccessVectorModel;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
-import model.policy.AccessVectorModel;
-import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ProjectTest {
@@ -62,6 +62,7 @@ public class ProjectTest {
             fail(e);
         }
     }
+
     @Test
     public void testExcpCapabilityParser() {
         File testFile = new File("./data/testfiles/ProjectTest/fail_policy_capabilities");
@@ -86,17 +87,19 @@ public class ProjectTest {
             fail("IO Exception, should not happen! " + e);
         }
     }
+
     @Test
     public void testTempProject() {
         TempProjectModel testProj = new TempProjectModel("test");
         assertNull(testProj.getProjectPath());
         assertEquals(testProj.getName(), "test");
         assertEquals(testProj.toString(),
-                        "Project name: test" +
-                                "\nLayers: "+
-                                "test\n"+
-                                "\nYOU ARE WORKING ON A TEST PROJECT, YOUR PROGRESS WILL NOT BE SAVED.");
+                "Project name: test" +
+                        "\nLayers: " +
+                        "test\n" +
+                        "\nYOU ARE WORKING ON A TEST PROJECT, YOUR PROGRESS WILL NOT BE SAVED.");
     }
+
     @Test
     public void testAddRemoveLayer() {
         ProjectModel testProj = new TempProjectModel("test");
@@ -146,6 +149,7 @@ public class ProjectTest {
         testProj.setAccessVectors(testAV);
         assertEquals(testAV, testProj.getAccessVectors());
     }
+
     @Test
     public void testProjectTempMisc() {
         // TempProject has actually functionality to test for Phase 1

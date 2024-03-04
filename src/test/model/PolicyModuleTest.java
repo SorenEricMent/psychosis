@@ -4,11 +4,14 @@ import model.policy.FileContextModel;
 import model.policy.InterfaceSetModel;
 import model.policy.PolicyModuleModel;
 import model.policy.TypeEnfModel;
-import org.junit.jupiter.api.*;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PolicyModuleTest {
     PolicyModuleModel p1, p2;
+
     @BeforeEach
     public void init() {
         p1 = new PolicyModuleModel("p1");
@@ -18,6 +21,7 @@ public class PolicyModuleTest {
                 new FileContextModel()
         );
     }
+
     @Test
     public void testPolicyModuleToString() {
         assertEquals("Module name: p1\n" +

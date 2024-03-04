@@ -10,7 +10,6 @@ import model.policy.LayerModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
 // A psychosis project. Basically the whole policy
 // This is the version with autosave

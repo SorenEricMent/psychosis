@@ -5,16 +5,12 @@ import model.exception.DuplicateException;
 import model.exception.NotFoundException;
 import model.exception.SyntaxParseException;
 import model.policy.*;
+import persistence.ProjectSL;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
-
-import persistence.ProjectSL;
-import persistence.Workspace;
-
-import javax.sound.midi.Track;
 
 public class TerminalInterface {
     //Debugging command line for Phase 1
@@ -501,8 +497,8 @@ public class TerminalInterface {
             HashSet<String> res =
                     this.getFocus().getLayer(params[1]).getPolicyModule(params[2]).getTypeEnf().removeStatement(
                             new RuleSetModel(RuleSetModel.toRuleType(
-                            params[4]), params[5], params[6], params[7],
-                            actions));
+                                    params[4]), params[5], params[6], params[7],
+                                    actions));
             System.out.println("Success. The following actions in the original type enforcement are preserved: "
                     + String.join(" ", res));
         } else if (params[3].equals("add_inf")) {
@@ -548,7 +544,6 @@ public class TerminalInterface {
         // show_capability
     }
 
-    
 
     public static AccessVectorModel loadAccessVectors(String accessVectorPath, String securityClassPath)
             throws IOException, SyntaxParseException {

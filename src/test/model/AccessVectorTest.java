@@ -2,13 +2,12 @@ package model;
 
 import model.exception.SyntaxParseException;
 import model.policy.AccessVectorModel;
-import org.junit.jupiter.api.*;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -16,16 +15,20 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 
 // Dependency on the success of CustomReaderTest!
 public class AccessVectorTest {
     String fileContent;
     Path currentPath = Paths.get("");
     AccessVectorModel accessVectorModel;
+
     @BeforeEach
     public void init() {
-       accessVectorModel = new AccessVectorModel();
+        accessVectorModel = new AccessVectorModel();
     }
+
     @Test
     public void testSecurityClassParse() {
         File testFile = new File("./data/testfiles/AccessVectorTest/test_security_classes");
@@ -37,7 +40,7 @@ public class AccessVectorTest {
             fail("Test source file not found, this should not happen!");
         }
 
-        String expected[] = {null, null, null, null, "something", null, "cpsc210", null, "ubc"};
+        String[] expected = {null, null, null, null, "something", null, "cpsc210", null, "ubc"};
 
         for (int i = 0; i < expected.length; i++) {
             String line = fileReader.nextLine();
@@ -49,6 +52,7 @@ public class AccessVectorTest {
         }
         fileReader.close();
     }
+
     @Test
     public void testAccessVectorParse() {
         File testFile = new File("./data/testfiles/AccessVectorTest/test_access_vectors");
@@ -77,7 +81,7 @@ public class AccessVectorTest {
 
         testFile = new File("./data/testfiles/AccessVectorTest/test_fail_invalidclass");
         try {
-            fileContent =  CustomReader.readAsWholeCode(testFile).getFirst();
+            fileContent = CustomReader.readAsWholeCode(testFile).getFirst();
         } catch (IOException e) {
             fail("Test source file not found, this should not happen!");
         }
@@ -90,7 +94,7 @@ public class AccessVectorTest {
         testFile = new File("./data/testfiles/AccessVectorTest/test_fail_invalidcommon");
 
         try {
-            fileContent =  CustomReader.readAsWholeCode(testFile).getFirst();
+            fileContent = CustomReader.readAsWholeCode(testFile).getFirst();
         } catch (IOException e) {
             fail("Test source file not found, this should not happen!");
         }
@@ -103,6 +107,7 @@ public class AccessVectorTest {
                     AccessVectorModel.accessVectorParser("common &WINSLOW&");
                 });
     }
+
     @Test
     public void testExcpSecurityClassParse() {
         File testFile = new File("./data/testfiles/AccessVectorTest/test_fail_security_classes");
@@ -115,7 +120,7 @@ public class AccessVectorTest {
             fail("Test source file not found, this should not happen!");
         }
         ArrayList<String> testContent = new ArrayList<String>();
-        while(fileReader.hasNextLine()) {
+        while (fileReader.hasNextLine()) {
             testContent.add(fileReader.nextLine());
         }
         // In the test file, line 1, 3, 5, 6, 7 should produce exception
@@ -141,7 +146,7 @@ public class AccessVectorTest {
                     AccessVectorModel.securityClassParser(testContent.get(6));
                 });
         try {
-            assertEquals(null, AccessVectorModel.securityClassParser(testContent.get(1)));
+            assertNull(AccessVectorModel.securityClassParser(testContent.get(1)));
         } catch (SyntaxParseException e) {
             fail("Failed to parse no-content line: " + testContent.get(1));
         }
@@ -152,6 +157,7 @@ public class AccessVectorTest {
         }
         fileReader.close();
     }
+
     @Test
     public void testExcpAccessVectorParseTest() {
         File testFile = new File("./data/testfiles/AccessVectorTest/test_fail_access_vectors");
@@ -164,6 +170,7 @@ public class AccessVectorTest {
             fail("IO Exception, this should not happen & check CustomReaderTest!");
         }
     }
+
     @Test
     public void testBatchAddAction() {
         HashMap<String, HashSet<String>> actions = new HashMap<>();

@@ -3,7 +3,6 @@ package model;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -39,7 +38,7 @@ public class CustomReader {
             int commentLocation = CommonUtil.commentLocate(temp);
             if (commentLocation != -1) {
                 temp = temp.substring(0, commentLocation);
-                comments.add(new Pair<Integer, String>(i, temp.substring(commentLocation, temp.length())));
+                comments.add(new Pair<Integer, String>(i, temp.substring(commentLocation)));
             }
             temp = temp.strip();
             content = content.concat(temp + "\n");

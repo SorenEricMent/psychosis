@@ -2,9 +2,9 @@ package model;
 
 import model.exception.NotFoundException;
 import model.exception.SyntaxParseException;
-import model.policy.AccessVectorModel;
 import model.policy.RuleSetModel;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
 
@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class RuleSetTest {
     RuleSetModel r1, r2, r3, r4, r5, r6, r7, r8;
     HashSet<String> act1, act2, act3, act4;
+
     @BeforeEach
     public void init() {
         act1 = new HashSet<>();
@@ -129,6 +130,7 @@ public class RuleSetTest {
             fail(e);
         }
     }
+
     @Test
     public void testExcpRuleSetParser() {
         String t1 = "allow yuuta_t winslow_t:winslow{wat}";
@@ -142,6 +144,7 @@ public class RuleSetTest {
                     RuleSetModel.ruleSetParser(t2);
                 });
     }
+
     @Test
     public void testToRuleTypeNotImplemented() {
         assertEquals(RuleSetModel.RuleType.neverallow, RuleSetModel.toRuleType("neverallow"));
@@ -151,6 +154,7 @@ public class RuleSetTest {
             RuleSetModel.toRuleType("yuuta");
         });
     }
+
     @Test
     public void testTokenIsProcessed() {
         assertTrue(RuleSetModel.isProcessed("allow"));

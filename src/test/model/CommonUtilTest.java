@@ -1,6 +1,7 @@
 package model;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CommonUtilTest {
@@ -15,20 +16,22 @@ public class CommonUtilTest {
                 "todo # comment # 233"
         };
         int[] locations = {-1, -1, 0, 5, 1, 5};
-        for(int i = 0; i < testStr.length; i++) {
+        for (int i = 0; i < testStr.length; i++) {
             assertEquals(CommonUtil.commentLocate(testStr[i]), locations[i]);
         }
     }
+
     @Test
     public void testBasicTokenizer() {
         String[] testContent = {
-            "\ntest\n"
+                "\ntest\n"
         };
         String[] expected1 = {
                 "test"
         };
         assertArrayEquals(expected1, CommonUtil.basicTokenizer(testContent[0]));
     }
+
     @Test
     public void testStrongTokenizer() {
         String[] testContent = {
@@ -64,6 +67,7 @@ public class CommonUtilTest {
         assertArrayEquals(expected2, CommonUtil.strongTokenizer(testContent[1]));
         assertArrayEquals(expected3, CommonUtil.strongTokenizer(testContent[2]));
     }
+
     @Test
     public void testTokenValidate() {
         assertFalse(CommonUtil.tokenValidate(""));
@@ -74,6 +78,7 @@ public class CommonUtilTest {
         assertFalse(CommonUtil.tokenValidate("$1_t"));
         assertFalse(CommonUtil.tokenValidate("%1"));
     }
+
     @Test
     public void testTokenValidateWeak() {
         assertFalse(CommonUtil.tokenValidateWeak(""));
@@ -181,6 +186,7 @@ public class CommonUtilTest {
         assertFalse(CommonUtil.isIgnored("allow"));
         assertFalse(CommonUtil.isIgnored("dontaudit"));
     }
+
     @Test
     public void testIsOtherToken() {
         assertFalse(CommonUtil.Balancer.isOtherToken("`"));

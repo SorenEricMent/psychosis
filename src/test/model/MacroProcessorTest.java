@@ -1,12 +1,12 @@
 package model;
 
 import model.exception.SyntaxParseException;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,6 +14,7 @@ public class MacroProcessorTest {
 
     MacroProcessor m1, m2;
     String s1, s2;
+
     @BeforeEach
     public void init() {
         m1 = new MacroProcessor();
@@ -24,16 +25,19 @@ public class MacroProcessorTest {
         s1 = "winslow eat yuuta";
         s2 = "winslow eat yuuta with fishtart";
     }
+
     @Test
     public void testSingleProcess() {
         s1 = m1.process(s1);
         assertEquals("winslow eat bendan", s1);
     }
+
     @Test
     public void testMultiProcess() {
         s2 = m2.process(s2);
         assertEquals("winslow eat bendan with yuutah", s2);
     }
+
     @Test
     public void testMacroRuleParser() {
         File testFile = new File("./data/testfiles/MacroProcessorTest/test_macrofile");
@@ -53,12 +57,13 @@ public class MacroProcessorTest {
             fail(e);
         }
         String testStr = "yuuta";
-        String testStr3= "shiftnyuuta";
+        String testStr3 = "shiftnyuuta";
 
         assertEquals("bendan", testProcessor.process(testStr));
         assertEquals("yuucuta", testProcessor.process("yuucuta"));
         assertEquals("shiftnbendan", testProcessor.process(testStr3));
     }
+
     @Test
     public void testExcpMacroRuleParser() {
         File testFile = new File("./data/testfiles/MacroProcessorTest/test_macrofile_excp");

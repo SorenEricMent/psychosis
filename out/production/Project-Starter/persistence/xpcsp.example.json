@@ -1,50 +1,57 @@
 {
-    "name": "<project-name>",
-    "layers": [
+  "name": "<project-name>",
+  "layers": [
+    {
+      "name": "<layer_name>",
+      "modules": [
         {
-            "name": "<layer_name>",
-            "modules": [
-                {
-                    "name": "<module_name>",
-                    "te": {
-                        "content": [
-                            {
-                                "type": "call",
-                                "name": "yuuta",
-                                "params": ["winslow", "chocolate"]
-                            },
-                            {
-                                "type": "statement",
-                                "rule": "allow",
-                                "source": "winslow_t",
-                                "target": "yuuta_t",
-                                "target_class": "body",
-                                "actions": ["pet", "hug"]
-                            }
-                        ]
-                    },
-                    "if": {
-                        "content": [
-                            {
-                                "type": "interface/template",
-                                "name": "yuuta",
-                                "statements": [
-                                    {
-                                        "rule": "allow",
-                                        "source": "$1",
-                                        "target": "$2",
-                                        "target_class": "candy",
-                                        "actions": ["eat"]
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    "fc":  {
-
-                    }
-                }
+          "name": "<module_name>",
+          "te": {
+            "content": [
+              {
+                "type": "call",
+                "name": "yuuta",
+                "params": [
+                  "winslow",
+                  "chocolate"
+                ]
+              },
+              {
+                "type": "statement",
+                "rule": "allow",
+                "source": "winslow_t",
+                "target": "yuuta_t",
+                "target_class": "body",
+                "actions": [
+                  "pet",
+                  "hug"
+                ]
+              }
             ]
+          },
+          "if": {
+            "content": [
+              {
+                "type": "interface/template",
+                "name": "yuuta",
+                "statements": [
+                  {
+                    "rule": "allow",
+                    "source": "$1",
+                    "target": "$2",
+                    "target_class": "candy",
+                    "actions": [
+                      "eat"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "fc": {
+          }
         }
-    ]
+      ]
+    }
+  ]
 }

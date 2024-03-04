@@ -1,11 +1,9 @@
 package model;
 
-import jdk.jfr.Category;
 import model.policy.InterfaceModel;
 import model.policy.PolicyModuleModel;
 import model.policy.RuleSetModel;
-import org.json.JSONObject;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import persistence.ProjectSL;
 import persistence.Workspace;
 
@@ -13,6 +11,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -58,9 +57,10 @@ public class PersistenceTest {
                         "$1",
                         "$2",
                         "candy",
-                        new HashSet<>(Arrays.asList("eat")))
+                        new HashSet<>(List.of("eat")))
         ));
     }
+
     @Test
     public void testProjectSaveCompiled() {
         ProjectModel testProject = new TempProjectModel("example_proj", true);
@@ -72,12 +72,12 @@ public class PersistenceTest {
         );
         testModule.getTypeEnf().addInterfaceCall("yuuta", Arrays.asList("winslow", "chocolate").toArray(String[]::new));
         testProject.getLayer("example_layer").addPolicyModule(
-            testModule
+                testModule
         );
         testProject.addInterface("example_layer", "example_module", "yuuta");
         testModule.getInterface("yuuta").addRuleSetModels(
                 new RuleSetModel(RuleSetModel.RuleType.allow, "$1", "$2", "candy",
-                        new HashSet<>(Arrays.asList("eat")))
+                        new HashSet<>(List.of("eat")))
         );
 
         ProjectModel loadResult = ProjectSL
@@ -114,18 +114,19 @@ public class PersistenceTest {
                         "$1",
                         "$2",
                         "candy",
-                        new HashSet<>(Arrays.asList("eat")))
+                        new HashSet<>(List.of("eat")))
         ));
     }
 
     @Test
     public void testWorkspaceLoadCompiled() {
-        Workspace testWorkspace1 = new Workspace("tw1");
+        Workspace testWorkspace1 = new Workspace("tw1", 0);
 
     }
+
     @Test
     public void testWorkspaceSaveCompiled() {
-        Workspace testWorkspace1 = new Workspace("tw1");
+        Workspace testWorkspace1 = new Workspace("tw1", 0);
 
     }
 }

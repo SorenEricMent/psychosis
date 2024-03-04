@@ -3,7 +3,6 @@ package model.policy;
 import model.*;
 import model.exception.SyntaxParseException;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -124,7 +123,7 @@ public class TypeEnfModel extends FileObjectModel implements Encodeable, Decodea
         for (int j = i; j < tokenized.length; j++) {
             findEnd.push(tokenized[j]);
             if (findEnd.isSyntaxError()) {
-                throw new SyntaxParseException("Unbalanced parenthesis in block: stack: " + findEnd.toString());
+                throw new SyntaxParseException("Unbalanced parenthesis in block: stack: " + findEnd);
             }
             if (findEnd.check()) {
                 end = j;
@@ -132,7 +131,7 @@ public class TypeEnfModel extends FileObjectModel implements Encodeable, Decodea
             }
         }
         if (end == -1) {
-            throw new SyntaxParseException("Cannot end sequence: stack: " + findEnd.toString());
+            throw new SyntaxParseException("Cannot end sequence: stack: " + findEnd);
         }
         return end;
     }

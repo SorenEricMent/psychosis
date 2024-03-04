@@ -1,7 +1,10 @@
 {
-    "workspace_name": "<name>",
-    "index": 1,
-    "projects": [
-        {Project JSON}
-    ]
+  "name": "<name>",
+  "index": 1,
+  "projects": [
+    {
+      "type": "meta/compiled",
+      "data": {}
+    }
+  ]
 }

@@ -57,7 +57,7 @@ public class RuleSetModel {
     }
 
     public HashSet<String> getActions() {
-        return actions;
+        return this.actions;
     }
 
     // EFFECTS: convert rule type from string to Enum type
@@ -79,6 +79,7 @@ public class RuleSetModel {
         }
     }
 
+    // EFFECTS: judge if a string is a processed statement type
     public static boolean isProcessed(String token) {
         return token.equals("allow") || token.equals("dontaudit");
     }
@@ -140,7 +141,7 @@ public class RuleSetModel {
         return ruleSetParser(tokenized);
     }
 
-    // EFFECTS: convert self to SELinux rule format.
+    // EFFECTS: convert self to SELinux statement format.
     @Override
     public String toString() {
         return this.ruleType.toString() + " "

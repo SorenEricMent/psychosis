@@ -108,7 +108,7 @@ public class CommonUtil {
         }
 
         public String toString() {
-            return readingString + " " + syntaxError + " " + stack.toString();
+            return readingString + " " + syntaxError + " " + stack;
         }
 
         // EFFECTS: return if the stack is empty;

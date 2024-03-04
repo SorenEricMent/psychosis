@@ -4,17 +4,13 @@ import model.Pair;
 import model.ProjectModel;
 import model.TempProjectModel;
 import model.TrackerModel;
-import model.exception.SyntaxParseException;
 import model.policy.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.lang.reflect.Type;
-import java.util.stream.Collectors;
-
 import java.util.HashSet;
+import java.util.stream.Collectors;
 
 // FUTURE TODO: Use AoP to call gc after load
 // ik call gc is normally bad practice but makes sense here as a huge object is just loaded
@@ -68,12 +64,12 @@ public abstract class ProjectSL {
                 });
                 res.addStatement(
                         new RuleSetModel(
-                            RuleSetModel.toRuleType(line.getString("rule")),
-                            line.getString("source"),
-                            line.getString("target"),
-                            line.getString("target_class"), actions));
+                                RuleSetModel.toRuleType(line.getString("rule")),
+                                line.getString("source"),
+                                line.getString("target"),
+                                line.getString("target_class"), actions));
             } else {
-                return; // jump to next iteration, ignore unknown type
+                // jump to next iteration, ignore unknown type
             }
         });
         return res; //stub
@@ -100,7 +96,7 @@ public abstract class ProjectSL {
                 });
                 res.addInterface(ifToAdd);
             } else {
-                return; // jump to next iteration, ignore unknown type
+                // jump to next iteration, ignore unknown type
             }
         });
         return res; //stub

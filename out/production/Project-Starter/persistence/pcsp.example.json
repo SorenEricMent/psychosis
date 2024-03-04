@@ -1,28 +1,28 @@
 {
-    "name": "<project-name>",
-    "layers": [
+  "name": "<project-name>",
+  "layers": [
+    {
+      "name": "<layer_name>",
+      "modules": [
         {
-            "name": "<layer_name>",
-            "modules": [
-                {
-                    "name": "<module_name>",
-                    "te": {
-                        "fs": true,
-                        "path": "path",
-                        "content": "raw content"
-                    },
-                    "if": {
-                        "fs": true,
-                        "path": "path",
-                        "content": "raw content"
-                    },
-                    "fc":  {
-                        "fs": true,
-                        "path": "path",
-                        "content": "raw content"
-                    }
-                }
-            ]
+          "name": "<module_name>",
+          "te": {
+            "fs": true,
+            "path": "path",
+            "content": "raw content"
+          },
+          "if": {
+            "fs": true,
+            "path": "path",
+            "content": "raw content"
+          },
+          "fc": {
+            "fs": true,
+            "path": "path",
+            "content": "raw content"
+          }
         }
-    ]
+      ]
+    }
+  ]
 }

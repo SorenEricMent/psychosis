@@ -1,22 +1,23 @@
 package model;
 
+import model.exception.SyntaxParseException;
 import model.policy.InterfaceSetModel;
 import model.policy.RuleSetModel;
 import model.policy.TypeEnfModel;
-import org.junit.jupiter.api.*;
-import static org.junit.jupiter.api.Assertions.*;
-
-import model.exception.SyntaxParseException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.HashSet;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TypeEnfTest {
     String s1, s2, s3;
     TypeEnfModel t1, t2, t3, t4, t5;
     HashSet<String> act1, act2, act3, act4, act5;
+
     @BeforeEach
     public void init() {
         try {
@@ -93,6 +94,7 @@ public class TypeEnfTest {
                         "winslow",
                         act1));
     }
+
     @Test
     public void testTypeEnfEqual() {
         assertTrue(t1.equals(t3));
@@ -100,6 +102,7 @@ public class TypeEnfTest {
         assertFalse(t4.equals(t1));
         assertFalse(t4.equals(t5));
     }
+
     @Test
     public void testTypeEnfParse() {
         try {
@@ -108,6 +111,7 @@ public class TypeEnfTest {
             fail(e);
         }
     }
+
     @Test
     public void testExcpTypeEnfParse() {
         assertThrows(SyntaxParseException.class,
@@ -159,12 +163,14 @@ public class TypeEnfTest {
                     TypeEnfModel.parser("policy_module(test)\nrequire }");
                 });
     }
+
     @Test
     public void testTypeEnfToString() {
         assertEquals("policy_module(t2)\n\nallow yuuta_t winslow_t:winslow { hug };\n", t2.toString(
                 new InterfaceSetModel()
         ));
     }
+
     @Test
     public void testAddRemoveStatement() {
         t1.addStatement(new RuleSetModel(
@@ -183,6 +189,7 @@ public class TypeEnfTest {
                 "winslow",
                 act1)));
     }
+
     @Test
     public void testTypeEnfParseWithInterface() {
         try {
@@ -209,6 +216,7 @@ public class TypeEnfTest {
             fail(e);
         }
     }
+
     @Test
     public void testTypeEnfParseWithInterfaceVar() {
         try {
