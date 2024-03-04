@@ -20,7 +20,7 @@ public class PersistenceTest {
     public void testProjectLoadCompiled() {
         String content = "";
         try {
-            content = CustomReader.readAsWhole(new File("./data/testfiles/PersistenceTest/example_xpscp.1.json"));
+            content = CustomReader.readAsWhole(new File("./data/testfiles/PersistenceTest/example.xpscp.1.json"));
         } catch (Exception e) {
             fail("Failed to load test file, this should not happen!");
         }
@@ -120,13 +120,87 @@ public class PersistenceTest {
 
     @Test
     public void testWorkspaceLoadCompiled() {
-        Workspace testWorkspace1 = new Workspace("tw1", 0);
+        String content = "";
+        try {
+            content = CustomReader.readAsWhole(new File("./data/testfiles/PersistenceTest/example.pscw.1.json"));
+        } catch (Exception e) {
+            fail("Failed to load test file, this should not happen!");
+        }
+        Workspace testWorkspace1 = new Workspace(content);
 
+        assertEquals("example_workspace", testWorkspace1.getName());
+        assertEquals(0, testWorkspace1.getIndex());
+        assertEquals(1, testWorkspace1.getProjectNum());
+
+        ProjectModel loadResult = testWorkspace1.getProjects().get(0);
+
+        assertEquals("example_proj", loadResult.getName());
+        assertEquals("example_layer", loadResult.getLayer("example_layer").getName());
+        assertEquals("example_module", loadResult.getLayer("example_layer").getPolicyModule("example_module").getName());
+
+        ArrayList<RuleSetModel> teStatementRes = loadResult.getLayer("example_layer")
+                .getPolicyModule("example_module")
+                .getTypeEnf().getStatementsFO();
+        ArrayList<Pair<String, String[]>> teCallRes = loadResult.getLayer("example_layer")
+                .getPolicyModule("example_module")
+                .getTypeEnf().getInterfaceCall();
+        assertTrue(teStatementRes.get(0).equals(
+                new RuleSetModel(
+                        RuleSetModel.RuleType.allow,
+                        "winslow_t", "yuuta_t", "body",
+                        new HashSet<>(Arrays.asList("pet", "hug"))
+                )
+        ));
+        assertEquals("yuuta", teCallRes.get(0).getFirst());
+        String[] expectedActions1 = {"winslow", "chocolate"};
+        assertArrayEquals(expectedActions1, teCallRes.get(0).getSecond());
+
+        InterfaceModel testInterface = loadResult.getLayer("example_layer")
+                .getPolicyModule("example_module").getInterfaceSet().getInterface("yuuta");
+        assertEquals("yuuta", testInterface.getName());
+        assertFalse(testInterface.getIsUserDefined());
+        assertTrue(testInterface.getRuleSetModels().get(0).equals(
+                new RuleSetModel(
+                        RuleSetModel.RuleType.allow,
+                        "$1",
+                        "$2",
+                        "candy",
+                        new HashSet<>(List.of("eat")))
+        ));
     }
 
     @Test
     public void testWorkspaceSaveCompiled() {
-        Workspace testWorkspace1 = new Workspace("tw1", 0);
+        String content = "";
+        try {
+            content = CustomReader.readAsWhole(new File("./data/testfiles/PersistenceTest/example.pscw.1.json"));
+        } catch (Exception e) {
+            fail("Failed to load test file, this should not happen!");
+        }
+        Workspace expected = new Workspace(content);
+        ProjectModel testProject = new TempProjectModel("example_proj", true);
+        testProject.addLayer("example_layer");
+        PolicyModuleModel testModule = new PolicyModuleModel("example_module");
+        testModule.getTypeEnf().addStatement(
+                new RuleSetModel(RuleSetModel.RuleType.allow, "winslow_t", "yuuta_t", "body",
+                        new HashSet<>(Arrays.asList("pet", "hug")))
+        );
+        testModule.getTypeEnf().addInterfaceCall("yuuta", Arrays.asList("winslow", "chocolate").toArray(String[]::new));
+        testProject.getLayer("example_layer").addPolicyModule(
+                testModule
+        );
+        testProject.addInterface("example_layer", "example_module", "yuuta");
+        testModule.getInterface("yuuta").addRuleSetModels(
+                new RuleSetModel(RuleSetModel.RuleType.allow, "$1", "$2", "candy",
+                        new HashSet<>(List.of("eat")))
+        );
 
+        ArrayList<ProjectModel> testProjects = new ArrayList<>();
+
+        testProjects.add(testProject);
+
+        Workspace testWorkspace1 = new Workspace("example_workspace", 0, testProjects);
+
+        assertEquals(expected.toStringCompiled(), testWorkspace1.toStringCompiled());
     }
 }
