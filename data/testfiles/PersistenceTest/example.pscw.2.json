@@ -3,6 +3,9 @@
   "index": 0,
   "projects": [
     {
+      "type": "invalid"
+    },
+    {
       "type": "meta",
       "data": {}
     },

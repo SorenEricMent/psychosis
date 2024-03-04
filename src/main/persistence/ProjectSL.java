@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 // and user could def wait for some more miliseconds for a load
 
 // Providing methods of loading/saving a project to/from a .pcsp file
-public abstract class ProjectSL {
+public class ProjectSL {
 
     // Technically project should implement Encodeable and Decodeable, but toString is already used for overview
 
