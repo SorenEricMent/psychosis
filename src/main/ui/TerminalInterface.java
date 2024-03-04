@@ -5,6 +5,7 @@ import model.exception.DuplicateException;
 import model.exception.NotFoundException;
 import model.exception.SyntaxParseException;
 import model.policy.*;
+import org.json.JSONException;
 import persistence.ProjectSL;
 import persistence.Workspace;
 
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 public class TerminalInterface {
     //Debugging command line for Phase 1
 
-    private final ArrayList<
+    private ArrayList<
             Pair<ProjectModel, TrackerModel>> loadedProjects = new ArrayList<>();
     private Integer currentWorkIndex = 0;
     // Object 0 is an empty non-saving test only project
@@ -34,15 +35,15 @@ public class TerminalInterface {
 
     @SuppressWarnings("methodlength")
     public void startInterface() {
+        System.out.println(" _______                         __                      _          \n"
+                + "|_   __ \\                       [  |                    (_)         \n"
+                + "  | |__) |.--.    _   __  .---.  | |--.   .--.   .--.   __   .--.   \n"
+                + "  |  ___/( (`\\]  [ \\ [  ]/ /'`\\] | .-. |/ .'`\\ \\( (`\\] [  | ( (`\\]  \n"
+                + " _| |_    `'.'.   \\ '/ / | \\__.  | | | || \\__. | `'.'.  | |  `'.'.  \n"
+                + "|_____|  [\\__) )[\\_:  /  '.___.'[___]|__]'.__.' [\\__) )[___][\\__) ) \n"
+                + "                 \\__.'                                              ");
+        System.out.println("Psychosis Studio Shell version " + Main.getVersion());
         while (isRunning) {
-            System.out.println(" _______                         __                      _          \n"
-                    + "|_   __ \\                       [  |                    (_)         \n"
-                    + "  | |__) |.--.    _   __  .---.  | |--.   .--.   .--.   __   .--.   \n"
-                    + "  |  ___/( (`\\]  [ \\ [  ]/ /'`\\] | .-. |/ .'`\\ \\( (`\\] [  | ( (`\\]  \n"
-                    + " _| |_    `'.'.   \\ '/ / | \\__.  | | | || \\__. | `'.'.  | |  `'.'.  \n"
-                    + "|_____|  [\\__) )[\\_:  /  '.___.'[___]|__]'.__.' [\\__) )[___][\\__) ) \n"
-                    + "                 \\__.'                                              ");
-            System.out.println("Psychosis Studio Shell version " + Main.getVersion());
             System.out.print("\u001B[34mPsychosis\u001B[0m@\u001B[36m" + getFocus().getName() + "\u001B[0m$ ");
             String[] inputList = scanner.nextLine().split(" ");
 
@@ -188,25 +189,54 @@ public class TerminalInterface {
             System.out.println("Unknown export format, valid options: compiled/meta");
             return;
         }
-
+        File target = new File(params[2]);
+        try {
+            CustomReader.writeToFile(target, content);
+        } catch (IOException e) {
+            System.out.println("Error when saving to file at " + target.getAbsolutePath() + ", " + e);
+        }
     }
 
     // EFFECTS: export all current projects into a workspace file (name and a list of projects / path)
     private void commandExportWorkspace(String[] params) {
-        // export_workspace <workspace_name> <path>
-        String content = (new Workspace(params[1], this.currentWorkIndex, new
-                ArrayList<>(this.loadedProjects.stream().map(Pair::getFirst).collect(Collectors.toList())))).toString();
-
+        // export_workspace <compiled/meta> <workspace_name> <path>
+        String content =
+                params[1].equals("compiled")
+                        ? ((new Workspace(params[1], this.currentWorkIndex, new ArrayList<>(this.loadedProjects.stream()
+                        .map(Pair::getFirst).collect(Collectors.toList())))).toStringCompiled())
+                        : ((new Workspace(params[1], this.currentWorkIndex, new ArrayList<>(this.loadedProjects.stream()
+                        .map(Pair::getFirst).collect(Collectors.toList())))).toString());
+        File target = new File(params[3]);
+        try {
+            CustomReader.writeToFile(target, content);
+        } catch (IOException e) {
+            System.out.println("Error when reading file at location "
+                    + target.getAbsolutePath() + " : " + e);
+        }
     }
 
     private void commandLoadWorkspace(String[] params) {
         // load_workspace <path>
+        String fileContent = "";
+        File target =  new File(params[1]);
         try {
-            String fileContent = CustomReader.readAsWhole(
-                    new File(params[1]));
-
+            fileContent = CustomReader.readAsWhole(target);
         } catch (IOException e) {
             System.out.println("Error when reading file: " + e);
+        }
+        try {
+            Workspace temp = new Workspace(fileContent);
+            this.loadedProjects =
+                    new ArrayList<>(temp.getProjects().stream()
+                            .map(x -> new Pair<>(x, new TrackerModel()))
+                            .collect(Collectors.toList()));
+            // TrackerModel is currently placeholding
+            this.currentWorkIndex = temp.getIndex();
+            System.out.println("Loaded workspace named " + temp.getName() + " at path " + target.getAbsolutePath());
+            System.out.println("Totally " + temp.getProjectNum()
+                    + "projects, currently at index " + this.currentWorkIndex);
+        } catch (JSONException e) {
+            System.out.println("Invalid JSON, " + e);
         }
     }
 
