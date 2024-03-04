@@ -1,6 +1,8 @@
 package model;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
@@ -64,4 +66,12 @@ public class CustomReader {
 //        }
 //        return content;
 //    }
+
+    // EFFECTS: write to a file, always overwrite
+    public static void writeToFile(File file, String content) throws IOException {
+        FileWriter fw = new FileWriter(file.getAbsoluteFile());
+        BufferedWriter bw = new BufferedWriter(fw);
+        bw.write(content);
+        bw.close();
+    }
 }

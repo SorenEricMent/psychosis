@@ -60,11 +60,10 @@ public class ProjectSL {
             if (line.getString("type").equals("call")) {
                 res.addInterfaceCall(line.getString("name"),
                         line.getJSONArray("params").toList().toArray(String[]::new));
+                // Ignore the IntelliJ warning of replacing String[]::new with Object[]::new, bug in type checking
             } else if (line.getString("type").equals("statement")) {
                 HashSet<String> actions = new HashSet<>();
-                line.getJSONArray("actions").forEach(a -> {
-                    actions.add((String) a);
-                });
+                line.getJSONArray("actions").forEach(a -> actions.add((String) a));
                 res.addStatement(
                         new RuleSetModel(
                                 RuleSetModel.toRuleType(line.getString("rule")),
@@ -93,9 +92,8 @@ public class ProjectSL {
                             statement.getString("source"),
                             statement.getString("target"),
                             statement.getString("target_class"),
-                            statement.getJSONArray("actions").toList().stream().map(x -> {
-                                return (String) x;
-                            }).collect(Collectors.toCollection(HashSet::new))));
+                            statement.getJSONArray("actions").toList().stream()
+                                    .map(x -> (String) x).collect(Collectors.toCollection(HashSet::new))));
                 });
                 res.addInterface(ifToAdd);
             } else {

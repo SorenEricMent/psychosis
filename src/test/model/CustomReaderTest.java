@@ -71,4 +71,16 @@ class CustomReaderTest {
             fail(e);
         }
     }
+
+    @Test
+    public void testWriteFile() {
+        File file = new File("./data/testfiles/CustomReaderTest/writetest");
+        try {
+            CustomReader.writeToFile(file, "Yuuta is cute");
+            assertEquals("Yuuta is cute", CustomReader.readAsWhole(file));
+            file.delete();
+        } catch (IOException e) {
+            fail(e);
+        }
+    }
 }

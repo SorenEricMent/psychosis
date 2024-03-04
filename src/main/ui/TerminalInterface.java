@@ -6,6 +6,7 @@ import model.exception.NotFoundException;
 import model.exception.SyntaxParseException;
 import model.policy.*;
 import persistence.ProjectSL;
+import persistence.Workspace;
 
 import java.io.File;
 import java.io.IOException;
@@ -166,14 +167,27 @@ public class TerminalInterface {
         }
     }
 
-    // EFFECTS: export a single project to a JSON
+    // EFFECTS: export the current project to a JSON
     private void commandExportProject(String[] params) {
-        // export_project: <path>
+        // export_project: <compiled/meta> <path>
+        String content;
+        if (params[1].equals("compiled")) {
+            content = ProjectSL.saveProjectToJsonCompiled(this.getFocus());
+        } else if (params[1].equals("meta")) {
+            content = ProjectSL.saveProjectToJsonMeta(this.getFocus());
+        } else {
+            System.out.println("Unknown export format, valid options: compiled/meta");
+            return;
+        }
+
     }
 
     // EFFECTS: export all current projects into a workspace file (name and a list of projects / path)
     private void commandExportWorkspace(String[] params) {
         // export_workspace <workspace_name> <path>
+        String content = (new Workspace(params[1], this.currentWorkIndex, new
+                ArrayList<>(this.loadedProjects.stream().map(Pair::getFirst).collect(Collectors.toList())))).toString();
+
     }
 
     private void commandLoadWorkspace(String[] params) {
