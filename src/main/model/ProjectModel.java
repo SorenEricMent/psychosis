@@ -10,6 +10,7 @@ import model.policy.LayerModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 // A psychosis project. Basically the whole policy
 // This is the version with autosave
@@ -53,6 +54,10 @@ public class ProjectModel {
     // EFFECT: getter for name
     public String getName() {
         return this.name;
+    }
+
+    public ArrayList<LayerModel> getLayers() {
+        return layers;
     }
 
     // EFFECT: getter for access vectors

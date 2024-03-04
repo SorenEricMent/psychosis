@@ -1,7 +1,10 @@
 package model;
 
+import jdk.jfr.Category;
 import model.policy.InterfaceModel;
+import model.policy.PolicyModuleModel;
 import model.policy.RuleSetModel;
+import org.json.JSONObject;
 import org.junit.jupiter.api.*;
 import persistence.ProjectSL;
 import persistence.Workspace;
@@ -60,8 +63,59 @@ public class PersistenceTest {
     }
     @Test
     public void testProjectSaveCompiled() {
-        ProjectModel testProj = new TempProjectModel("testproj");
+        ProjectModel testProject = new TempProjectModel("example_proj", true);
+        testProject.addLayer("example_layer");
+        PolicyModuleModel testModule = new PolicyModuleModel("example_module");
+        testModule.getTypeEnf().addStatement(
+                new RuleSetModel(RuleSetModel.RuleType.allow, "winslow_t", "yuuta_t", "body",
+                        new HashSet<>(Arrays.asList("pet", "hug")))
+        );
+        testModule.getTypeEnf().addInterfaceCall("yuuta", Arrays.asList("winslow", "chocolate").toArray(String[]::new));
+        testProject.getLayer("example_layer").addPolicyModule(
+            testModule
+        );
+        testProject.addInterface("example_layer", "example_module", "yuuta");
+        testModule.getInterface("yuuta").addRuleSetModels(
+                new RuleSetModel(RuleSetModel.RuleType.allow, "$1", "$2", "candy",
+                        new HashSet<>(Arrays.asList("eat")))
+        );
 
+        ProjectModel loadResult = ProjectSL
+                .loadProjectFromJsonCompiled(ProjectSL.saveProjectToJsonCompiled(testProject)).getFirst();
+
+        assertEquals("example_proj", loadResult.getName());
+        assertEquals("example_layer", loadResult.getLayer("example_layer").getName());
+        assertEquals("example_module", loadResult.getLayer("example_layer").getPolicyModule("example_module").getName());
+
+        ArrayList<RuleSetModel> teStatementRes = loadResult.getLayer("example_layer")
+                .getPolicyModule("example_module")
+                .getTypeEnf().getStatementsFO();
+        ArrayList<Pair<String, String[]>> teCallRes = loadResult.getLayer("example_layer")
+                .getPolicyModule("example_module")
+                .getTypeEnf().getInterfaceCall();
+        assertTrue(teStatementRes.get(0).equals(
+                new RuleSetModel(
+                        RuleSetModel.RuleType.allow,
+                        "winslow_t", "yuuta_t", "body",
+                        new HashSet<>(Arrays.asList("pet", "hug"))
+                )
+        ));
+        assertEquals("yuuta", teCallRes.get(0).getFirst());
+        String[] expectedActions1 = {"winslow", "chocolate"};
+        assertArrayEquals(expectedActions1, teCallRes.get(0).getSecond());
+
+        InterfaceModel testInterface = loadResult.getLayer("example_layer")
+                .getPolicyModule("example_module").getInterfaceSet().getInterface("yuuta");
+        assertEquals("yuuta", testInterface.getName());
+        assertFalse(testInterface.getIsUserDefined());
+        assertTrue(testInterface.getRuleSetModels().get(0).equals(
+                new RuleSetModel(
+                        RuleSetModel.RuleType.allow,
+                        "$1",
+                        "$2",
+                        "candy",
+                        new HashSet<>(Arrays.asList("eat")))
+        ));
     }
 
     @Test

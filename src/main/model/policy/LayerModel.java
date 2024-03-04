@@ -24,6 +24,12 @@ public class LayerModel {
         this.policyModules.put(module.getName(), module);
     }
 
+    // Fot testing only
+    public HashMap<String, PolicyModuleModel> getPolicyModules() {
+        return policyModules;
+    }
+
+    // EFFECTS: get policyModule with name, throw NotFoundException if there is no such module
     public PolicyModuleModel getPolicyModule(String name) {
         if (policyModules.containsKey(name)) {
             return policyModules.get(name);

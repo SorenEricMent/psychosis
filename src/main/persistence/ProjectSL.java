@@ -100,7 +100,7 @@ public abstract class ProjectSL {
                 });
                 res.addInterface(ifToAdd);
             } else {
-                return;// jump to next iteration, ignore unknown type
+                return; // jump to next iteration, ignore unknown type
             }
         });
         return res; //stub
@@ -111,21 +111,85 @@ public abstract class ProjectSL {
         return new FileContextModel(); // No functionality about .fc
     }
 
-
     // REQUIRES: content is a valid JSON and valid pcsp file
     // EFFECTS: Load a project from a meta JSON format
     public static Pair<ProjectModel, TrackerModel> loadProjectFromJsonMeta(String content) {
-
         return null;
     }
 
     // EFFECTS: convert a ProjectModel to Psychosis .pcsj file (JSON storing project metadata)
-    public String saveWholeProjectToJson(ProjectModel proj) {
+    public static String saveProjectToJsonMeta(ProjectModel proj) {
         return null;
     }
 
     // EFFECTS: convert a ProjectModel to Psychosis .xpcsj file (JSON containing all project information)
-    public String saveWholeProjectToJsonCompiled(ProjectModel proj) {
-        return null;
+    public static String saveProjectToJsonCompiled(ProjectModel proj) {
+        JSONObject res = new JSONObject();
+        res.put("name", proj.getName());
+        res.put("layers", new JSONArray());
+        for (LayerModel layer : proj.getLayers()) {
+            JSONObject newLayer = new JSONObject().put("name", layer.getName());
+            JSONArray modules = new JSONArray();
+            for (String k : layer.getPolicyModules().keySet()) {
+                PolicyModuleModel policyModule = layer.getPolicyModule(k);
+                JSONObject newModule = new JSONObject().put("name", policyModule.getName());
+                JSONArray teContent = saveTEToJsonArray(policyModule.getTypeEnf());
+                JSONArray ifContent = saveIfSetToJsonArray(policyModule.getInterfaceSet());
+
+                newModule.put("te", new JSONObject().put("content", teContent));
+                newModule.put("if", new JSONObject().put("content", ifContent));
+                newModule.put("fc", new JSONObject()); // placeholder
+
+                modules.put(newModule);
+            }
+            newLayer.put("modules", modules);
+            res.getJSONArray("layers").put(newLayer);
+        }
+        return res.toString();
+    }
+
+    // EFFECTS: serialize a TypeEnfModel to a list of JSON
+    private static JSONArray saveTEToJsonArray(TypeEnfModel t) {
+        JSONArray res = new JSONArray();
+        // Process first-order statements
+        for (RuleSetModel rule : t.getStatementsFO()) {
+            res.put(new JSONObject()
+                    .put("type", "statement")
+                    .put("rule", rule.getRuleType().toString())
+                    .put("source", rule.getSourceContext())
+                    .put("target", rule.getTargetContext())
+                    .put("target_class", rule.getTargetClass())
+                    .put("actions", new JSONArray(rule.getActions())));
+        }
+        for (Pair<String, String[]> c : t.getInterfaceCall()) {
+            res.put(new JSONObject()
+                    .put("type", "call")
+                    .put("name", c.getFirst())
+                    .put("params", new JSONArray(c.getSecond())));
+        }
+        // Process interface calls
+        return res;
+    }
+
+    // EFFECTS: serialize a InterfaceSetModel to a list of JSON
+    private static JSONArray saveIfSetToJsonArray(InterfaceSetModel t) {
+        JSONArray res = new JSONArray();
+        // Does not differentiate template from interface for now
+        for (InterfaceModel i : t.getInterfaces()) {
+            JSONArray statements = new JSONArray();
+            for (RuleSetModel rule : i.getRuleSetModels()) {
+                statements.put(new JSONObject()
+                        .put("rule", rule.getRuleType().toString())
+                        .put("source", rule.getSourceContext())
+                        .put("target", rule.getTargetContext())
+                        .put("target_class", rule.getTargetClass())
+                        .put("actions", new JSONArray(rule.getActions())));
+            }
+            res.put(new JSONObject()
+                    .put("type", "interface")
+                    .put("name", i.getName())
+                    .put("statements", statements));
+        }
+        return res;
     }
 }

@@ -9,17 +9,16 @@
           "te": {
             "content": [
               {
-                "type": "call",
-                "name": "yuuta",
-                "params": ["winslow", "chocolate"]
-              },
-              {
                 "type": "statement",
                 "rule": "allow",
                 "source": "winslow_t",
                 "target": "yuuta_t",
                 "target_class": "body",
                 "actions": ["pet", "hug"]
+              }, {
+                "type": "call",
+                "name": "yuuta",
+                "params": ["winslow", "chocolate"]
               }
             ]
           },
