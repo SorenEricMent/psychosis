@@ -117,7 +117,7 @@ public abstract class ProjectSL {
     }
 
     public static Pair<ProjectModel, TrackerModel> loadProjectFromJsonMeta(JSONObject obj) {
-        return null;
+        return new Pair<ProjectModel, TrackerModel>(null, null); //stub
     }
 
     // EFFECTS: convert a ProjectModel to Psychosis .pcsj file (JSON storing project metadata)

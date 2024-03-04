@@ -26,10 +26,6 @@ public class Workspace implements Encodeable, Decodeable {
         parser(jsonData);
     }
 
-    public void setProjects(ArrayList<ProjectModel> projects) {
-        this.projects = projects;
-    }
-
     public ArrayList<ProjectModel> getProjects() {
         return projects;
     }
