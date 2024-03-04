@@ -9,7 +9,6 @@ import org.json.JSONException;
 import persistence.ProjectSL;
 import persistence.Workspace;
 
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -94,6 +93,7 @@ public class TerminalInterface {
                         break;
                     case "load_module": // Have to load module in complete as .te might rely on .if
                         commandLoadModule(inputList);
+                        break;
                     case "show_module":
                         commandShowModule(inputList);
                         break;
@@ -152,6 +152,8 @@ public class TerminalInterface {
                     default:
                         System.out.println("Unknown command.");
                 }
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.out.println("Not enough params for command execution, please check help <command>.");
             } catch (Exception e) {
                 System.out.println("Unknown exception happened during the command's execution: " + e);
             }
@@ -218,7 +220,7 @@ public class TerminalInterface {
     private void commandLoadWorkspace(String[] params) {
         // load_workspace <path>
         String fileContent = "";
-        File target =  new File(params[1]);
+        File target = new File(params[1]);
         try {
             fileContent = CustomReader.readAsWhole(target);
         } catch (IOException e) {
@@ -264,28 +266,26 @@ public class TerminalInterface {
     private void commandCreateProject(String[] params) {
         // create_project <basis (test/refpolicy/empty)> [custom]:<path> name
         // the latter is not yet implemented in Phase 1, TODO
-        try {
-            //TODO
-            ProjectModel proj;
-            if (params[1].equals("test")) {
-                proj = new TempProjectModel(params[2]);
-                System.out.println("Created new test project (not on filesystem!) " + params[2]);
-                loadedProjects.add(
-                        new Pair<>(proj, new TrackerModel()));
-            } else if (params[1].equals("refpolicy")) {
-                notImplemented();
-                System.out.println("Psychosis dropped plan for refpolicy support ");
-            } else if (params[1].equals("empty")) {
-                proj = new ProjectModel(params[2], params[3]);
-                System.out.println("Created new empty project " + params[2] + "at filesystem location " + params[3]);
-                loadedProjects.add(
-                        new Pair<>(proj, new TrackerModel()));
-            } else {
-                System.out.println("Unknown project-creation basis");
-            }
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("Not enough params.");
+
+        //TODO
+        ProjectModel proj;
+        if (params[1].equals("test")) {
+            proj = new TempProjectModel(params[2]);
+            System.out.println("Created new test project (not on filesystem!) " + params[2]);
+            loadedProjects.add(
+                    new Pair<>(proj, new TrackerModel()));
+        } else if (params[1].equals("refpolicy")) {
+            notImplemented();
+            System.out.println("Psychosis dropped plan for refpolicy support ");
+        } else if (params[1].equals("empty")) {
+            proj = new ProjectModel(params[2], params[3]);
+            System.out.println("Created new empty project " + params[2] + "at filesystem location " + params[3]);
+            loadedProjects.add(
+                    new Pair<>(proj, new TrackerModel()));
+        } else {
+            System.out.println("Unknown project-creation basis");
         }
+
     }
 
     // EFFECTS: update the project selected
@@ -303,8 +303,6 @@ public class TerminalInterface {
         } catch (NotFoundException e) {
             System.out.println("Failed to show layer detail.");
             System.out.println(e);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("Not enough params.");
         }
     }
 
@@ -315,8 +313,6 @@ public class TerminalInterface {
         } catch (DuplicateException e) {
             System.out.println("Error when adding layer to project " + this.getFocus().getName());
             System.out.println(e);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("Not enough params.");
         }
     }
 
@@ -327,8 +323,6 @@ public class TerminalInterface {
             } catch (NotFoundException e) {
                 System.out.println("Error when removing layer.");
                 System.out.println(e);
-            } catch (ArrayIndexOutOfBoundsException e) {
-                System.out.println("Not enough params.");
             }
         }
     }
@@ -370,21 +364,17 @@ public class TerminalInterface {
         } catch (NotFoundException e) {
             System.out.println("Failed to add module to layer.");
             System.out.println(e);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("Not enough params.");
         }
     }
 
     private void commandShowModule(String[] params) {
         // show_module <layer_name> <module_name>
-        try {
-            System.out.println(this
-                    .getFocus()
-                    .getLayer(params[1])
-                    .getPolicyModule(params[2]));
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("Not enough params.");
-        }
+
+        System.out.println(this
+                .getFocus()
+                .getLayer(params[1])
+                .getPolicyModule(params[2]));
+
     }
 
     private void commandExportModule(String[] params) {
@@ -414,14 +404,12 @@ public class TerminalInterface {
 
     private void commandRemoveModule(String[] params) {
         // remove_module <layer_name> <module_name>
-        try {
-            this.getFocus().removeModule(
-                    params[1],
-                    params[2]
-            );
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("Not enough params.");
-        }
+
+        this.getFocus().removeModule(
+                params[1],
+                params[2]
+        );
+
     }
 
     private void commandAddInterface(String[] params) {
@@ -432,8 +420,6 @@ public class TerminalInterface {
                     params[2],
                     params[3]
             );
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("Not enough params.");
         } catch (NotFoundException e) {
             System.out.println("The layer/module you are trying to access doesn't exist");
         }
@@ -468,21 +454,21 @@ public class TerminalInterface {
 
     private void commandLookUpInterface(String[] params) {
         // lookup_interface <unspec/userdefined> name=name sl=<name/none> tl=<name/none> tag=tag1,tag2
-        try {
-            // lookup in global interface object
-            HashSet<InterfaceModel> search = new HashSet<>();
-            Collections.addAll(search,
-                    this.getFocus().getGlobalInterfaceSet().getInterfaces().toArray(InterfaceModel[]::new));
 
-            // getInterfaces has the guarantee of uniqueness
-            // Truncate search range corresponding to source label / target label
-            if (!params[2].equals("none")) {
-                // intersection set with Tracker-sl
-                // search.retainAll();
-            }
-            if (!params[3].equals("none")) {
-                // intersection set with Tracker-tl
-            }
+        // lookup in global interface object
+        HashSet<InterfaceModel> search = new HashSet<>();
+        Collections.addAll(search,
+                this.getFocus().getGlobalInterfaceSet().getInterfaces().toArray(InterfaceModel[]::new));
+
+        // getInterfaces has the guarantee of uniqueness
+        // Truncate search range corresponding to source label / target label
+        if (!params[2].equals("none")) {
+            // intersection set with Tracker-sl
+            // search.retainAll();
+        }
+        if (!params[3].equals("none")) {
+            // intersection set with Tracker-tl
+        }
 
 //            for (InterfaceModel i : this.getFocus().getGlobalInterfaceSet().getInterfaces()) {
 //                if ((params[2].equals("unspec") && !i.getIsUserDefined())
@@ -492,29 +478,23 @@ public class TerminalInterface {
 //                }
 //            }
 
-            // User-defined & tag filter
-            search = (HashSet<InterfaceModel>) search.stream().filter(x ->
-                    (params[2].equals("userdefined") && x.getIsUserDefined())
-                            || (params[2].equals("unspec") && x.getIsUserDefined())).collect(Collectors.toSet());
+        // User-defined & tag filter
+        search = (HashSet<InterfaceModel>) search.stream().filter(x ->
+                (params[2].equals("userdefined") && x.getIsUserDefined())
+                        || (params[2].equals("unspec") && x.getIsUserDefined())).collect(Collectors.toSet());
 
-            System.out.println("Interfaces matches your search: " + String.join(" ",
-                    search.stream().map(InterfaceModel::getName).toArray(String[]::new)));
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("Not enough params.");
-        }
+        System.out.println("Interfaces matches your search: " + String.join(" ",
+                search.stream().map(InterfaceModel::getName).toArray(String[]::new)));
+
     }
 
     private void commandShowInterface(String[] params) {
         // show_interface <layer_name> <module_name> <interface_name>
-        try {
-            System.out.println(this
-                    .getFocus()
-                    .getLayer(params[1])
-                    .getPolicyModule(params[2])
-                    .getInterface(params[3]));
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("Not enough params.");
-        }
+        System.out.println(this
+                .getFocus()
+                .getLayer(params[1])
+                .getPolicyModule(params[2])
+                .getInterface(params[3]));
     }
 
     private void commandRemoveInterface(String[] params) {
@@ -525,8 +505,6 @@ public class TerminalInterface {
                     params[2],
                     params[3]
             );
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("Not enough params.");
         } catch (NotFoundException e) {
             System.out.println("The layer/module you are trying to access doesn't exist");
         }
