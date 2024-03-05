@@ -69,7 +69,7 @@ public class Workspace implements Encodeable, Decodeable {
                 if (compiledIndexSet.contains(i)) {
                     // use compiled
                 } else {
-
+                    // use meta
                 }
             } else {
                 throw new RuntimeException("Reflection received a unknown class when encoding project.");
@@ -85,7 +85,8 @@ public class Workspace implements Encodeable, Decodeable {
         res.put("index", index);
         JSONArray projects = new JSONArray();
         for (ProjectModel p : this.projects) {
-            projects.put(ProjectSL.saveProjectToJsonCompiled(p));
+            projects.put(new JSONObject().put("type", "compiled")
+                    .put("data",new JSONObject(ProjectSL.saveProjectToJsonCompiled(p))));
         }
         res.put("projects", projects);
         return res.toString();

@@ -1,0 +1,3 @@
+interface(`loveyuuta',`
+	allow $1 yuuta_t:soul { love };
+')

@@ -156,6 +156,7 @@ public class TerminalInterface {
                 System.out.println("Not enough params for command execution, please check help <command>.");
             } catch (Exception e) {
                 System.out.println("Unknown exception happened during the command's execution: " + e);
+                e.printStackTrace();
             }
             System.out.println();
         }
@@ -209,9 +210,9 @@ public class TerminalInterface {
         // Currently only compiled is supported
         String content =
                 params[1].equals("compiled")
-                        ? ((new Workspace(params[1], this.currentWorkIndex, new ArrayList<>(this.loadedProjects.stream()
+                        ? ((new Workspace(params[2], this.currentWorkIndex, new ArrayList<>(this.loadedProjects.stream()
                         .map(Pair::getFirst).collect(Collectors.toList())))).toStringCompiled())
-                        : ((new Workspace(params[1], this.currentWorkIndex, new ArrayList<>(this.loadedProjects.stream()
+                        : ((new Workspace(params[2], this.currentWorkIndex, new ArrayList<>(this.loadedProjects.stream()
                         .map(Pair::getFirst).collect(Collectors.toList())))).toString());
         File target = new File(params[3]);
         try {
@@ -253,9 +254,9 @@ public class TerminalInterface {
             String fileContent = CustomReader.readAsWhole(
                     new File(params[2]));
             Pair<ProjectModel, TrackerModel> projLoaded;
-            if (params[2].equals("compiled")) {
+            if (params[1].equals("compiled")) {
                 projLoaded = ProjectSL.loadProjectFromJsonCompiled(fileContent);
-            } else if (params[2].equals("meta")) {
+            } else if (params[1].equals("meta")) {
                 projLoaded = ProjectSL.loadProjectFromJsonMeta(fileContent);
             } else {
                 System.out.println("Unknown load format, valid values: compiled/meta.");
@@ -342,6 +343,15 @@ public class TerminalInterface {
     private void commandLoadModule(String[] params) {
         // load_module <to layer> <name> <te path> <if path> <fc path>
         try {
+            if (params[3].endsWith("fc") || params[3].endsWith("if")) {
+                System.out.println("Warning: you seem to have loaded a .fc/.if file as your .te");
+            }
+            if (params[4].endsWith("fc") || params[4].endsWith("te")) {
+                System.out.println("Warning: you seem to have loaded a .fc/.te file as your .if");
+            }
+            if (params[5].endsWith("te") || params[3].endsWith("if")) {
+                System.out.println("Warning: you seem to have loaded a .te/.if file as your .fc");
+            }
             InterfaceSetModel i = InterfaceSetModel.parser(CustomReader.readAsWholeCode(new File(params[4]))
                     .getFirst());
             for (InterfaceModel x : i.getInterfaces()) {

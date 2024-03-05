@@ -4,9 +4,7 @@ import model.exception.DuplicateException;
 import model.exception.NotFoundException;
 import model.exception.SyntaxParseException;
 import model.exception.UnknownCapabilityException;
-import model.policy.AccessVectorModel;
-import model.policy.InterfaceSetModel;
-import model.policy.LayerModel;
+import model.policy.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,6 +46,19 @@ public class ProjectModel {
         for (PolicyCapabilities cap : PolicyCapabilities.values()) {
             capabilities.put(cap, false);
         }
+    }
+
+    // EFFECTS: rebuild the global set of interfaces from all modules, for loading project from file
+    public void rebuildGlobalInterfaceSet() {
+        for (LayerModel layer : this.getLayers()) {
+            for (String policyName : layer.getPolicyModules().keySet()) {
+                PolicyModuleModel p = layer.getPolicyModule(policyName);
+                for (InterfaceModel i : p.getInterfaceSet().getInterfaces()) {
+                    this.globalInterfaceSet.addInterface(i);
+                }
+            }
+        }
+        System.out.println("Rebuilt the interface set for project " + this.name);
     }
 
     // EFFECT: getter for name

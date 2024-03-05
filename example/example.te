@@ -1,0 +1,6 @@
+policy_module(example)
+
+allow winslow_t yuuta_t:body { hug };
+dontaudit winslow_t matcha_t:cake { bake eat };
+
+loveyuuta(winslow_t);

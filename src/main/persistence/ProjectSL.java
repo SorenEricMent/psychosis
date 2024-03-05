@@ -45,6 +45,7 @@ public class ProjectSL {
             });
         });
         System.out.println("Loaded project structure and content.");
+        res.getFirst().rebuildGlobalInterfaceSet();
         // FUTURE TODO: regenerate Tracker
         System.out.println("Regenerated Tracker database.");
         System.gc();

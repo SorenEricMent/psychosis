@@ -83,6 +83,9 @@ public class TypeEnfModel extends FileObjectModel implements Encodeable, Decodea
                 || !tokenized[0].equals("policy_module") || !tokenized[1].equals("(") || !tokenized[3].equals(")")) {
             throw new SyntaxParseException("Bad syntax for name declaration.");
         }
+        if (tokenized[4].equals(";")) {
+            throw new SyntaxParseException("Error: you don't need to add delimiter after policy_module");
+        }
         TypeEnfModel res = new TypeEnfModel(tokenized[2]);
         for (int i = 4; i < tokenized.length; i++) {
             if (RuleSetModel.isStatement(tokenized[i])) {
@@ -106,9 +109,14 @@ public class TypeEnfModel extends FileObjectModel implements Encodeable, Decodea
                 int end = getEnd(i + 1, tokenized);
                 i = end;
             } else {
-                int end = getEnd(i + 1, tokenized) + 2;
-                res.addInterfaceCall(tokenized[i], Arrays.copyOfRange(tokenized, i + 2, end - 2));
-                i = end;
+                try {
+                    int end = getEnd(i + 1, tokenized) + 2;
+                    res.addInterfaceCall(tokenized[i], Arrays.copyOfRange(tokenized, i + 2, end - 2));
+                    i = end;
+                } catch (IllegalArgumentException e) {
+                    throw new SyntaxParseException("Detected redundant ; delimiter when parsing statement "
+                            + "at head position " + i);
+                }
             }
         }
         return res;
