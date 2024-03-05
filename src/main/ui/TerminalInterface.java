@@ -340,6 +340,7 @@ public class TerminalInterface {
         }
     }
 
+    @SuppressWarnings({"checkstyle:MethodLength", "checkstyle:SuppressWarnings"})
     private void commandLoadModule(String[] params) {
         // load_module <to layer> <name> <te path> <if path> <fc path>
         try {
