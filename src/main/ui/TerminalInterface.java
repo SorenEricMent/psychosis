@@ -221,6 +221,7 @@ public class TerminalInterface {
             System.out.println("Error when reading file at location "
                     + target.getAbsolutePath() + " : " + e);
         }
+        System.gc();
     }
 
     private void commandLoadWorkspace(String[] params) {
@@ -580,6 +581,7 @@ public class TerminalInterface {
             }
 
             this.getFocus().setAccessVectors(loadAccessVectors(accessVectorPath, securityClassPath));
+            System.gc();
             System.out.println("Access vector definition loaded, total " + getFocus().getAccessVectors().size()
                     + " classes.");
         }

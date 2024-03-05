@@ -1,5 +1,11 @@
 {
   "name": "<project-name>",
+  "access_vectors": [
+    {
+      "class": "<class-name>",
+      "actions": ["action-name"]
+    }
+  ],
   "layers": [
     {
       "name": "<layer_name>",

@@ -92,6 +92,7 @@ public class Workspace implements Encodeable, Decodeable {
                     .put("data",new JSONObject(ProjectSL.saveProjectToJsonCompiled(p))));
         }
         res.put("projects", projects);
+        System.gc();
         return res.toString();
     }
 

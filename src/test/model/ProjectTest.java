@@ -14,6 +14,18 @@ import java.util.HashMap;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ProjectTest {
+
+    @Test
+    public void testStrToCapability() {
+        for (ProjectModel.PolicyCapabilities p : ProjectModel.PolicyCapabilities.values()) {
+            try {
+                assertEquals(p, ProjectModel.strToCapability(p.toString()));
+            } catch (UnknownCapabilityException e) {
+                fail(e);
+            }
+        }
+    }
+
     @Test
     public void testCapabilityParser() {
         File testFile = new File("./data/testfiles/ProjectTest/policy_capabilities");
@@ -33,9 +45,7 @@ public class ProjectTest {
         }
         try {
             assertEquals(expected, ProjectModel.capabilitiesParser(content));
-        } catch (SyntaxParseException e) {
-            fail(e);
-        } catch (UnknownCapabilityException e) {
+        } catch (SyntaxParseException | UnknownCapabilityException e) {
             fail(e);
         }
 
@@ -56,9 +66,7 @@ public class ProjectTest {
         expected.put(ProjectModel.PolicyCapabilities.ioctl_skip_cloexec, true);
         try {
             assertEquals(expected, ProjectModel.capabilitiesParser(content));
-        } catch (SyntaxParseException e) {
-            fail(e);
-        } catch (UnknownCapabilityException e) {
+        } catch (SyntaxParseException | UnknownCapabilityException e) {
             fail(e);
         }
     }

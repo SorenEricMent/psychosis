@@ -103,9 +103,32 @@ public class ProjectModel {
         this.capabilities = val;
     }
 
+    // EFFECTS: parse a string to the corresponding capability
+    public static PolicyCapabilities strToCapability(String str) throws UnknownCapabilityException {
+        switch (str) {
+            case "network_peer_controls":
+                return PolicyCapabilities.network_peer_controls;
+            case "open_perms":
+                return PolicyCapabilities.open_perms;
+            case "always_check_network":
+                return PolicyCapabilities.always_check_network;
+            case "extended_socket_class":
+                return PolicyCapabilities.extended_socket_class;
+            case "cgroup_seclabel":
+                return PolicyCapabilities.cgroup_seclabel;
+            case "nnp_nosuid_transition":
+                return PolicyCapabilities.nnp_nosuid_transition;
+            case "genfs_seclabel_symlinks":
+                return PolicyCapabilities.genfs_seclabel_symlinks;
+            case "ioctl_skip_cloexec":
+                return PolicyCapabilities.ioctl_skip_cloexec;
+            default:
+                throw new UnknownCapabilityException(str);
+        }
+    }
+
     // REQUIRE: policy_capability file after de-comment and strip (readAsWholeCode)
     // EFFECT: parse policy_capability file into HashMap
-    @SuppressWarnings("methodlength")
     // Switch-case used
     public static HashMap<PolicyCapabilities, Boolean> capabilitiesParser(String content)
             throws SyntaxParseException, UnknownCapabilityException {
@@ -114,34 +137,9 @@ public class ProjectModel {
         for (int i = 0; i < tokenized.length; i++) {
             if (tokenized[i].equals("policycap")) {
                 i = i + 1;
-                switch (tokenized[i]) {
-                    case "network_peer_controls;":
-                        results.put(PolicyCapabilities.network_peer_controls, true);
-                        break;
-                    case "open_perms;":
-                        results.put(PolicyCapabilities.open_perms, true);
-                        break;
-                    case "always_check_network;":
-                        results.put(PolicyCapabilities.always_check_network, true);
-                        break;
-                    case "extended_socket_class;":
-                        results.put(PolicyCapabilities.extended_socket_class, true);
-                        break;
-                    case "cgroup_seclabel;":
-                        results.put(PolicyCapabilities.cgroup_seclabel, true);
-                        break;
-                    case "nnp_nosuid_transition;":
-                        results.put(PolicyCapabilities.nnp_nosuid_transition, true);
-                        break;
-                    case "genfs_seclabel_symlinks;":
-                        results.put(PolicyCapabilities.genfs_seclabel_symlinks, true);
-                        break;
-                    case "ioctl_skip_cloexec;":
-                        results.put(PolicyCapabilities.ioctl_skip_cloexec, true);
-                        break;
-                    default:
-                        throw new UnknownCapabilityException(tokenized[i]);
-                }
+                // remove the ending ;
+                PolicyCapabilities cap = strToCapability(tokenized[i].substring(0, tokenized[i].length() - 1));
+                results.put(cap, true);
             } else {
                 throw new SyntaxParseException("Unknown token when parsing capability: "
                         + tokenized[i] + ", at " + i);

@@ -4,11 +4,13 @@ import model.Pair;
 import model.ProjectModel;
 import model.TempProjectModel;
 import model.TrackerModel;
+import model.exception.UnknownCapabilityException;
 import model.policy.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.stream.Collectors;
 
@@ -109,6 +111,52 @@ public class ProjectSL {
     private static FileContextModel parseFileContextFromJsonCompiled(JSONObject obj) throws JSONException {
         return new FileContextModel(); // No functionality about .fc
     }
+
+    // EFFECTS: parse policy capabilities section in JSON to a list of enabled capabilities
+    private static HashMap<ProjectModel.PolicyCapabilities, Boolean>  parseCapabilityFromJson(JSONArray obj)
+            throws JSONException {
+        HashMap<ProjectModel.PolicyCapabilities, Boolean> res = new HashMap<>();
+        res.put(ProjectModel.PolicyCapabilities.network_peer_controls, false);
+        res.put(ProjectModel.PolicyCapabilities.open_perms, false);
+        res.put(ProjectModel.PolicyCapabilities.always_check_network, false);
+        res.put(ProjectModel.PolicyCapabilities.extended_socket_class, false);
+        res.put(ProjectModel.PolicyCapabilities.cgroup_seclabel, false);
+        res.put(ProjectModel.PolicyCapabilities.nnp_nosuid_transition, false);
+        res.put(ProjectModel.PolicyCapabilities.genfs_seclabel_symlinks, false);
+        res.put(ProjectModel.PolicyCapabilities.ioctl_skip_cloexec, false);
+
+        for (String str : obj.toList().stream().map(Object::toString).collect(Collectors.toList())) {
+            try {
+                res.replace(ProjectModel.strToCapability(str), true);
+            } catch (UnknownCapabilityException e) {
+                System.out.println("Warning: unknown capability, " + e);
+            }
+        }
+
+        return res;
+    }
+
+    // EFFECTS: save capabilities to a JSON Array where elements resemble enabled
+    private static JSONArray saveCapabilityToArray(HashMap<ProjectModel.PolicyCapabilities, Boolean> val) {
+        JSONArray res = new JSONArray();
+        for (ProjectModel.PolicyCapabilities p : val.keySet()) {
+            if (val.get(p)) {
+                res.put(p.toString());
+            }
+        }
+        return res;
+    }
+
+    // EFFECTS: parse the access vector definition section in JSON
+    private static AccessVectorModel parseAccessVectorFromJson(JSONObject obj) throws JSONException {
+
+        return null; //stub
+    }
+
+    private static JSONObject saveAccessVectorToJson(AccessVectorModel val) {
+        return null; //stub
+    }
+
 
     // EFFECTS: proxy caller for loadProjectFromJsonMeta with String to JSON conversion
     public static Pair<ProjectModel, TrackerModel> loadProjectFromJsonMeta(String content) {
