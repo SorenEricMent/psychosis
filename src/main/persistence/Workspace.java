@@ -53,30 +53,32 @@ public class Workspace implements Encodeable, Decodeable {
 
     // EFFECTS: Encode the workspace to a .pcsw file, use meta when possible,
     // but compile for the index in compiledIndex
-    public String toStringAuto(int[] compiledIndex) {
-        // Convert compiledIndex to a Set for easier lookup
-        Set<Integer> compiledIndexSet = Arrays.stream(compiledIndex).collect(HashSet::new, Set::add, Set::addAll);
-        JSONObject res = new JSONObject();
-        res.put("name", this.name);
-        res.put("index", index);
-        for (int i = 0; i < this.getProjects().size(); i++) {
-            ProjectModel proj = this.getProjects().get(i);
-            if (proj.getClass().equals(TempProjectModel.class)) {
-                // Use reflection to judge if the project cannot be meta
+//    public String toStringAuto(int[] compiledIndex) {
+//        // Convert compiledIndex to a Set for easier lookup
+//        Set<Integer> compiledIndexSet = Arrays.stream(compiledIndex).collect(HashSet::new, Set::add, Set::addAll);
+//        JSONObject res = new JSONObject();
+//        res.put("name", this.name);
+//        res.put("index", index);
+//        for (int i = 0; i < this.getProjects().size(); i++) {
+//            ProjectModel proj = this.getProjects().get(i);
+//            if (proj.getClass().equals(TempProjectModel.class)) {
+//                // Use reflection to judge if the project cannot be meta
+//
+//            } else if (proj.getClass().equals(ProjectModel.class)) {
+//                // Class must be ProjectModel
+//                if (compiledIndexSet.contains(i)) {
+//                    // use compiled
+//                } else {
+//                    // use meta
+//                }
+//            } else {
+//                throw new RuntimeException("Reflection received a unknown class when encoding project.");
+//            }
+//        }
+//        return res.toString();
+//    }
 
-            } else if (proj.getClass().equals(ProjectModel.class)) {
-                // Class must be ProjectModel
-                if (compiledIndexSet.contains(i)) {
-                    // use compiled
-                } else {
-                    // use meta
-                }
-            } else {
-                throw new RuntimeException("Reflection received a unknown class when encoding project.");
-            }
-        }
-        return res.toString();
-    }
+    // Commented out as meta export not expected to be done for phase 2, don't want it to mess with Jacococ
 
     // EFFECTS: Encode the workspace to a .pcsw file, fully compiled
     public String toStringCompiled() {

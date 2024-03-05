@@ -243,4 +243,24 @@ public class TypeEnfTest {
             fail(e);
         }
     }
+    @Test
+    public void testTypeEnfExcpDelimiter() {
+        try {
+            String testStr = CustomReader.readAsWholeCode(
+                    new File("./data/testfiles/TypeEnfTest/test_te_excp_delimiter1")).getFirst();
+
+            assertThrows(SyntaxParseException.class, () -> {
+                TypeEnfModel.parser(testStr);
+            });
+
+            String testStr2 = CustomReader.readAsWholeCode(
+                    new File("./data/testfiles/TypeEnfTest/test_te_excp_delimiter2")).getFirst();
+
+            assertThrows(SyntaxParseException.class, () -> {
+                TypeEnfModel.parser(testStr2);
+            });
+        } catch (IOException e) {
+            fail(e);
+        }
+    }
 }

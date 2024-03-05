@@ -1,0 +1,4 @@
+policy_module(matcha)
+
+allow winslow_t matcha_t:ice_cream { eat };;
+dontaudit winslow_t matcha_t:cake { eat };
