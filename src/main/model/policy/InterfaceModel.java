@@ -16,6 +16,7 @@ public class InterfaceModel {
 
     private String description;
 
+    // Placeholder for SELinux XML format documentation
     private String paramsDescription;
     private ArrayList<RuleSetModel> ruleSetModels;
     private HashSet<String> tags;
@@ -46,6 +47,7 @@ public class InterfaceModel {
     }
 
     // EFFECTS: add a rule to ruleset, combine based on action when possible
+    // MODIFIES: this
     public void addRuleSetModels(RuleSetModel rule) {
         // First, check if the statement-source-target-targetclass tuple already exists
         boolean containEquv = false;
@@ -70,6 +72,9 @@ public class InterfaceModel {
         return ruleSetModels;
     }
 
+    // EFFECTS: override the default toString, convert self to common selinux interface format
+    // TODO: distinguish template/interface in the future
+    @Override
     public String toString() {
         String res = "interface(`" + getName() + "',`\n";
         for (RuleSetModel r : ruleSetModels) {

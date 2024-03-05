@@ -21,12 +21,13 @@ public class ProjectSL {
 
     // Technically project should implement Encodeable and Decodeable, but toString is already used for overview
 
-    // REQUIRES: content is a JSON/ valid JSON String and valid xpcsp file
-    // EFFECTS: Load a project from a compiled JSON format
+    // EFFECTS: proxy caller for loadProjectFromJsonCompiled with String to JSON conversion
     public static Pair<ProjectModel, TrackerModel> loadProjectFromJsonCompiled(String content) throws JSONException {
         return loadProjectFromJsonCompiled(new JSONObject(content));
     }
 
+    // REQUIRES: content is a JSON/ valid JSON String and valid xpcsp file
+    // EFFECTS: Load a project from a compiled JSON format
     public static Pair<ProjectModel, TrackerModel> loadProjectFromJsonCompiled(JSONObject parsed) {
         System.out.println("Loaded xpcsp JSON content.");
         Pair<ProjectModel, TrackerModel> res = new Pair<>(new TempProjectModel(parsed.getString("name"), true),
@@ -109,12 +110,13 @@ public class ProjectSL {
         return new FileContextModel(); // No functionality about .fc
     }
 
-    // REQUIRES: content is a valid JSON and valid pcsp file
-    // EFFECTS: Load a project from a meta JSON format
+    // EFFECTS: proxy caller for loadProjectFromJsonMeta with String to JSON conversion
     public static Pair<ProjectModel, TrackerModel> loadProjectFromJsonMeta(String content) {
         return null;
     }
 
+    // REQUIRES: content is a valid JSON and valid pcsp file
+    // EFFECTS: Load a project from a meta JSON format
     public static Pair<ProjectModel, TrackerModel> loadProjectFromJsonMeta(JSONObject obj) {
         return new Pair<ProjectModel, TrackerModel>(null, null); //stub
     }

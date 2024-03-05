@@ -5,22 +5,26 @@ import model.exception.SyntaxParseException;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
-public class MacroProcessor {
-    // Process SELinux .spt macros
+// A list of Regex replacer
+// Process SELinux .spt macros and is used to process interface calls
+// SPT Macros are simple text replacements, nothing fancy
 
-    // SPT Macros are simple text replacements, nothing fancy
+public class MacroProcessor {
+
     private final ArrayList<Pair<Pattern, String>> macros;
 
+    // EFFECTS: init the MacroProcessor with no replace patterns
     public MacroProcessor() {
         macros = new ArrayList<Pair<Pattern, String>>();
     }
 
+    // REQUIRES: to cannot contain from
+    // EFFECTS: compile and add a new macro to replace from to to in a string
     public void addMacro(String from, String to) {
-        // REQUIRES: to cannot contain from
         macros.add(new Pair<Pattern, String>(Pattern.compile(from, Pattern.LITERAL), to));
     }
 
-    // EFFECTS: apply all compiled macros to the string.
+    // EFFECTS: apply all compiled macros to the string and return the result
     public String process(String text) {
         for (Pair<Pattern, String> p : macros) {
             text = p.getFirst()
@@ -30,8 +34,8 @@ public class MacroProcessor {
         return text;
     }
 
-    // EFFECTS: parse a .spt file to compiled macros
     // REQUIRE: content should be read from readAsWholeCode
+    // EFFECTS: parse a .spt file to compiled macros
     public static MacroProcessor macroRuleParser(String content) throws SyntaxParseException {
         // Macros are defined with define(`from', `to')
         MacroProcessor res = new MacroProcessor();

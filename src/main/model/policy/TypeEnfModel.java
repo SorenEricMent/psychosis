@@ -22,6 +22,7 @@ public class TypeEnfModel extends FileObjectModel implements Encodeable, Decodea
         return statementsFO;
     }
 
+    // EFFECTS: init this TypeEnfModel with name;
     public TypeEnfModel(String name) {
         this.name = name;
     }
@@ -30,10 +31,14 @@ public class TypeEnfModel extends FileObjectModel implements Encodeable, Decodea
         return name;
     }
 
+    // EFFECTS: add an interface call with an interface name and a list of string args to the interfaceCall list
+    // MODIFIES: this
     public void addInterfaceCall(String i, String[] args) {
         interfaceCall.add(new Pair<String, String[]>(i, args));
     }
 
+    // EFFECTS: add a first-order statement (RuleSetModel)
+    // MODIFIES: this
     public void addStatement(RuleSetModel r) {
         RuleSetModel target = null;
         for (RuleSetModel s : statementsFO) {
@@ -51,6 +56,7 @@ public class TypeEnfModel extends FileObjectModel implements Encodeable, Decodea
     }
 
     // EFFECTS: remove the intersective rules and return rules that are not intersected.
+    // MODIFIES: this
     public HashSet<String> removeStatement(RuleSetModel r) {
         RuleSetModel target = null;
         for (RuleSetModel s : statementsFO) {
@@ -142,7 +148,8 @@ public class TypeEnfModel extends FileObjectModel implements Encodeable, Decodea
         return end;
     }
 
-    // EFFECTS: export the content without process interface call
+    // EFFECTS: export the content without processing interface call
+    @Override
     public String toString() {
         String res = "";
         res = res.concat("policy_module(" + this.getName() + ")\n\n");

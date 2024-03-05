@@ -47,6 +47,7 @@ public class Workspace implements Encodeable, Decodeable {
 
     // EFFECTS: Encode the workspace to a .pcsw file
     // By default, meta when possible
+    @Override
     public String toString() {
         return null; //stub
     }

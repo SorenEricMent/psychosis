@@ -7,13 +7,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+// This serves as a tracker for Psychosis to lookup
+// things speedy
+
+// This should be replaced with a relational database
+// but... after the term project is finished.
+
 public class TrackerModel {
-    // This serves as a tracker for Psychosis to lookup
-    // things speedy
-
-    // This should be replaced with a relational database
-    // but... after the term project is finished.
-
     private final HashMap<String, ArrayList<InterfaceModel>> mapSLabelIf;
     private final HashMap<String, ArrayList<InterfaceModel>> mapTLabelIf;
 
@@ -21,7 +21,7 @@ public class TrackerModel {
 
     private final HashSet<InterfaceModel> userDefined;
 
-
+    // EFFECTS: init the tracker with no tracking info added
     public TrackerModel() {
         mapSLabelIf = new HashMap<String, ArrayList<InterfaceModel>>();
         mapTLabelIf = new HashMap<String, ArrayList<InterfaceModel>>();
@@ -40,7 +40,7 @@ public class TrackerModel {
     }
 
     // MODIFIES: this
-    // EFFECTS: assign an interface into a tag tracker, create the tag if the tag doesn't exists
+    // EFFECTS: assign an interface into a tag tracker, create the tag if the tag doesn't exist
     public void insertInterfaceWithTag(String key, InterfaceModel i) {
         tagTracker.putIfAbsent(key, new ArrayList<InterfaceModel>());
         tagTracker.get(key).add(i);
@@ -54,20 +54,24 @@ public class TrackerModel {
         return this.tagTracker.get(key);
     }
 
+    // EFFECTS: insert a interface that has key as the source label of one of its statement to corresponding Tracker map
     public void insertInterfaceWithSLabel(String key, InterfaceModel val) {
         mapSLabelIf.putIfAbsent(key, new ArrayList<InterfaceModel>());
         mapSLabelIf.get(key).add(val);
     }
 
+    // EFFECTS: insert a interface that has key as the target label of one of its statement to corresponding Tracker map
     public void insertInterfaceWithTLabel(String key, InterfaceModel val) {
         mapTLabelIf.putIfAbsent(key, new ArrayList<InterfaceModel>());
         mapTLabelIf.get(key).add(val);
     }
 
+    // EFFECTS: return the list of interfaces that has key as the source label of one of its statement
     public ArrayList<InterfaceModel> queryInterfaceWithSLabel(String key) {
         return mapSLabelIf.getOrDefault(key, null);
     }
 
+    // EFFECTS: return the list of interfaces that has key as the target label of one of its statement
     public ArrayList<InterfaceModel> queryInterfaceWithTLabel(String key) {
         return mapTLabelIf.getOrDefault(key, null);
     }

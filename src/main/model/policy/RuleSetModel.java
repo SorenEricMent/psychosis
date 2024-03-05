@@ -25,6 +25,8 @@ public class RuleSetModel {
     private final String targetClass;
     private final HashSet<String> actions;
 
+    // EFFECTS: construct a RuleSetModel out of all related params, notice that the 4 tuple is not mutable
+    // for that should be done with a new rule
     public RuleSetModel(RuleType ruleType, String source, String target, String targetClass, HashSet<String> actions) {
         this.ruleType = ruleType;
         this.sourceContext = source;
@@ -33,10 +35,12 @@ public class RuleSetModel {
         this.actions = actions;
     }
 
+    // EFFECTS: add an action to the action set
     public void addAction(String action) {
         this.actions.add(action);
     }
 
+    // EFFECTS: add a set of actiosn to the action set
     public void addAction(HashSet<String> actions) {
         this.actions.addAll(actions);
     }
@@ -137,6 +141,7 @@ public class RuleSetModel {
         return new RuleSetModel(rt, sourceContext, targetContext, targetClass, actions);
     }
 
+    // EFFECTS: proxy caller for parsing a string (tokenize and pass to the actual parser)
     public static RuleSetModel ruleSetParser(String str) throws SyntaxParseException {
         String[] tokenized = CommonUtil.strongTokenizer(str);
         return ruleSetParser(tokenized);

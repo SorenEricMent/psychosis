@@ -16,6 +16,8 @@ public class InterfaceSetModel extends FileObjectModel implements Encodeable, De
 
     private final ArrayList<InterfaceModel> interfaces = new ArrayList<>();
 
+    // EFFECTS: override default object toString, concatenate all toString result of interfaces in the set.
+    @Override
     public String toString() {
         String res = "";
         for (InterfaceModel i : interfaces) {
@@ -29,6 +31,8 @@ public class InterfaceSetModel extends FileObjectModel implements Encodeable, De
         return interfaces.size();
     }
 
+    // EFFECTS: add an interface to the set (notice this model store references)
+    // MODIFIES: this
     public void addInterface(InterfaceModel i) {
         this.interfaces.add(i);
     }
@@ -37,6 +41,7 @@ public class InterfaceSetModel extends FileObjectModel implements Encodeable, De
         return interfaces;
     }
 
+    // EFFECTS: lookup interface with name, throw NotFoundException if none found
     public InterfaceModel getInterface(String name) {
         for (InterfaceModel i : this.interfaces) {
             if (i.getName().equals(name)) {
@@ -46,6 +51,7 @@ public class InterfaceSetModel extends FileObjectModel implements Encodeable, De
         throw new NotFoundException("Interface not found");
     }
 
+    // EFFECTS: remove the interface with a specific name from the set
     public void removeInterface(String interfaceName) {
         int position = -1;
         for (int i = 0; i < interfaces.size(); i++) {
@@ -61,6 +67,7 @@ public class InterfaceSetModel extends FileObjectModel implements Encodeable, De
         }
     }
 
+    // EFFECTS: parser for SELinux .if file
     @SuppressWarnings({"checkstyle:MethodLength", "checkstyle:SuppressWarnings"})
     public static InterfaceSetModel parser(String str) throws SyntaxParseException {
         // AN interface file could contain multiple interface definitions
@@ -107,6 +114,7 @@ public class InterfaceSetModel extends FileObjectModel implements Encodeable, De
         return res;
     }
 
+    // EFFECTS: return the first occurrence of element ; from j in array tokenized
     private static int getStatementEnd(int j, String[] tokenized) throws SyntaxParseException {
         int statementEnd = -1;
         // Found a statement, try to find the ending ;

@@ -16,10 +16,13 @@ public class LayerModel {
     protected HashMap<String, PolicyModuleModel> policyModules = new HashMap<>();
     // String is the file name.
 
+    // EFFECTS: init this layer with name
     public LayerModel(String name) {
         this.name = name;
     }
 
+    // EFFECTS: add PolicyModule to this layer with its name as the index
+    // MODIFIES: this
     public void addPolicyModule(PolicyModuleModel module) {
         this.policyModules.put(module.getName(), module);
     }
@@ -41,11 +44,13 @@ public class LayerModel {
         return policyModules.size();
     }
 
-    // EFFECT: getter for layer name
+    // EFFECTS: getter for layer name
     public String getName() {
         return name;
     }
 
+    // EFFECTS: override object default toString, return an overview of this layer
+    @Override
     public String toString() {
         String res = "";
         res = res.concat("Layer name: " + getName() + "\n");
