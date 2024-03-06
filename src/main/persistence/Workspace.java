@@ -3,13 +3,10 @@ package persistence;
 import model.Decodeable;
 import model.Encodeable;
 import model.ProjectModel;
-import model.TempProjectModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.ArrayList;
 
 // A Workspace is an abstract to the intermediate form of persistent saving/loading of the entire state
 public class Workspace implements Encodeable, Decodeable {
@@ -89,7 +86,7 @@ public class Workspace implements Encodeable, Decodeable {
         JSONArray projects = new JSONArray();
         for (ProjectModel p : this.projects) {
             projects.put(new JSONObject().put("type", "compiled")
-                    .put("data",new JSONObject(ProjectSL.saveProjectToJsonCompiled(p))));
+                    .put("data", new JSONObject(ProjectSL.saveProjectToJsonCompiled(p))));
         }
         res.put("projects", projects);
         System.gc();
@@ -107,10 +104,12 @@ public class Workspace implements Encodeable, Decodeable {
             if (project.get("type").equals("compiled")) {
                 // Tracker is currently discarded, TODO: after incorporation of tracker inside project, use it here
                 projects.add(ProjectSL.loadProjectFromJsonCompiled(project.getJSONObject("data")).getFirst());
-            } else if (project.get("type").equals("meta")) {
-                projects.add(ProjectSL.loadProjectFromJsonMeta(project.getJSONObject("data")).getFirst());
-            } else {
+//            } else if (project.get("type").equals("meta")) {
+//                projects.add(ProjectSL.loadProjectFromJsonMeta(project.getJSONObject("data")).getFirst());
+//            } else {
                 continue; // Skip unknown type
+
+                // skip meta for phase 2
             }
         }
         this.projects = projects;

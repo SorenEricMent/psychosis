@@ -1,7 +1,7 @@
 {
   "name": "example_proj",
   "capabilities": [
-    "network_peer_controls"
+    "network_peer_controls", "yuuta"
   ],
   "access_vectors": [
     {

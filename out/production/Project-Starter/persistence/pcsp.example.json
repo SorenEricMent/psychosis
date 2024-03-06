@@ -1,10 +1,14 @@
 {
   "name": "<project-name>",
-  "capabilities": ["<capability-name>"],
+  "capabilities": [
+    "<capability-name>"
+  ],
   "access_vectors": [
     {
       "class": "<class-name>",
-      "actions": ["action-name"]
+      "actions": [
+        "action-name"
+      ]
     }
   ],
   "layers": [

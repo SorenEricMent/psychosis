@@ -35,10 +35,22 @@ public class ProjectModel {
         return globalInterfaceSet;
     }
 
+    // EFFECTS: return the enabled capability list
+    public ArrayList<PolicyCapabilities> getCapabilities() {
+        ArrayList<PolicyCapabilities> cap = new ArrayList<>();
+        for (PolicyCapabilities p : capabilities.keySet()) {
+            if (capabilities.get(p)) {
+                cap.add(p);
+            }
+        }
+        return cap;
+    }
+
     // Layers are often in small sizes
     // Therefore it is defined as an ArrayList
 
     // EFFECTS: create a new Project with name and points to projectPath
+    // and empty access vector definition and all caps disabled
     public ProjectModel(String name, String projectPath) {
         this.name = name;
         this.projectPath = projectPath;
@@ -46,6 +58,7 @@ public class ProjectModel {
         for (PolicyCapabilities cap : PolicyCapabilities.values()) {
             capabilities.put(cap, false);
         }
+        this.accessVectors = new AccessVectorModel();
     }
 
     // EFFECTS: rebuild the global set of interfaces from all modules, for loading project from file
@@ -101,6 +114,12 @@ public class ProjectModel {
     // EFFECT: setter for capabilities.
     public void setCapabilities(HashMap<PolicyCapabilities, Boolean> val) {
         this.capabilities = val;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: update a capability status with a boolean value
+    public void updateCapability(PolicyCapabilities p, Boolean val) {
+        this.capabilities.replace(p, val);
     }
 
     // EFFECTS: parse a string to the corresponding capability

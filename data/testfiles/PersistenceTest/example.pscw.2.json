@@ -13,6 +13,17 @@
       "type": "compiled",
       "data": {
         "name": "example_proj",
+        "capabilities": [
+          "network_peer_controls"
+        ],
+        "access_vectors": [
+          {
+            "class": "body",
+            "actions": [
+              "pet", "hug"
+            ]
+          }
+        ],
         "layers": [
           {
             "name": "example_layer",

@@ -34,6 +34,10 @@ public class ProjectSL {
         System.out.println("Loaded xpcsp JSON content.");
         Pair<ProjectModel, TrackerModel> res = new Pair<>(new TempProjectModel(parsed.getString("name"), true),
                 new TrackerModel());
+        // TODO: Capabilities
+        res.getFirst().setCapabilities(parseCapabilityFromJson(parsed.getJSONArray("capabilities")));
+        // TODO: AccessVector
+        res.getFirst().setAccessVectors(parseAccessVectorFromJson(parsed.getJSONArray("access_vectors")));
         parsed.getJSONArray("layers").forEach(i -> {
             JSONObject layerObj = (JSONObject) i;
             res.getFirst().addLayer(layerObj.getString("name"));
@@ -75,7 +79,7 @@ public class ProjectSL {
                                 line.getString("target"),
                                 line.getString("target_class"), actions));
             } else {
-                // jump to next iteration, ignore unknown type
+                return; // jump to next iteration, ignore unknown type
             }
         });
         return res; //stub
@@ -101,7 +105,7 @@ public class ProjectSL {
                 });
                 res.addInterface(ifToAdd);
             } else {
-                // jump to next iteration, ignore unknown type
+                return; // jump to next iteration, ignore unknown type
             }
         });
         return res; //stub
@@ -113,7 +117,7 @@ public class ProjectSL {
     }
 
     // EFFECTS: parse policy capabilities section in JSON to a list of enabled capabilities
-    private static HashMap<ProjectModel.PolicyCapabilities, Boolean>  parseCapabilityFromJson(JSONArray obj)
+    private static HashMap<ProjectModel.PolicyCapabilities, Boolean> parseCapabilityFromJson(JSONArray obj)
             throws JSONException {
         HashMap<ProjectModel.PolicyCapabilities, Boolean> res = new HashMap<>();
         res.put(ProjectModel.PolicyCapabilities.network_peer_controls, false);
@@ -136,25 +140,31 @@ public class ProjectSL {
         return res;
     }
 
-    // EFFECTS: save capabilities to a JSON Array where elements resemble enabled
-    private static JSONArray saveCapabilityToArray(HashMap<ProjectModel.PolicyCapabilities, Boolean> val) {
-        JSONArray res = new JSONArray();
-        for (ProjectModel.PolicyCapabilities p : val.keySet()) {
-            if (val.get(p)) {
-                res.put(p.toString());
+    // EFFECTS: parse the access vector definition section in JSON
+    private static AccessVectorModel parseAccessVectorFromJson(JSONArray obj) throws JSONException {
+        AccessVectorModel res = new AccessVectorModel();
+        for (Object i : obj) {
+            JSONObject secClass = (JSONObject) i;
+            res.addSecurityClass(secClass.getString("class"));
+            for (Object j : secClass.getJSONArray("actions")) {
+                res.addAccessVector(secClass.getString("class"), (String) j);
             }
         }
+        return res; //stub
+    }
+
+    private static JSONArray saveAccessVectorToJson(AccessVectorModel val) {
+        JSONArray res = new JSONArray();
+        for (String k : val.getAccessVector().keySet()) {
+            HashSet<String> actions = val.getAccessVector().get(k);
+            JSONObject classObj = new JSONObject();
+            JSONArray classActions = new JSONArray();
+            classActions.putAll(actions);
+            classObj.put("class", k);
+            classObj.put("actions", classActions);
+            res.put(classObj);
+        }
         return res;
-    }
-
-    // EFFECTS: parse the access vector definition section in JSON
-    private static AccessVectorModel parseAccessVectorFromJson(JSONObject obj) throws JSONException {
-
-        return null; //stub
-    }
-
-    private static JSONObject saveAccessVectorToJson(AccessVectorModel val) {
-        return null; //stub
     }
 
 
@@ -166,7 +176,7 @@ public class ProjectSL {
     // REQUIRES: content is a valid JSON and valid pcsp file
     // EFFECTS: Load a project from a meta JSON format
     public static Pair<ProjectModel, TrackerModel> loadProjectFromJsonMeta(JSONObject obj) {
-        return new Pair<ProjectModel, TrackerModel>(null, null); //stub
+        return null; //stub
     }
 
     // EFFECTS: convert a ProjectModel to Psychosis .pcsj file (JSON storing project metadata)
@@ -178,6 +188,10 @@ public class ProjectSL {
     public static String saveProjectToJsonCompiled(ProjectModel proj) {
         JSONObject res = new JSONObject();
         res.put("name", proj.getName());
+        // TODO: Capabilities
+        res.put("capabilities", new JSONArray(proj.getCapabilities()));
+        // TODO: AccessVectors
+        res.put("access_vectors", saveAccessVectorToJson(proj.getAccessVectors()));
         res.put("layers", new JSONArray());
         for (LayerModel layer : proj.getLayers()) {
             JSONObject newLayer = new JSONObject().put("name", layer.getName());

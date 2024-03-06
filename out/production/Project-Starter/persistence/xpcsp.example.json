@@ -3,7 +3,9 @@
   "access_vectors": [
     {
       "class": "<class-name>",
-      "actions": ["action-name"]
+      "actions": [
+        "action-name"
+      ]
     }
   ],
   "layers": [

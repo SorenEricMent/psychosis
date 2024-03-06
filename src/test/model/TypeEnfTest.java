@@ -243,6 +243,7 @@ public class TypeEnfTest {
             fail(e);
         }
     }
+
     @Test
     public void testTypeEnfExcpDelimiter() {
         try {

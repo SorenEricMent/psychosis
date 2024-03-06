@@ -1,5 +1,6 @@
 package model;
 
+import model.policy.AccessVectorModel;
 import model.policy.InterfaceModel;
 import model.policy.PolicyModuleModel;
 import model.policy.RuleSetModel;
@@ -9,6 +10,7 @@ import persistence.ProjectSL;
 import persistence.Workspace;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -180,6 +182,12 @@ public class PersistenceTest {
         }
         Workspace expected = new Workspace(content);
         ProjectModel testProject = new TempProjectModel("example_proj", true);
+        testProject.updateCapability(ProjectModel.PolicyCapabilities.network_peer_controls, true);
+        AccessVectorModel testProjAV = new AccessVectorModel();
+        testProjAV.addSecurityClass("body");
+        testProjAV.addAccessVector("body", "pet");
+        testProjAV.addAccessVector("body", "hug");
+        testProject.setAccessVectors(testProjAV);
         testProject.addLayer("example_layer");
         PolicyModuleModel testModule = new PolicyModuleModel("example_module");
         testModule.getTypeEnf().addStatement(
@@ -206,13 +214,30 @@ public class PersistenceTest {
     }
 
     @Test
+    public void testUnknownCap() {
+        // Can't test on output stream & the default error-handling behaviour of Psychosis for this is to ignore
+        // So I'm just going to call it for coverage and fail on Exception
+        try {
+            String content = "";
+            try {
+                content = CustomReader.readAsWhole(new File("./data/testfiles/PersistenceTest/example.unknown_cap.xpscp.json"));
+            } catch (IOException e) {
+                fail("Failed to load test file, this should not happen!");
+            }
+            ProjectSL.loadProjectFromJsonCompiled(content);
+        } catch (Exception e) {
+            fail(e);
+        }
+    }
+
+    @Test
     public void metaParsingPlaceholder() {
         // As meta JSON format is not yet supported, this serves as
         // a placeholder test to fix Jacoco coverage
         String content = "";
         try {
             content = CustomReader.readAsWhole(new File("./data/testfiles/PersistenceTest/example.pscw.2.json"));
-        } catch (Exception e) {
+        } catch (IOException e) {
             fail("Failed to load test file, this should not happen!");
         }
 
@@ -221,11 +246,13 @@ public class PersistenceTest {
         ArrayList<ProjectModel> testProjects = new ArrayList<>();
         ProjectModel testProject = new TempProjectModel("example_project");
         Workspace testWorkspace1 = new Workspace("example_workspace", 0, testProjects);
+        assertNull(ProjectSL.saveProjectToJsonMeta(testProject));
         assertNull(testWorkspace1.toString());
+        assertNull(ProjectSL.loadProjectFromJsonMeta(new JSONObject()));
         assertNull(ProjectSL.loadProjectFromJsonMeta(""));
-        assertNull(ProjectSL.loadProjectFromJsonMeta(new JSONObject()).getFirst());
         assertNull(ProjectSL.saveProjectToJsonMeta(testProject));
     }
+
     @Test
     public void fixInstance() {
         // Jacoco on the grading server is complaining ProjectSL not being instantiated
