@@ -120,14 +120,6 @@ public class InterfaceTest {
     }
 
     @Test
-    public void testInterfaceSetRuleSet() {
-        ArrayList<RuleSetModel> rs1 = new ArrayList<>();
-        rs1.add(r1);
-        rs1.add(r5);
-        i1.setRuleSetModels(rs1);
-    }
-
-    @Test
     public void testInterfaceParserFOSingleDef() {
         File testFile = new File("./data/testfiles/InterfaceTest/test_interface_singledef");
         String fileContent = "";

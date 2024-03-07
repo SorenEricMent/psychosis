@@ -63,10 +63,6 @@ public class InterfaceModel {
         }
     }
 
-    public void setRuleSetModels(ArrayList<RuleSetModel> rules) {
-        this.ruleSetModels = rules;
-    }
-
     // For testing only
     public ArrayList<RuleSetModel> getRuleSetModels() {
         return ruleSetModels;
