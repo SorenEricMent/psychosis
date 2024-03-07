@@ -76,6 +76,7 @@ public class TerminalInterface {
                         break;
                     case "export_project":
                         commandExportProject(inputList);
+                        break;
                     case "list_project":
                         commandListProject();
                         break;
@@ -145,6 +146,12 @@ public class TerminalInterface {
                     case "load_typeenf":
                         notImplemented();
                         break;
+                    case "show_class":
+                        commandShowClass(inputList);
+                        break;
+                    case "show_vectors":
+                        commandShowVectors(inputList);
+                        break;
                     case "exit":
                         System.out.println("Goodbye");
                         this.isRunning = false;
@@ -198,6 +205,7 @@ public class TerminalInterface {
         } catch (IOException e) {
             System.out.println("Error when saving to file at " + target.getAbsolutePath() + ", " + e);
         }
+        System.out.println("Saved project.");
     }
 
     // EFFECTS: export all current projects into a workspace file (name and a list of projects / path)
@@ -587,8 +595,33 @@ public class TerminalInterface {
         }
     }
 
+    // EFFECTS: show the list of enabled capabilities
     private void commandShowCapability(String[] params) {
         // show_capability
+        System.out.println("Current capabilities: ");
+        for (ProjectModel.PolicyCapabilities p : this.getFocus().getCapabilities()) {
+            System.out.println(p.toString());
+        }
+    }
+
+    // EFFECTS: show the list of security classes defined
+    private void commandShowClass(String[] params) {
+        System.out.println("Security class list: ");
+        HashMap<String, HashSet<String>> res = this.getFocus().getAccessVectors().getAccessVector();
+        for (String k : res.keySet()) {
+            System.out.println(k + " ");
+        }
+    }
+
+    // EFFECTS: show the action set for a security class
+    private void commandShowVectors(String[] params) {
+        // show_vector <class>
+        HashSet<String> res = this.getFocus().getAccessVectors().getAccessVector().get(params[1]);
+        if (res == null) {
+            System.out.println("This class is not defined.");
+        } else {
+            System.out.println(res.toString());
+        }
     }
 
 
