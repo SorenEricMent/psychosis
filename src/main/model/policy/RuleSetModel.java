@@ -40,7 +40,7 @@ public class RuleSetModel {
         this.actions.add(action);
     }
 
-    // EFFECTS: add a set of actiosn to the action set
+    // EFFECTS: add a set of actions to the action set
     public void addAction(HashSet<String> actions) {
         this.actions.addAll(actions);
     }

@@ -1,12 +1,13 @@
 package model.policy;
 
-public class PolicyModuleModel {
-    // A policy module contain (AND MUST CONTAIN):
-    // A Type enforce file
-    // A interface definition file
-    // A file context file ( not used by Psychosis )
+// A policy module contain (AND MUST CONTAIN):
+// A Type enforce file
+// A interface definition file
+// A file context file ( not used by Psychosis )
 
-    // This also determine the file name!
+// This also determine the file name!
+
+public class PolicyModuleModel {
     private final String name;
 
     private final TypeEnfModel typeEnfObject;

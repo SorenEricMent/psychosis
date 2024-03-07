@@ -40,6 +40,7 @@ public class LayerModel {
         throw new NotFoundException("Policy module not found in layer.");
     }
 
+    // EFFECTS: return the number of policyModules
     public int getModulesNum() {
         return policyModules.size();
     }
@@ -61,6 +62,8 @@ public class LayerModel {
         return res;
     }
 
+    // MODIFIES: this
+    // EFFECTS: remove a policyModule with given name
     public void removePolicyModule(String moduleName) {
         if (policyModules.containsKey(moduleName)) {
             policyModules.remove(moduleName);

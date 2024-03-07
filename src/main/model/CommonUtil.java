@@ -107,6 +107,7 @@ public class CommonUtil {
             return syntaxError;
         }
 
+        // Debugging use only
         public String toString() {
             return readingString + " " + syntaxError + " " + stack;
         }

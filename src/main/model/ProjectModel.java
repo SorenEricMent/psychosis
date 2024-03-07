@@ -215,6 +215,10 @@ public class ProjectModel {
         return result;
     }
 
+    // The following functions should have EFFECTS
+    // corresponding to TempProjectModel, but none of they are currently used
+    // as auto flush to fs is not planned to be supported now
+
     public void addInterface(String layerName, String moduleName, String interfaceName) {
 //        this.getLayer(layerName).getPolicyModule(moduleName).addInterface(
 //                new InterfaceModel(interfaceName, true));
