@@ -620,7 +620,7 @@ public class TerminalInterface {
         if (res == null) {
             System.out.println("This class is not defined.");
         } else {
-            System.out.println(res.toString());
+            System.out.println(res);
         }
     }
 

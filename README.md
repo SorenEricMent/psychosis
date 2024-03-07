@@ -40,6 +40,9 @@ As a user, I want to be able to:
 
 - Use interface to compile .te rulesets into full rulesets
 
+- Loading and showing access vector definition
+- Loading and editing capabilities
+
 - Add new layers (a set of Modules) to projects
 - Add new Modules(a .te, .if and a .fc file) to layers
 - Check the overview of Project / Layer / Modules
@@ -54,9 +57,11 @@ As a user, I want to be able to:
 	- First-order Interface calls are already supported!
 
 - Save project independently to a .pcsj file
+  - Meta ref-based format
+  - Compiled format (for phase 2)
 - Load .pcsj file to a project in the workspace
 - Save the whole program state to a .pcsw workspace file
-    - Comments in the original files are discarded on read.
+    - For now, comments in the original files are discarded on read.
 - Load from a .pcsw workspace file to recover the whole previous program state
 
 ## Instructions

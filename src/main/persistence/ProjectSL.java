@@ -79,7 +79,7 @@ public class ProjectSL {
                                 line.getString("target"),
                                 line.getString("target_class"), actions));
             } else {
-                return; // jump to next iteration, ignore unknown type
+                // jump to next iteration, ignore unknown type
             }
         });
         return res; //stub
@@ -105,7 +105,7 @@ public class ProjectSL {
                 });
                 res.addInterface(ifToAdd);
             } else {
-                return; // jump to next iteration, ignore unknown type
+                // jump to next iteration, ignore unknown type
             }
         });
         return res; //stub
