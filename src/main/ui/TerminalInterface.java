@@ -14,9 +14,8 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+// Define the commands for Psychosis shell
 public class TerminalInterface {
-    //Debugging command line for Phase 1
-
     private ArrayList<
             Pair<ProjectModel, TrackerModel>> loadedProjects = new ArrayList<>();
     private Integer currentWorkIndex = 0;
@@ -26,12 +25,15 @@ public class TerminalInterface {
 
     private boolean isRunning = true;
 
+    // EFFECTS: init a set of commands operating on the selected project
+    // with only a temp empty project available in list.
     TerminalInterface() {
         this.loadedProjects.add(
                 new Pair<>(new TempProjectModel("temp"),
                         new TrackerModel()));
     }
 
+    // EFFECTS: Start a scanner to receive command input from user
     @SuppressWarnings("methodlength")
     public void startInterface() {
         System.out.println(" _______                         __                      _          \n"
@@ -232,6 +234,7 @@ public class TerminalInterface {
         System.gc();
     }
 
+    // EFFECTS: overwrite the current workspace completely with a Workspace loaded from a JSON
     private void commandLoadWorkspace(String[] params) {
         // load_workspace <path>
         String fileContent = "";
@@ -244,9 +247,9 @@ public class TerminalInterface {
         try {
             Workspace temp = new Workspace(fileContent);
             this.loadedProjects =
-                    new ArrayList<>(temp.getProjects().stream()
+                    temp.getProjects().stream()
                             .map(x -> new Pair<>(x, new TrackerModel()))
-                            .collect(Collectors.toList()));
+                            .collect(Collectors.toCollection(ArrayList::new));
             // TrackerModel is currently placeholding
             this.currentWorkIndex = temp.getIndex();
             System.out.println("Loaded workspace named " + temp.getName() + " at path " + target.getAbsolutePath());
@@ -257,6 +260,7 @@ public class TerminalInterface {
         }
     }
 
+    // EFFECTS: load a project from a JSON and add it to the project list
     private void commandLoadProject(String[] params) {
         // load_project <compiled/meta> <path>
         try {
@@ -278,6 +282,8 @@ public class TerminalInterface {
         }
     }
 
+    // EFFECTS: create an empty / refpolicy-based / empty-in-mem-only project
+    // and add it to the project list
     private void commandCreateProject(String[] params) {
         // create_project <basis (test/refpolicy/empty)> [custom]:<path> name
         // the latter is not yet implemented in Phase 1, TODO
@@ -303,15 +309,17 @@ public class TerminalInterface {
 
     }
 
-    // EFFECTS: update the project selected
+    // EFFECTS: update which project to be selected
     private void commandSelectProject(String[] params) {
         this.currentWorkIndex = Integer.parseInt(params[1]) - 1;
     }
 
+    // EFFECTS: show an overview of a project
     private void commandShowProject() {
         System.out.println(getFocus().toString());
     }
 
+    // EFFECTS: show an overview of a layer
     private void commandShowLayer(String[] params) {
         try {
             System.out.println(getFocus().getLayer(params[1]).toString());
@@ -321,6 +329,7 @@ public class TerminalInterface {
         }
     }
 
+    // EFFECTS: create a empty layer with no modules
     private void commandCreateLayer(String[] params) {
         // create_layer <layer_name>
         try {
@@ -331,6 +340,7 @@ public class TerminalInterface {
         }
     }
 
+    // EFFECTS: remove a layer completely
     private void commandRemoveLayer(String[] params) {
         if (reassure()) {
             try {
@@ -342,6 +352,7 @@ public class TerminalInterface {
         }
     }
 
+    // EFFECTS: list the loaded projects
     private void commandListProject() {
         System.out.print("Loaded projects: ");
         for (Pair<ProjectModel, TrackerModel> project : loadedProjects) {
@@ -349,6 +360,7 @@ public class TerminalInterface {
         }
     }
 
+    // EFFECTS: load a module from file to a layer
     @SuppressWarnings({"checkstyle:MethodLength", "checkstyle:SuppressWarnings"})
     private void commandLoadModule(String[] params) {
         // load_module <to layer> <name> <te path> <if path> <fc path>
@@ -380,6 +392,7 @@ public class TerminalInterface {
         }
     }
 
+    // EFFECTS: add an empty module to a layer
     private void commandAddModule(String[] params) {
         // add_module <layer_name> <module_name>
         try {
@@ -392,6 +405,7 @@ public class TerminalInterface {
         }
     }
 
+    // EFFECTS: show an overview of a module
     private void commandShowModule(String[] params) {
         // show_module <layer_name> <module_name>
 
@@ -402,6 +416,7 @@ public class TerminalInterface {
 
     }
 
+    // EFFECTS: export the result content of a module, might be .te/.if/.fc or compiled first-order .te
     private void commandExportModule(String[] params) {
         // export_module <text/file> <te/if/fc/compiled> [layer_name] [module_name]
         // Phase 1: only option text implemented
@@ -427,6 +442,7 @@ public class TerminalInterface {
         }
     }
 
+    // EFFECTS: remove a policy module
     private void commandRemoveModule(String[] params) {
         // remove_module <layer_name> <module_name>
 
@@ -437,6 +453,7 @@ public class TerminalInterface {
 
     }
 
+    // EFFECTS: add an empty interface to a module
     private void commandAddInterface(String[] params) {
         // add_interface <layer_name> <module_name> <interface_name>
         try {
@@ -450,6 +467,7 @@ public class TerminalInterface {
         }
     }
 
+    // EFFECTS: add/remove statements on an interface
     private void commandEditInterface(String[] params) {
         // edit_interface <interface_name>
         // <add/remove> <allow/dontaudit> <source_label> <target_label> <target_class> [action_list]
@@ -477,6 +495,7 @@ public class TerminalInterface {
         }
     }
 
+    // EFFECTS: show the list of interfaces matching the criteria given.
     private void commandLookUpInterface(String[] params) {
         // lookup_interface <unspec/userdefined> name=name sl=<name/none> tl=<name/none> tag=tag1,tag2
 
@@ -513,6 +532,7 @@ public class TerminalInterface {
 
     }
 
+    // EFFECTS: show the content of an interface
     private void commandShowInterface(String[] params) {
         // show_interface <layer_name> <module_name> <interface_name>
         System.out.println(this
@@ -522,6 +542,7 @@ public class TerminalInterface {
                 .getInterface(params[3]));
     }
 
+    // EFFECTS: remove a single interface
     private void commandRemoveInterface(String[] params) {
         // remove_interface <layer_name> <module_name> <interface_name>
         try {
@@ -535,6 +556,7 @@ public class TerminalInterface {
         }
     }
 
+    // EFFECTS: edit .te file of the current policy, add/remove statement or interface call
     private void commandEditTypeEnf(String[] params) {
         // edit_typeenf <layer_name> <module_name> <add/remove/add_inf/remove_inf> <RuleType>
         // <source context> <target_context> <target_class> [listof actions] (add_inf/remove_inf infname [listof args])
@@ -625,6 +647,7 @@ public class TerminalInterface {
     }
 
 
+    // EFFECTS: load access_vectors and security_classes and overwrite current project's field
     public static AccessVectorModel loadAccessVectors(String accessVectorPath, String securityClassPath)
             throws IOException, SyntaxParseException {
         File securityClassFile = new File(securityClassPath);
@@ -648,10 +671,6 @@ public class TerminalInterface {
 
         accessVectorModel.batchAddAction(AccessVectorModel.accessVectorParser(accessVectorFileContent));
         return accessVectorModel;
-    }
-
-    public static PolicyModuleModel loadPolicy(String path) {
-        return null; //stub
     }
 
     // EFFECTS: placeholder for commands not yet implememnted
