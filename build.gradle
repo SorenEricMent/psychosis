@@ -35,6 +35,7 @@ sourceSets {
 
 application {
     mainClass = 'ui.Main'
+    applicationDefaultJvmArgs = ["-splash:data/resources/splash.jpg"]
 }
 
 
