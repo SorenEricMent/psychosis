@@ -11,7 +11,7 @@ public class Main {
         for (int i = 0; i < args.length; i++) {
             if (args[i].equals("-g") || args[i].equals("--gui")) {
                 // Start in GUI
-                GraphicInterface.main();
+                GraphicInterface gui = new GraphicInterface();
                 useTUI = false;
             }
         }

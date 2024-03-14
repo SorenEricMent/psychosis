@@ -1,0 +1,39 @@
+{
+  "name": "<project-name>",
+  "capabilities": [
+    "<capability-name>"
+  ],
+  "access_vectors": [
+    {
+      "class": "<class-name>",
+      "actions": [
+        "action-name"
+      ]
+    }
+  ],
+  "layers": [
+    {
+      "name": "<layer_name>",
+      "modules": [
+        {
+          "name": "<module_name>",
+          "te": {
+            "fs": true,
+            "path": "path",
+            "content": "raw content"
+          },
+          "if": {
+            "fs": true,
+            "path": "path",
+            "content": "raw content"
+          },
+          "fc": {
+            "fs": true,
+            "path": "path",
+            "content": "raw content"
+          }
+        }
+      ]
+    }
+  ]
+}

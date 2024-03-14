@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/psychosis.iml" filepath="$PROJECT_DIR$/.idea/modules/psychosis.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/psychosis.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/psychosis.app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/psychosis.main.iml" filepath="$PROJECT_DIR$/.idea/modules/psychosis.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/psychosis.test.iml" filepath="$PROJECT_DIR$/.idea/modules/psychosis.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Project-Starter.iml" filepath="$PROJECT_DIR$/Project-Starter.iml" />
     </modules>
   </component>
 </project>

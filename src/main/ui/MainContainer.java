@@ -1,43 +1,36 @@
 package ui;
 
 import javax.swing.*;
+import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class MainContainer {
-    private JList list1;
+    private JTree projectList;
     private JPanel mainContainer;
     private JButton fileBtn;
     private JToolBar globalToolbar;
     private JButton helpBtn;
+    private JPanel mainEditor;
+    private ui.ProjectPlaceholder projectPlaceholder;
 
-    public static void main() {
-        System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Psychosis Studio");
-        Toolkit defToolkit = Toolkit.getDefaultToolkit();
-        java.lang.reflect.Field awtAppClassNameField = null;
+    public MainContainer() {
+        projectPlaceholder.getCreateProjectButton().addActionListener(e -> {
+            CreateProjectDialog.main();
+        });
+    }
 
-        try {
-            awtAppClassNameField = defToolkit.getClass().getDeclaredField("awtAppClassName");
-            awtAppClassNameField.setAccessible(true);
-            awtAppClassNameField.set(defToolkit, "Psychosis Studio");
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
+    public JPanel getMainContainer() {
+        return mainContainer;
+    }
 
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-                 | UnsupportedLookAndFeelException e) {
-            throw new RuntimeException(e);
-        }
-        JFrame mainContainer = new JFrame("Psychosis Studio " + Main.getVersion());
-        ImageIcon img = new ImageIcon("./data/resources/logo.jpg");
+    public JTree getProjectList() {
+        return projectList;
+    }
 
-        mainContainer.setIconImage(img.getImage());
-
-        mainContainer.setContentPane(new MainContainer().mainContainer);
-        mainContainer.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainContainer.pack();
-        mainContainer.setVisible(true);
-        mainContainer.setLocationRelativeTo(null);
+    private void createUIComponents() {
+        DefaultMutableTreeNode top =
+                new DefaultMutableTreeNode("Projects");
+        projectList = new JTree(top);
     }
 }
