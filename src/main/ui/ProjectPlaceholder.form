@@ -70,7 +70,7 @@
         </constraints>
         <properties>
           <font name="Consolas" size="48"/>
-          <text value="No Project Opened"/>
+          <text resource-bundle="resources/PsychosisResource" key="ProjectPlaceholder.title.main"/>
         </properties>
       </component>
     </children>

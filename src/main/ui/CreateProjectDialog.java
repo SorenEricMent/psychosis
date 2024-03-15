@@ -7,6 +7,8 @@ public class CreateProjectDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
+    private JTabbedPane projectCreateBasisTab;
+    private JTextField inputProjectNameTextField;
 
     public CreateProjectDialog() {
         setContentPane(contentPane);
@@ -54,6 +56,7 @@ public class CreateProjectDialog extends JDialog {
     public static void main() {
         CreateProjectDialog dialog = new CreateProjectDialog();
         dialog.pack();
+        dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
     }
 }

@@ -74,6 +74,11 @@ public class GraphicInterface {
             System.out.println("g is null");
             return;
         }
+        try {
+            Thread.sleep(1000); // My banner looks so good it needs to last longer
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     // EFFECTS: set application menu bar title and use system ui style

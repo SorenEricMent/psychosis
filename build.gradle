@@ -1,5 +1,7 @@
 plugins {
     id 'application' 
+    id 'idea'
+    id 'java'
 }
 
 repositories {
@@ -35,11 +37,12 @@ sourceSets {
 
 application {
     mainClass = 'ui.Main'
-    applicationDefaultJvmArgs = ["-splash:data/resources/splash.jpg"]
+    applicationDefaultJvmArgs = ["-splash:data/resources/splash.jpg", "--add-opens=java.desktop/sun.awt.X11=ALL-UNNAMED"]
 }
 
 
 jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
         attributes 'Main-Class': 'ui.Main'
     }
