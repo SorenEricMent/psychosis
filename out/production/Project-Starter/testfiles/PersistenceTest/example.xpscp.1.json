@@ -1,0 +1,80 @@
+{
+  "name": "example_proj",
+  "capabilities": [
+    "network_peer_controls"
+  ],
+  "access_vectors": [
+    {
+      "class": "body",
+      "actions": [
+        "pet", "hug"
+      ]
+    }
+  ],
+  "layers": [
+    {
+      "name": "example_layer",
+      "modules": [
+        {
+          "name": "example_module",
+          "te": {
+            "content": [
+              {
+                "type": "statement",
+                "rule": "allow",
+                "source": "winslow_t",
+                "target": "yuuta_t",
+                "target_class": "body",
+                "actions": ["pet", "hug"]
+              },
+              {
+                "type": "call",
+                "name": "yuuta",
+                "params": ["winslow", "chocolate"]
+              },
+              {
+                "type": "invalid"
+              }
+            ]
+          },
+          "if": {
+            "content": [
+              {
+                "type": "interface",
+                "name": "yuuta",
+                "statements": [
+                  {
+                    "rule": "allow",
+                    "source": "$1",
+                    "target": "$2",
+                    "target_class": "candy",
+                    "actions": ["eat"]
+                  }
+                ]
+              },
+              {
+                "type": "template",
+                "name": "yuuta_template",
+                "statements": [
+                  {
+                    "rule": "allow",
+                    "source": "$1",
+                    "target": "$2",
+                    "target_class": "candy",
+                    "actions": ["eat"]
+                  }
+                ]
+              },
+              {
+                "type": "invalid"
+              }
+            ]
+          },
+          "fc":  {
+
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -7,3 +7,5 @@ workspace.xml
 
 # Ignore Gradle build output directory
 build
+
+out/production/Project-Starter/refpolicy

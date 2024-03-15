@@ -3,7 +3,7 @@ package ui;
 import javax.swing.*;
 
 public class ProjectPlaceholder {
-    private JPanel ProjectPlaceholderContainer;
+    private JPanel projectPlaceholderContainer;
     private JButton createProjectButton;
     private JButton loadProjectButton;
     private JButton loadWorkspaceButton;

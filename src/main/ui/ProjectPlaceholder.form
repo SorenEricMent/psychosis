@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="ui.ProjectPlaceholder">
-  <grid id="27dc6" binding="ProjectPlaceholderContainer" layout-manager="GridLayoutManager" row-count="6" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+  <grid id="27dc6" binding="projectPlaceholderContainer" layout-manager="GridLayoutManager" row-count="6" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="649" height="400"/>
+      <xy x="20" y="20" width="1738" height="410"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -20,7 +20,9 @@
           </grid>
         </constraints>
         <properties>
-          <text value="Create Project"/>
+          <font/>
+          <icon value="resources/icons/folder-plus-outline-custom.png"/>
+          <text resource-bundle="resources/PsychosisResource" key="ProjectPlaceholder.button.create_project"/>
         </properties>
       </component>
       <component id="851fe" class="javax.swing.JButton" binding="loadProjectButton" default-binding="true">
@@ -30,7 +32,9 @@
           </grid>
         </constraints>
         <properties>
-          <text value="Load Project"/>
+          <font/>
+          <icon value="resources/icons/folder-open-outline-custom.png"/>
+          <text resource-bundle="resources/PsychosisResource" key="ProjectPlaceholder.button.load_project"/>
         </properties>
       </component>
       <hspacer id="aea1e">
@@ -50,7 +54,9 @@
           </grid>
         </constraints>
         <properties>
-          <text value="Load Workspace"/>
+          <font/>
+          <icon value="resources/icons/folder-multiple-outline-custom.png"/>
+          <text resource-bundle="resources/PsychosisResource" key="ProjectPlaceholder.button.load_workspace"/>
         </properties>
       </component>
       <vspacer id="f31b8">

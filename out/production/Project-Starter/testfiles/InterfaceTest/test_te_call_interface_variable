@@ -1,0 +1,14 @@
+policy_module(yuuta)
+
+gen_require(`
+    type yuuta_t;
+    type winslow_t;
+')
+
+allow yuuta_t winslow_t:winslow { hug };
+
+require {
+    type yuuta_cute_t;
+}
+
+bendan(head)
