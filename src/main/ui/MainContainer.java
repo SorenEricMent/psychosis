@@ -24,6 +24,15 @@ public class MainContainer {
         projectPlaceholder.getCreateProjectButton().addActionListener(e -> {
             CreateProjectDialog.main(this.globalObjects);
         });
+        topToolbar();
+    }
+
+    public void topToolbar() {
+        topToolbarFile();
+        topToolbarHelp();
+    }
+
+    public JPopupMenu topToolbarFileMenu() {
         JPopupMenu filePopup = new JPopupMenu("");
 
         JMenuItem openProjectPop = new JMenuItem("Open Project");
@@ -49,11 +58,16 @@ public class MainContainer {
                 SaveWorkspaceDialog.main();
             }
         });
-        filePopup.add(openProjectPop);
-        filePopup.add(openWorkspacePop);
+        //temp TODO split
+//        filePopup.add(openProjectPop);
+//        filePopup.add(openWorkspacePop);
         filePopup.add(saveWorkspacePop);
         filePopup.pack();
+        return filePopup;
+    }
 
+    public void topToolbarFile() {
+        JPopupMenu filePopup = topToolbarFileMenu();
         fileBtn.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 if (e.getButton() == 1) {
@@ -61,7 +75,9 @@ public class MainContainer {
                 }
             }
         });
+    }
 
+    public void topToolbarHelp() {
         helpBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {

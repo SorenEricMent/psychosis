@@ -23,12 +23,15 @@ public class CreateProjectDialog extends JDialog {
 
     private GraphicInterface globalObjects;
 
-    public CreateProjectDialog(GraphicInterface globalObjects) {
-        this.globalObjects = globalObjects;
+    private void initPane() {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
+    }
 
+    public CreateProjectDialog(GraphicInterface globalObjects) {
+        this.globalObjects = globalObjects;
+        initPane();
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onOK();
@@ -77,22 +80,4 @@ public class CreateProjectDialog extends JDialog {
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
     }
-
-    private static Method $$$cachedGetBundleMethod$$$ = null;
-
-    private String $$$getMessageFromBundle$$$(String path, String key) {
-        ResourceBundle bundle;
-        try {
-            Class<?> thisClass = this.getClass();
-            if ($$$cachedGetBundleMethod$$$ == null) {
-                Class<?> dynamicBundleClass = thisClass.getClassLoader().loadClass("com.intellij.DynamicBundle");
-                $$$cachedGetBundleMethod$$$ = dynamicBundleClass.getMethod("getBundle", String.class, Class.class);
-            }
-            bundle = (ResourceBundle) $$$cachedGetBundleMethod$$$.invoke(null, path, thisClass);
-        } catch (Exception e) {
-            bundle = ResourceBundle.getBundle(path);
-        }
-        return bundle.getString(key);
-    }
-
 }

@@ -9,11 +9,14 @@ public class LoadWorkspaceDialog extends JDialog {
     private JButton buttonOK;
     private JButton buttonCancel;
 
-    public LoadWorkspaceDialog() {
+    public void initPane() {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
+    }
 
+    public LoadWorkspaceDialog() {
+        initPane();
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onOK();
