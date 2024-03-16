@@ -30,5 +30,6 @@
     </orderEntry>
     <orderEntry type="library" name="json-20240205" level="project" />
     <orderEntry type="library" name="json-20240205 (2)" level="project" />
+    <orderEntry type="library" name="forms_rt" level="project" />
   </component>
 </module>
