@@ -37,7 +37,7 @@ sourceSets {
 
 application {
     mainClass = 'ui.Main'
-    applicationDefaultJvmArgs = ["-splash:data/resources/splash.jpg", "--add-opens=java.desktop/sun.awt.X11=ALL-UNNAMED"]
+    applicationDefaultJvmArgs = ["-splash:data/resources/splash.jpg", "--add-opens=java.desktop/sun.awt.X11=ALL-UNNAMED", "-XX:+UseG1GC", "-XX:MaxGCPauseMillis=200"]
 }
 
 

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Psychosis Studio
+Comment=SELinux Policy Editor
+Path=/opt/psychosis
+Exec=psychosis -g
+Icon=Psychosis
+Categories=X-SELinux;Java;

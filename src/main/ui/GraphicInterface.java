@@ -23,17 +23,23 @@ public class GraphicInterface {
 
     private MainContainer mainContainer;
 
-    public GraphicInterface() {
-        splashScreen();
-        System.out.println("Starting in GUI.");
-        this.loadedProjects.add(
-                new Pair<>(new TempProjectModel("Temp"),
-                        new TrackerModel()));
-        initStyle();
-        initWindow();
+    public ArrayList<Pair<ProjectModel, TrackerModel>> getLoadedProjects() {
+        return loadedProjects;
+    }
+
+    public Integer getCurrentWorkIndex() {
+        return currentWorkIndex;
+    }
+
+    public MainContainer getMainContainer() {
+        return mainContainer;
+    }
+
+    public void rebuildProjectTree() {
         DefaultTreeModel projectTreeModel = (DefaultTreeModel) mainContainer.getProjectList().getModel();
         DefaultMutableTreeNode projectTreeRoot = (DefaultMutableTreeNode) projectTreeModel.getRoot();
-
+        projectTreeRoot.removeAllChildren();
+        projectTreeModel.reload();
         for (Pair<ProjectModel, TrackerModel> p : loadedProjects) {
             // Names
             DefaultMutableTreeNode child = new DefaultMutableTreeNode(p.getFirst().getName());
@@ -47,10 +53,21 @@ public class GraphicInterface {
         }
     }
 
+    public GraphicInterface() {
+        splashScreen();
+        System.out.println("Starting in GUI.");
+        this.loadedProjects.add(
+                new Pair<>(new TempProjectModel("Temp"),
+                        new TrackerModel()));
+        initStyle();
+        initWindow();
+        rebuildProjectTree();
+    }
+
     // EFFECTS: init the main application window
     private void initWindow() {
         JFrame mainWindow = new JFrame("Psychosis Studio " + Main.getVersion());
-        mainContainer = new MainContainer();
+        mainContainer = new MainContainer(this);
         ImageIcon img = new ImageIcon("./data/resources/logo.jpg");
 
         mainWindow.setIconImage(img.getImage());
@@ -97,9 +114,11 @@ public class GraphicInterface {
 
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            System.out.println("Using style " + UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
                  | UnsupportedLookAndFeelException e) {
             throw new RuntimeException(e);
         }
+        UIManager.put("PopupMenu.consumeEventOnClose", Boolean.TRUE);
     }
 }
