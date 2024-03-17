@@ -5,20 +5,26 @@ import model.ProjectModel;
 import model.TempProjectModel;
 import model.TrackerModel;
 import model.policy.LayerModel;
+import model.policy.PolicyModuleModel;
 
 import javax.swing.*;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.plaf.PanelUI;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
+import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 // The class to create and manage the main window of Psychosis
 public class GraphicInterface {
-    private ArrayList<
+    private final ArrayList<
             Pair<ProjectModel, TrackerModel>> loadedProjects = new ArrayList<>();
-    private Integer currentWorkIndex = 0;
+    private final Integer currentWorkIndex = 0;
     // Object 0 is an empty non-saving test only project
 
     private MainContainer mainContainer;
@@ -35,7 +41,32 @@ public class GraphicInterface {
         return mainContainer;
     }
 
-    public void rebuildProjectTree() {
+    // EFFECTS: update project tree with a new project at the end
+    // REQUIRES: must not call rebuildWholeProjectTree before or duplicate will be created
+    public void updateProjectTree(ProjectModel p) {
+        DefaultTreeModel projectTreeModel = (DefaultTreeModel) mainContainer.getProjectList().getModel();
+        DefaultMutableTreeNode projectTreeRoot = (DefaultMutableTreeNode) projectTreeModel.getRoot();
+        // Names
+        DefaultMutableTreeNode child = new DefaultMutableTreeNode(p.getName());
+        // Layers
+        for (LayerModel l : p.getLayers()) {
+            // Modules
+            DefaultMutableTreeNode layerChild = new DefaultMutableTreeNode(l.getName());
+            for (PolicyModuleModel m : l.getPolicyModules().values()) {
+                layerChild.add(new DefaultMutableTreeNode(m.getName()));
+            }
+            child.add(layerChild);
+        }
+        projectTreeModel.insertNodeInto(child, projectTreeRoot, projectTreeRoot.getChildCount());
+    }
+
+    // EFFECTS: polymorph call to stripe Pair
+    public void updateProjectTree(Pair<ProjectModel, TrackerModel> p) {
+        updateProjectTree(p.getFirst());
+    }
+
+    // EFFECTS: completely regenerate the content in project tree from loadedProjects;
+    public void rebuildWholeProjectTree() {
         DefaultTreeModel projectTreeModel = (DefaultTreeModel) mainContainer.getProjectList().getModel();
         DefaultMutableTreeNode projectTreeRoot = (DefaultMutableTreeNode) projectTreeModel.getRoot();
         projectTreeRoot.removeAllChildren();
@@ -45,14 +76,50 @@ public class GraphicInterface {
             DefaultMutableTreeNode child = new DefaultMutableTreeNode(p.getFirst().getName());
             // Layers
             for (LayerModel l : p.getFirst().getLayers()) {
-                child.add(new DefaultMutableTreeNode(l.getName()));
+                // Modules
+                DefaultMutableTreeNode layerChild = new DefaultMutableTreeNode(l.getName());
+                for (PolicyModuleModel m : l.getPolicyModules().values()) {
+                    layerChild.add(new DefaultMutableTreeNode(m.getName()));
+                }
+                child.add(layerChild);
             }
-            //
             projectTreeModel.insertNodeInto(child, projectTreeRoot, projectTreeRoot.getChildCount());
             mainContainer.getProjectList().scrollPathToVisible(new TreePath(child.getPath()));
+            mainContainer.getProjectList().getSelectionModel()
+                    .setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+            mainContainer.getProjectList().addTreeSelectionListener(projectTreeEvent(mainContainer.getProjectList()));
         }
     }
 
+    // EFFECTS: handle GUI update triggered on project tree click
+    public TreeSelectionListener projectTreeEvent(JTree tree) {
+        return new TreeSelectionListener() {
+            @Override
+            public void valueChanged(TreeSelectionEvent treeSelectionEvent) {
+                TreePath node = tree.getSelectionPath();
+                if (node == null) {
+                    return;
+                }
+                // This is dirty, but this tree's structure is determined.
+                if (node.getPath().length == 1) {
+                    mainContainer.getMainEditor().remove(0);
+                    mainContainer.getMainEditor()
+                            .add(mainContainer.getProjectPlaceholder().getProjectPlaceholderContainer());
+                    mainContainer.getMainEditor().revalidate();
+                    mainContainer.getMainEditor().repaint();
+                } else if (node.getPath().length == 2) {
+                    System.out.println("Clicked spec proj");
+                    LayerEditor tmp = new LayerEditor(new LayerModel("testtemp"));
+                    mainContainer.getMainEditor().remove(0);
+                    mainContainer.getMainEditor().add(tmp.getLayerEditorPanel());
+                    mainContainer.getMainEditor().revalidate();
+                    mainContainer.getMainEditor().repaint();
+                }
+            }
+        };
+    }
+
+    // EFFECTS: init the GUI and create global objects storing working information
     public GraphicInterface() {
         splashScreen();
         System.out.println("Starting in GUI.");
@@ -61,7 +128,7 @@ public class GraphicInterface {
                         new TrackerModel()));
         initStyle();
         initWindow();
-        rebuildProjectTree();
+        rebuildWholeProjectTree();
     }
 
     // EFFECTS: init the main application window

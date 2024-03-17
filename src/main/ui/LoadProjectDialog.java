@@ -1,20 +1,14 @@
 package ui;
 
 import javax.swing.*;
-import javax.swing.plaf.FontUIResource;
-import javax.swing.text.StyleContext;
-import java.awt.*;
 import java.awt.event.*;
-import java.lang.reflect.Method;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 public class LoadProjectDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
 
-    public void initPane() {
+    private void initPane() {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -61,11 +55,11 @@ public class LoadProjectDialog extends JDialog {
         dispose();
     }
 
-    public static void main(String[] args) {
+    public static void main(GraphicInterface args) {
         LoadProjectDialog dialog = new LoadProjectDialog();
         dialog.pack();
+        dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
-        System.exit(0);
     }
 
 }

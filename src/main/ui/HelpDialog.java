@@ -1,17 +1,13 @@
 package ui;
 
 import javax.swing.*;
-import javax.swing.plaf.FontUIResource;
-import javax.swing.text.StyleContext;
-import java.awt.*;
 import java.awt.event.*;
-import java.lang.reflect.Method;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 public class HelpDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonClose;
+    private JTabbedPane helpTabs;
+    private JLabel debugContent;
 
     public HelpDialog() {
         setContentPane(contentPane);
@@ -38,6 +34,7 @@ public class HelpDialog extends JDialog {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        debugContent.setText(debugInfo());
     }
 
     private void onOK() {
@@ -55,5 +52,17 @@ public class HelpDialog extends JDialog {
         dialog.pack();
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
+    }
+
+    // EFFECTS: return debug info
+    private String debugInfo() {
+        String debugText = "<html>";
+        debugText = debugText.concat("<strong>The following content is for debug only.</strong><br/>");
+        debugText = debugText.concat("Version " + Main.getVersion()
+                + ", running on " + System.getProperty("os.name") + "<br/>");
+        debugText = debugText.concat("Working dir: " + System.getProperty("user.dir") + "<br/>");
+        debugText = debugText.concat("Look and feel theme: " + UIManager.getSystemLookAndFeelClassName() + "<br/>");
+        debugText = debugText.concat("</html>");
+        return debugText;
     }
 }

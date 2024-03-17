@@ -1,7 +1,6 @@
 package ui;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 
 public class LoadWorkspaceDialog extends JDialog {
@@ -9,7 +8,7 @@ public class LoadWorkspaceDialog extends JDialog {
     private JButton buttonOK;
     private JButton buttonCancel;
 
-    public void initPane() {
+    private void initPane() {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -55,11 +54,11 @@ public class LoadWorkspaceDialog extends JDialog {
         dispose();
     }
 
-    public static void main(String[] args) {
+    public static void main(GraphicInterface args) {
         LoadWorkspaceDialog dialog = new LoadWorkspaceDialog();
         dialog.pack();
+        dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
-        System.exit(0);
     }
 
 }

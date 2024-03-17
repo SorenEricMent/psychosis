@@ -2,12 +2,12 @@ package ui;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+// The container panel that contained all GUI components
 public class MainContainer {
     private JTree projectList;
     private JPanel mainContainer;
@@ -17,22 +17,44 @@ public class MainContainer {
     private JPanel mainEditor;
     private ProjectPlaceholder projectPlaceholder;
 
-    private GraphicInterface globalObjects;
+    private final GraphicInterface globalObjects;
 
+    // EFFECTS: create all GUI components
     public MainContainer(GraphicInterface globalObjects) {
         this.globalObjects = globalObjects;
-        projectPlaceholder.getCreateProjectButton().addActionListener(e -> {
-            CreateProjectDialog.main(this.globalObjects);
-        });
+        initProjectPlaceholder();
         topToolbar();
     }
 
-    public void topToolbar() {
+    public JPanel getMainEditor() {
+        return mainEditor;
+    }
+
+    public ProjectPlaceholder getProjectPlaceholder() {
+        return projectPlaceholder;
+    }
+
+    // EFFECTS: init the event handler for buttons in project placeholder with globalObjects reference
+    private void initProjectPlaceholder() {
+        projectPlaceholder.getCreateProjectButton().addActionListener(e -> {
+            CreateProjectDialog.main(this.globalObjects);
+        });
+        projectPlaceholder.getLoadProjectButton().addActionListener(e -> {
+            LoadProjectDialog.main(this.globalObjects);
+        });
+        projectPlaceholder.getLoadWorkspaceButton().addActionListener(e -> {
+            LoadWorkspaceDialog.main(this.globalObjects);
+        });
+    }
+
+    // EFFECTS: call and init the whole toolbar
+    private void topToolbar() {
         topToolbarFile();
         topToolbarHelp();
     }
 
-    public JPopupMenu topToolbarFileMenu() {
+    // EFFECTS: return the file menu
+    private JPopupMenu topToolbarFileMenu() {
         JPopupMenu filePopup = new JPopupMenu("");
 
         JMenuItem openProjectPop = new JMenuItem("Open Project");
@@ -55,7 +77,7 @@ public class MainContainer {
         saveWorkspacePop.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                SaveWorkspaceDialog.main();
+                new SaveWorkspaceDialog();
             }
         });
         //temp TODO split
@@ -66,6 +88,9 @@ public class MainContainer {
         return filePopup;
     }
 
+    // EFFECTS: add event listener for the file button at top tool bar with
+    // menu returned from topToolbarFileMenu
+    // MODIFIES: this
     public void topToolbarFile() {
         JPopupMenu filePopup = topToolbarFileMenu();
         fileBtn.addMouseListener(new MouseAdapter() {
@@ -77,6 +102,8 @@ public class MainContainer {
         });
     }
 
+    // EFFECTS: add event listener for the help button at top tool bar
+    // MODIFIES: this
     public void topToolbarHelp() {
         helpBtn.addActionListener(new ActionListener() {
             @Override
@@ -94,6 +121,7 @@ public class MainContainer {
         return projectList;
     }
 
+    // EFFECTS: custom create for GUI builder, init root with Projectsl
     private void createUIComponents() {
         DefaultMutableTreeNode top =
                 new DefaultMutableTreeNode("Projects");

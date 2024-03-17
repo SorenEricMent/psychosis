@@ -18,7 +18,7 @@ public class InterfaceModel {
 
     // Placeholder for SELinux XML format documentation
     private String paramsDescription;
-    private ArrayList<RuleSetModel> ruleSetModels;
+    private final ArrayList<RuleSetModel> ruleSetModels;
     private HashSet<String> tags;
     private final boolean isUserDefined;
 

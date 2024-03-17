@@ -6,22 +6,16 @@ import model.TempProjectModel;
 import model.TrackerModel;
 
 import javax.swing.*;
-import javax.swing.plaf.FontUIResource;
-import javax.swing.text.StyleContext;
-import java.awt.*;
 import java.awt.event.*;
-import java.lang.reflect.Method;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 public class CreateProjectDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
     private JTabbedPane projectCreateBasisTab;
-    private JTextField inputProjectNameTextField;
+    private JTextField inputProjectNameEmpty;
 
-    private GraphicInterface globalObjects;
+    private final GraphicInterface globalObjects;
 
     private void initPane() {
         setContentPane(contentPane);
@@ -61,12 +55,17 @@ public class CreateProjectDialog extends JDialog {
     }
 
     private void onOK() {
-        this.globalObjects.getLoadedProjects().add(
-                new Pair<>(new TempProjectModel("test", true), new TrackerModel())
-        );
-        this.globalObjects.rebuildProjectTree();
-        // add your code here
-        dispose();
+        if (inputProjectNameEmpty.getText().equals("")) {
+            WarningDialog.main("Name must not be empty");
+        } else {
+            ProjectModel project = new TempProjectModel(inputProjectNameEmpty.getText());
+            this.globalObjects.getLoadedProjects().add(
+                    new Pair<>(project, new TrackerModel())
+            );
+            this.globalObjects.updateProjectTree(project);
+            // add your code here
+            dispose();
+        }
     }
 
     private void onCancel() {
