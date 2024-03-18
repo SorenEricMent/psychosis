@@ -122,6 +122,7 @@ public class ProjectTest {
         assertThrows(NotFoundException.class, () -> {
             testProj.removeLayer("test1");
         });
+        assertEquals(1, testProj.totalModules());
     }
 
     @Test
@@ -130,6 +131,7 @@ public class ProjectTest {
         testProj.addModule("test", "yuuta");
         assertEquals("yuuta",
                 testProj.getLayer("test").getPolicyModule("yuuta").getName());
+        assertEquals(2, testProj.totalModules());
     }
 
     @Test

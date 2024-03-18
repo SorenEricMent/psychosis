@@ -21,15 +21,23 @@ public class MainContainer {
     private JPanel statusPanel;
     private JProgressBar progressBar;
     private JLabel status;
-    private Method cachedGetBundleMethod;
 
     private final GraphicInterface globalObjects;
+
+    private ResourceBundle bundle;
 
     // EFFECTS: create all GUI components
     public MainContainer(GraphicInterface globalObjects) {
         this.globalObjects = globalObjects;
+        bundle = ResourceBundle.getBundle("resources/PsychosisResource");
+        status.setText(getReflectiveResource("status.ready"));
         initProjectPlaceholder();
         topToolbar();
+    }
+
+    // EFFECTS: Get i18n value from the bundle imported by Intellij
+    public String getReflectiveResource(String key) {
+        return bundle.getString(key);
     }
 
     public JPanel getMainEditor() {
@@ -135,20 +143,5 @@ public class MainContainer {
         progressBar = new JProgressBar();
         progressBar.setIndeterminate(true);
         progressBar.setVisible(false);
-    }
-
-    private String exportedGetIntellijBundle(String path, String key) {
-        ResourceBundle bundle;
-        try {
-            Class<?> thisClass = this.getClass();
-            if (cachedGetBundleMethod == null) {
-                Class<?> dynamicBundleClass = thisClass.getClassLoader().loadClass("com.intellij.DynamicBundle");
-                cachedGetBundleMethod = dynamicBundleClass.getMethod("getBundle", String.class, Class.class);
-            }
-            bundle = (ResourceBundle) cachedGetBundleMethod.invoke(null, path, thisClass);
-        } catch (Exception e) {
-            bundle = ResourceBundle.getBundle(path);
-        }
-        return bundle.getString(key);
     }
 }

@@ -16,12 +16,16 @@ public class ProjectEditor {
     private JButton addVectorButton;
     private JButton addSecurityClassButton;
     private JButton addLayerButton;
+    private JLabel numberLayer;
+    private JLabel numberModule;
 
     private ProjectModel bindedProject;
 
     public ProjectEditor(ProjectModel p) {
         bindedProject = p;
         this.name.setText(p.getName());
+        this.numberLayer.setText(String.valueOf(p.getLayers().size()));
+        this.numberModule.setText(String.valueOf(p.totalModules()));
     }
 
     public JPanel getProjectEditorPanel() {

@@ -215,6 +215,15 @@ public class ProjectModel {
         return result;
     }
 
+    // EFFECTS: return the total number of modules
+    public int totalModules() {
+        int res = 0;
+        for (LayerModel layer : layers) {
+            res = res + layer.getPolicyModules().values().size();
+        }
+        return res;
+    }
+
     // The following functions should have EFFECTS
     // corresponding to TempProjectModel, but none of they are currently used
     // as auto flush to fs is not planned to be supported now

@@ -245,7 +245,6 @@ public class GraphicInterface {
         System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Psychosis Studio");
         Toolkit defToolkit = Toolkit.getDefaultToolkit();
         java.lang.reflect.Field awtAppClassNameField = null;
-
         try {
             awtAppClassNameField = defToolkit.getClass().getDeclaredField("awtAppClassName");
             awtAppClassNameField.setAccessible(true);
