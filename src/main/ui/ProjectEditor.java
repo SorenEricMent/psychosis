@@ -12,6 +12,10 @@ public class ProjectEditor {
     private JTable capabilityTable;
     private JList list1;
     private JList list2;
+    private JList layerList;
+    private JButton addVectorButton;
+    private JButton addSecurityClassButton;
+    private JButton addLayerButton;
 
     private ProjectModel bindedProject;
 

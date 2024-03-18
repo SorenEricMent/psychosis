@@ -5,7 +5,8 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class HelpDialog extends JDialog {
-    private static final int[] YUUTA_SEQ = { KeyEvent.VK_Y, KeyEvent.VK_U, KeyEvent.VK_U, KeyEvent.VK_T, KeyEvent.VK_A };
+    private static final int[] YUUTA_SEQ =
+            { KeyEvent.VK_Y, KeyEvent.VK_U, KeyEvent.VK_U, KeyEvent.VK_T, KeyEvent.VK_A };
 
     private JPanel contentPane;
     private JButton buttonClose;
@@ -38,11 +39,7 @@ public class HelpDialog extends JDialog {
         setModal(true);
         getRootPane().setDefaultButton(buttonClose);
 
-        buttonClose.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onOK();
-            }
-        });
+        buttonClose.addActionListener(e -> onOK());
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -53,12 +50,31 @@ public class HelpDialog extends JDialog {
         });
 
         // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        contentPane.registerKeyboardAction(e -> onCancel(),
+                KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
+        initEasterEggHandle();
+        initEasterEggFocus();
+        debugContent.setText(debugInfo());
+    }
+
+    // EFFECTS: reset index for easter egg when HelpDialog lost/regained focus
+    private void initEasterEggFocus() {
+        this.addWindowFocusListener(new WindowFocusListener() {
+            @Override
+            public void windowGainedFocus(WindowEvent windowEvent) {
+                yuutaIndex = 0;
+            }
+
+            @Override
+            public void windowLostFocus(WindowEvent windowEvent) {
+                yuutaIndex = 0;
+            }
+        });
+    }
+
+    // EFFECTS: add Easter egg's handler to the window when it opened, remove on close
+    private void initEasterEggHandle() {
         // Easter egg for the cutest Yuuta
         this.addWindowListener(new WindowAdapter() {
             @Override
@@ -79,30 +95,21 @@ public class HelpDialog extends JDialog {
                 yuutaIndex = 0;
             }
         });
-        this.addWindowFocusListener(new WindowFocusListener() {
-            @Override
-            public void windowGainedFocus(WindowEvent windowEvent) {
-                yuutaIndex = 0;
-            }
-
-            @Override
-            public void windowLostFocus(WindowEvent windowEvent) {
-                yuutaIndex = 0;
-            }
-        });
-        debugContent.setText(debugInfo());
     }
 
+    // EFFECTS: ok button handler
     private void onOK() {
         // add your code here
         dispose();
     }
 
+    // EFFECTS: cancel button handler
     private void onCancel() {
         // add your code here if necessary
         dispose();
     }
 
+    // EFFECTS: create a new HelpDialog
     public static void main() {
         HelpDialog dialog = new HelpDialog();
         dialog.pack();

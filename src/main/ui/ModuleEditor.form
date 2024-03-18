@@ -23,11 +23,6 @@
           <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
       </hspacer>
-      <vspacer id="fb0d2">
-        <constraints>
-          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-        </constraints>
-      </vspacer>
       <component id="e19fd" class="javax.swing.JLabel" binding="masterName">
         <constraints>
           <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
@@ -55,6 +50,15 @@
           <text resource-bundle="resources/PsychosisResource" key="LayerEditor.title.main2"/>
         </properties>
       </component>
+      <vspacer id="1cac1">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
+            <minimum-size width="-1" height="8"/>
+            <preferred-size width="-1" height="16"/>
+            <maximum-size width="-1" height="18"/>
+          </grid>
+        </constraints>
+      </vspacer>
     </children>
   </grid>
 </form>

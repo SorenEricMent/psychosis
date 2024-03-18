@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.lang.reflect.Method;
+import java.util.ResourceBundle;
 
 // The container panel that contained all GUI components
 public class MainContainer {
@@ -19,6 +21,7 @@ public class MainContainer {
     private JPanel statusPanel;
     private JProgressBar progressBar;
     private JLabel status;
+    private Method cachedGetBundleMethod;
 
     private final GraphicInterface globalObjects;
 
@@ -91,7 +94,7 @@ public class MainContainer {
         return filePopup;
     }
 
-    // EFFECTS: add event listener for the file button at top tool bar with
+    // EFFECTS: add event listener for the file button at top toolbar with
     // menu returned from topToolbarFileMenu
     // MODIFIES: this
     public void topToolbarFile() {
@@ -134,4 +137,18 @@ public class MainContainer {
         progressBar.setVisible(false);
     }
 
+    private String exportedGetIntellijBundle(String path, String key) {
+        ResourceBundle bundle;
+        try {
+            Class<?> thisClass = this.getClass();
+            if (cachedGetBundleMethod == null) {
+                Class<?> dynamicBundleClass = thisClass.getClassLoader().loadClass("com.intellij.DynamicBundle");
+                cachedGetBundleMethod = dynamicBundleClass.getMethod("getBundle", String.class, Class.class);
+            }
+            bundle = (ResourceBundle) cachedGetBundleMethod.invoke(null, path, thisClass);
+        } catch (Exception e) {
+            bundle = ResourceBundle.getBundle(path);
+        }
+        return bundle.getString(key);
+    }
 }
