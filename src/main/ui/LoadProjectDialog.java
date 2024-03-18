@@ -1,65 +1,48 @@
 package ui;
 
+import model.CustomReader;
+import model.Pair;
+import model.ProjectModel;
+import model.TrackerModel;
+import persistence.ProjectSL;
+
 import javax.swing.*;
-import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 
+// Dialog to load project from a .json
+// Although this is a Dialog, it is not managed by GUI designer as JFileChooser pop its own
 public class LoadProjectDialog extends JDialog {
-    private JPanel contentPane;
-    private JButton buttonOK;
-    private JButton buttonCancel;
+    private final JFileChooser loadProjectChooser;
 
-    private void initPane() {
-        setContentPane(contentPane);
-        setModal(true);
-        getRootPane().setDefaultButton(buttonOK);
-    }
+    public LoadProjectDialog(GraphicInterface globalObjects) {
+        ArrayList<Pair<ProjectModel, TrackerModel>> loadedProjects = globalObjects.getLoadedProjects();
+        loadProjectChooser = new JFileChooser(System.getProperty("user.dir"));
+        loadProjectChooser.setDialogTitle("Loading project from JSON");
+        loadProjectChooser.setSelectedFile(new File("project.json"));
 
-    public LoadProjectDialog() {
-        initPane();
+        int userSelection = loadProjectChooser.showOpenDialog(this);
 
-        buttonOK.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onOK();
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToLoad = loadProjectChooser.getSelectedFile();
+            if (fileToLoad.exists()) {
+                System.out.println("Load from: " + fileToLoad.getAbsolutePath());
+            } else {
+                WarningDialog.main("File does not exist.");
             }
-        });
-
-        buttonCancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
+            try {
+                Pair<ProjectModel, TrackerModel> proj = ProjectSL
+                        .loadProjectFromJsonCompiled(CustomReader.readAsWhole(fileToLoad));
+                if (globalObjects.isProjectNameDuplicated(proj.getFirst().getName())) {
+                    DuplicatedProjectDialog.main(proj, globalObjects);
+                } else {
+                    loadedProjects.add(proj);
+                    globalObjects.updateProjectTree(proj);
+                }
+            } catch (IOException e) {
+                WarningDialog.main(e.getMessage());
             }
-        });
-
-        // call onCancel() when cross is clicked
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                onCancel();
-            }
-        });
-
-        // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        }
     }
-
-    private void onOK() {
-        // add your code here
-        dispose();
-    }
-
-    private void onCancel() {
-        // add your code here if necessary
-        dispose();
-    }
-
-    public static void main(GraphicInterface args) {
-        LoadProjectDialog dialog = new LoadProjectDialog();
-        dialog.pack();
-        dialog.setLocationRelativeTo(null);
-        dialog.setVisible(true);
-    }
-
 }

@@ -16,7 +16,7 @@ import java.util.HashMap;
 
 public class ProjectModel {
 
-    private final String name;
+    private String name;
 
     private final String projectPath;
 
@@ -77,6 +77,10 @@ public class ProjectModel {
     // EFFECT: getter for name
     public String getName() {
         return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public ArrayList<LayerModel> getLayers() {

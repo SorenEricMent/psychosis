@@ -71,7 +71,7 @@
           <text value="Number of Modules"/>
         </properties>
       </component>
-      <component id="f2423" class="javax.swing.JLabel">
+      <component id="f2423" class="javax.swing.JLabel" binding="numberModule">
         <constraints>
           <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>

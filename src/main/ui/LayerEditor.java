@@ -20,6 +20,7 @@ public class LayerEditor {
     private JLabel layerName;
     private JLabel title2;
     private JList moduleList;
+    private JLabel numberModule;
     private LayerModel layer;
 
     // EFFECTS: create a new editing panel for a layer, update field to it accordingly
@@ -29,6 +30,7 @@ public class LayerEditor {
         layerName.setText(layer.getName());
 
         JPopupMenu modulePopup = new JPopupMenu("");
+        modulePopup.setOpaque(true);
         JMenuItem removeModuleOption = new JMenuItem("Remove Module");
         removeModuleOption.addActionListener(new ActionListener() {
             @Override
@@ -65,6 +67,7 @@ public class LayerEditor {
         });
 //        moduleList.repaint();
 //        moduleList.revalidate();
+        this.numberModule.setText(String.valueOf(newModuleList.size()));
     }
 
     public JPanel getLayerEditorPanel() {

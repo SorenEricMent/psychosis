@@ -54,7 +54,7 @@ public class MainContainer {
             CreateProjectDialog.main(this.globalObjects);
         });
         projectPlaceholder.getLoadProjectButton().addActionListener(e -> {
-            LoadProjectDialog.main(this.globalObjects);
+            new LoadProjectDialog(this.globalObjects);
         });
         projectPlaceholder.getLoadWorkspaceButton().addActionListener(e -> {
             LoadWorkspaceDialog.main(this.globalObjects);
@@ -70,7 +70,7 @@ public class MainContainer {
     // EFFECTS: return the file menu
     private JPopupMenu topToolbarFileMenu() {
         JPopupMenu filePopup = new JPopupMenu("");
-
+        filePopup.setOpaque(true);
         JMenuItem openProjectPop = new JMenuItem("Open Project");
         openProjectPop.addActionListener(new ActionListener() {
             @Override
@@ -95,8 +95,8 @@ public class MainContainer {
             }
         });
         //temp TODO split
-//        filePopup.add(openProjectPop);
-//        filePopup.add(openWorkspacePop);
+        filePopup.add(openProjectPop);
+        filePopup.add(openWorkspacePop);
         filePopup.add(saveWorkspacePop);
         filePopup.pack();
         return filePopup;
