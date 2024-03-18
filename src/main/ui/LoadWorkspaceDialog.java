@@ -3,6 +3,7 @@ package ui;
 import javax.swing.*;
 import java.awt.event.*;
 
+// Pop a file chooser to load a workspace
 public class LoadWorkspaceDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;

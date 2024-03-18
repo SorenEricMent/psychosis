@@ -57,6 +57,8 @@ public class CreateProjectDialog extends JDialog {
     private void onOK() {
         if (inputProjectNameEmpty.getText().equals("")) {
             WarningDialog.main("Name must not be empty");
+        } else if (globalObjects.isProjectNameDuplicated(inputProjectNameEmpty.getText())) {
+            WarningDialog.main("Duplicated project name");
         } else {
             ProjectModel project = new TempProjectModel(inputProjectNameEmpty.getText());
             this.globalObjects.getLoadedProjects().add(

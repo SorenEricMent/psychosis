@@ -97,7 +97,7 @@
                       <grid row="0" column="2" row-span="5" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                     </constraints>
                   </hspacer>
-                  <component id="65e44" class="javax.swing.JLabel">
+                  <component id="65e44" class="javax.swing.JLabel" binding="title">
                     <constraints>
                       <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
@@ -106,7 +106,7 @@
                       <text value="Psychosis Studio"/>
                     </properties>
                   </component>
-                  <component id="764ee" class="javax.swing.JLabel">
+                  <component id="764ee" class="javax.swing.JLabel" binding="logo">
                     <constraints>
                       <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>

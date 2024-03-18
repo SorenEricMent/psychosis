@@ -16,6 +16,9 @@ public class MainContainer {
     private JButton helpBtn;
     private JPanel mainEditor;
     private ProjectPlaceholder projectPlaceholder;
+    private JPanel statusPanel;
+    private JProgressBar progressBar;
+    private JLabel status;
 
     private final GraphicInterface globalObjects;
 
@@ -121,11 +124,14 @@ public class MainContainer {
         return projectList;
     }
 
-    // EFFECTS: custom create for GUI builder, init root with Projectsl
+    // EFFECTS: custom create for GUI builder, init root as Projects
     private void createUIComponents() {
         DefaultMutableTreeNode top =
                 new DefaultMutableTreeNode("Projects");
         projectList = new JTree(top);
+        progressBar = new JProgressBar();
+        progressBar.setIndeterminate(true);
+        progressBar.setVisible(false);
     }
 
 }

@@ -3,24 +3,23 @@ package ui;
 import model.policy.LayerModel;
 
 import javax.swing.*;
-import java.awt.*;
 
+// The editor panel for a specific layer, one instance for every layer
 public class LayerEditor {
 
-    private JLabel title;
+    private JLabel title1;
     private JPanel layerEditorPanel;
-    private JLabel name;
+    private JLabel projectName;
+    private JLabel layerName;
+    private JLabel title2;
 
-    public LayerEditor(LayerModel layer) {
-        name.setText(layer.getName());
+    // EFFECTS: create a new editing panel for a layer, update field to it accordingly
+    public LayerEditor(LayerModel layer, String project) {
+        projectName.setText(project);
+        layerName.setText(layer.getName());
     }
 
     public JPanel getLayerEditorPanel() {
         return layerEditorPanel;
-    }
-
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
-        layerEditorPanel = new JPanel();
     }
 }

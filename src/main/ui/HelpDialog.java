@@ -1,13 +1,37 @@
 package ui;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 
 public class HelpDialog extends JDialog {
+    private static final int[] YUUTA_SEQ = { KeyEvent.VK_Y, KeyEvent.VK_U, KeyEvent.VK_U, KeyEvent.VK_T, KeyEvent.VK_A };
+
     private JPanel contentPane;
     private JButton buttonClose;
     private JTabbedPane helpTabs;
     private JLabel debugContent;
+    private JLabel logo;
+    private JLabel title;
+    private int yuutaIndex = 0;
+
+    private final KeyEventDispatcher fnEaster = (keyEvent) -> {
+        if (keyEvent.getID() != KeyEvent.KEY_PRESSED) {
+            return false;
+        }
+        if (keyEvent.getKeyCode() == YUUTA_SEQ[yuutaIndex]) {
+            yuutaIndex++;
+        } else {
+            yuutaIndex = 0;
+        }
+        if (yuutaIndex > 4) {
+            yuutaIndex = 0;
+            logo.setIcon(new ImageIcon(new ImageIcon("./data/resources/yuuta.jpg")
+                    .getImage().getScaledInstance(logo.getWidth(), logo.getHeight(), Image.SCALE_DEFAULT)));
+            title.setText("EatYuuta Studio");
+        }
+        return false;
+    };
 
     public HelpDialog() {
         setContentPane(contentPane);
@@ -34,6 +58,38 @@ public class HelpDialog extends JDialog {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
+        // Easter egg for the cutest Yuuta
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowOpened(WindowEvent e) {
+                super.windowOpened(e);
+                KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(fnEaster);
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+                super.windowClosed(e);
+                KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventDispatcher(fnEaster);
+            }
+
+            @Override
+            public void windowLostFocus(WindowEvent e) {
+                super.windowLostFocus(e);
+                yuutaIndex = 0;
+            }
+        });
+        this.addWindowFocusListener(new WindowFocusListener() {
+            @Override
+            public void windowGainedFocus(WindowEvent windowEvent) {
+                yuutaIndex = 0;
+            }
+
+            @Override
+            public void windowLostFocus(WindowEvent windowEvent) {
+                yuutaIndex = 0;
+            }
+        });
         debugContent.setText(debugInfo());
     }
 

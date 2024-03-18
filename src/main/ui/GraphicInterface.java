@@ -19,6 +19,8 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 // The class to create and manage the main window of Psychosis
 public class GraphicInterface {
@@ -28,6 +30,10 @@ public class GraphicInterface {
     // Object 0 is an empty non-saving test only project
 
     private MainContainer mainContainer;
+
+    private HashMap<ProjectModel, ProjectEditor> projectEditorMap = new HashMap<>();
+    private HashMap<LayerModel, LayerEditor> layerEditorMap = new HashMap<>();
+    private HashMap<PolicyModuleModel, ModuleEditor> moduleEditorMap = new HashMap<>();
 
     public ArrayList<Pair<ProjectModel, TrackerModel>> getLoadedProjects() {
         return loadedProjects;
@@ -42,7 +48,7 @@ public class GraphicInterface {
     }
 
     // EFFECTS: update project tree with a new project at the end
-    // REQUIRES: must not call rebuildWholeProjectTree before or duplicate will be created
+    // REQUIRES: must not call rebuildWholeProjectTree before together or duplicate will be created
     public void updateProjectTree(ProjectModel p) {
         DefaultTreeModel projectTreeModel = (DefaultTreeModel) mainContainer.getProjectList().getModel();
         DefaultMutableTreeNode projectTreeRoot = (DefaultMutableTreeNode) projectTreeModel.getRoot();
@@ -102,21 +108,90 @@ public class GraphicInterface {
                 }
                 // This is dirty, but this tree's structure is determined.
                 if (node.getPath().length == 1) {
-                    mainContainer.getMainEditor().remove(0);
-                    mainContainer.getMainEditor()
-                            .add(mainContainer.getProjectPlaceholder().getProjectPlaceholderContainer());
-                    mainContainer.getMainEditor().revalidate();
-                    mainContainer.getMainEditor().repaint();
+                    replaceMainEditor(mainContainer.getProjectPlaceholder().getProjectPlaceholderContainer());
                 } else if (node.getPath().length == 2) {
-                    System.out.println("Clicked spec proj");
-                    LayerEditor tmp = new LayerEditor(new LayerModel("testtemp"));
-                    mainContainer.getMainEditor().remove(0);
-                    mainContainer.getMainEditor().add(tmp.getLayerEditorPanel());
-                    mainContainer.getMainEditor().revalidate();
-                    mainContainer.getMainEditor().repaint();
+                    // The following non-null promise is given by projectTree's way of updating
+                    switchProjectEditor(Arrays.stream(node.getPath()).map(Object::toString).toArray(String[]::new));
+                } else if (node.getPath().length == 3) {
+                    switchLayerEditor(Arrays.stream(node.getPath()).map(Object::toString).toArray(String[]::new));
+                } else if (node.getPath().length == 4) {
+                    switchModuleEditor(Arrays.stream(node.getPath()).map(Object::toString).toArray(String[]::new));
                 }
             }
         };
+    }
+
+    // EFFECTS: look up if a project editor panel is already created
+    //   if not: create and replace the main editor content the panel
+    //   if yes: replace the panel and update the map
+    private void switchProjectEditor(String[] args) {
+        ProjectModel proj = findProjectWithName(args[1]);
+        if (projectEditorMap.containsKey(proj)) {
+            replaceMainEditor(projectEditorMap.get(proj).getProjectEditorPanel());
+        } else {
+            ProjectEditor tmp = new ProjectEditor(proj);
+            projectEditorMap.put(proj, tmp);
+            replaceMainEditor(tmp.getProjectEditorPanel());
+        }
+    }
+
+    // EFFECTS: look up if a layer editor panel is already created
+    //   if not: create and replace the main editor content the panel
+    //   if yes: replace the panel and update the map
+    private void switchLayerEditor(String[] args) {
+        ProjectModel proj = findProjectWithName(args[1]);
+        LayerModel layer = proj.getLayer(args[2]);
+        if (layerEditorMap.containsKey(layer)) {
+            replaceMainEditor(layerEditorMap.get(layer).getLayerEditorPanel());
+        } else {
+            LayerEditor tmp = new LayerEditor(layer, proj.getName());
+            layerEditorMap.put(layer, tmp);
+            replaceMainEditor(tmp.getLayerEditorPanel());
+        }
+    }
+
+    // EFFECTS: look up if a module editor panel is already created
+    //   if not: create and replace the main editor content the panel
+    //   if yes: replace the panel and update the map
+    private void switchModuleEditor(String[] args) {
+        ProjectModel proj = findProjectWithName(args[1]);
+        LayerModel layer = proj.getLayer(args[2]);
+        PolicyModuleModel module = layer.getPolicyModule(args[3]);
+        if (moduleEditorMap.containsKey(module)) {
+            replaceMainEditor(moduleEditorMap.get(module).getModuleEditorPanel());
+        } else {
+            ModuleEditor tmp = new ModuleEditor(module, proj.getName(), layer.getName());
+            moduleEditorMap.put(module, tmp);
+            replaceMainEditor(tmp.getModuleEditorPanel());
+        }
+    }
+
+    // EFFECTS: return the project with name, null if not found
+    public ProjectModel findProjectWithName(String name) {
+        for (Pair<ProjectModel, TrackerModel> p : loadedProjects) {
+            if (p.getFirst().getName().equals(name)) {
+                return p.getFirst();
+            }
+        }
+        return null;
+    }
+
+    // EFFECTS: return if the name for the new project duplicated
+    public boolean isProjectNameDuplicated(String name) {
+        for (Pair<ProjectModel, TrackerModel> p : loadedProjects) {
+            if (p.getFirst().getName().equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // EFFECTS: replace the content of the main editor panel
+    private void replaceMainEditor(JPanel content) {
+        mainContainer.getMainEditor().remove(0);
+        mainContainer.getMainEditor().add(content);
+        mainContainer.getMainEditor().revalidate();
+        mainContainer.getMainEditor().repaint();
     }
 
     // EFFECTS: init the GUI and create global objects storing working information

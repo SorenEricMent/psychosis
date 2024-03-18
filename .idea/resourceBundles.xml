@@ -8,6 +8,7 @@
       <file value="file://$PROJECT_DIR$/data/resources/PsychosisResource.properties" />
       <file value="file://$PROJECT_DIR$/data/resources/PsychosisResource_EN.properties" />
       <file value="file://$PROJECT_DIR$/data/resources/PsychosisResource_EO.properties" />
+      <file value="file://$PROJECT_DIR$/data/resources/PsychosisResource_eo.properties" />
       <base-name>PsychosisResource</base-name>
     </custom-resource-bundle>
   </component>
