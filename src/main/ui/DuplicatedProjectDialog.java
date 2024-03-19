@@ -59,18 +59,21 @@ public class DuplicatedProjectDialog extends JDialog {
             projectToAdd.getFirst().setName(newName.getText());
             globalObjects.getLoadedProjects().add(projectToAdd);
             globalObjects.updateProjectTree(projectToAdd.getFirst());
+            globalObjects.getMainContainer().disableProgressBar();
             dispose();
         }
     }
 
     private void onCancel() {
         // add your code here if necessary
+        globalObjects.getMainContainer().disableProgressBar();
         dispose();
     }
 
     public static void main(Pair<ProjectModel, TrackerModel> p, GraphicInterface globalObjects) {
         DuplicatedProjectDialog dialog = new DuplicatedProjectDialog(p, globalObjects);
         dialog.pack();
+        dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
     }
 }

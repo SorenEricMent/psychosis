@@ -72,34 +72,40 @@ public class MainContainer {
         JPopupMenu filePopup = new JPopupMenu("");
         filePopup.setOpaque(true);
         JMenuItem openProjectPop = new JMenuItem("Open Project");
+
+        JMenuItem openWorkspacePop = new JMenuItem("Open Workspace");
+
+        JMenuItem saveWorkspacePop = new JMenuItem("Save Workspace");
+
+        topToolBarFileMenuBinding(openProjectPop, openWorkspacePop, saveWorkspacePop);
+        filePopup.add(openProjectPop);
+        filePopup.add(openWorkspacePop);
+        filePopup.add(saveWorkspacePop);
+        filePopup.pack();
+        return filePopup;
+    }
+
+    // EFFECTS: add event listener for file menu popups
+    private void topToolBarFileMenuBinding(JMenuItem openProjectPop,
+                                           JMenuItem openWorkspacePop, JMenuItem saveWorkspacePop) {
         openProjectPop.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
 
             }
         });
-
-        JMenuItem openWorkspacePop = new JMenuItem("Open Workspace");
         openWorkspacePop.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
 
             }
         });
-
-        JMenuItem saveWorkspacePop = new JMenuItem("Save Workspace");
         saveWorkspacePop.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 new SaveWorkspaceDialog();
             }
         });
-        //temp TODO split
-        filePopup.add(openProjectPop);
-        filePopup.add(openWorkspacePop);
-        filePopup.add(saveWorkspacePop);
-        filePopup.pack();
-        return filePopup;
     }
 
     // EFFECTS: add event listener for the file button at top toolbar with
@@ -135,6 +141,16 @@ public class MainContainer {
         return projectList;
     }
 
+    // EFFECTS: make progress bar visible
+    public void enableProgressBar() {
+        progressBar.setVisible(true);
+    }
+
+    // EFFECTS: make progress bar invisible
+    public void disableProgressBar() {
+        progressBar.setVisible(false);
+    }
+
     // EFFECTS: custom create for GUI builder, init root as Projects
     private void createUIComponents() {
         DefaultMutableTreeNode top =
@@ -142,6 +158,6 @@ public class MainContainer {
         projectList = new JTree(top);
         progressBar = new JProgressBar();
         progressBar.setIndeterminate(true);
-        progressBar.setVisible(false);
+        disableProgressBar();
     }
 }
