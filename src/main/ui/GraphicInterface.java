@@ -10,30 +10,28 @@ import model.policy.PolicyModuleModel;
 import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
-import javax.swing.plaf.PanelUI;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
 // The class to create and manage the main window of Psychosis
 public class GraphicInterface {
-    private final ArrayList<
+    private ArrayList<
             Pair<ProjectModel, TrackerModel>> loadedProjects = new ArrayList<>();
-    private final Integer currentWorkIndex = 0;
+    private Integer currentWorkIndex = 0;
     // Object 0 is an empty non-saving test only project
 
     private MainContainer mainContainer;
 
-    private HashMap<ProjectModel, ProjectEditor> projectEditorMap = new HashMap<>();
-    private HashMap<LayerModel, LayerEditor> layerEditorMap = new HashMap<>();
-    private HashMap<PolicyModuleModel, ModuleEditor> moduleEditorMap = new HashMap<>();
+    private final HashMap<ProjectModel, ProjectEditor> projectEditorMap = new HashMap<>();
+    private final HashMap<LayerModel, LayerEditor> layerEditorMap = new HashMap<>();
+    private final HashMap<PolicyModuleModel, ModuleEditor> moduleEditorMap = new HashMap<>();
 
     public ArrayList<Pair<ProjectModel, TrackerModel>> getLoadedProjects() {
         return loadedProjects;
@@ -45,6 +43,37 @@ public class GraphicInterface {
 
     public MainContainer getMainContainer() {
         return mainContainer;
+    }
+
+    public void setCurrentWorkIndex(Integer currentWorkIndex) {
+        this.currentWorkIndex = currentWorkIndex;
+    }
+
+    public void setLoadedProjects(ArrayList<Pair<ProjectModel, TrackerModel>> loadedProjects) {
+        this.loadedProjects = loadedProjects;
+    }
+
+    // EFFECTS: remove all cached editor panel
+    // MODIFIES: this
+    public void emptyEditorMap() {
+        projectEditorMap.clear();
+        layerEditorMap.clear();
+        moduleEditorMap.clear();
+    }
+
+    // EFFECTS: update project tree with a new layer added to the end of a project's child
+    // REQUIRES: must not call rebuildWholeProjectTree before together or duplicate will be created
+    public void updateLayerTree(String projName, String layerName) {
+        DefaultTreeModel projectTreeModel = (DefaultTreeModel) mainContainer.getProjectList().getModel();
+        DefaultMutableTreeNode projectTreeRoot = (DefaultMutableTreeNode) projectTreeModel.getRoot();
+        DefaultMutableTreeNode projectNode = null;
+        for (int i = 0; i < projectTreeModel.getChildCount(projectTreeRoot); i++) {
+            if (projectTreeModel.getChild(projectTreeRoot, i).toString().equals(projName)) {
+                projectNode = (DefaultMutableTreeNode) projectTreeModel.getChild(projectTreeRoot, i);
+            }
+        }
+        projectTreeModel.insertNodeInto(
+                new DefaultMutableTreeNode(layerName), projectNode, projectNode.getChildCount());
     }
 
     // EFFECTS: update project tree with a new project at the end
@@ -129,7 +158,7 @@ public class GraphicInterface {
         if (projectEditorMap.containsKey(proj)) {
             replaceMainEditor(projectEditorMap.get(proj).getProjectEditorPanel());
         } else {
-            ProjectEditor tmp = new ProjectEditor(proj);
+            ProjectEditor tmp = new ProjectEditor(proj, this);
             projectEditorMap.put(proj, tmp);
             replaceMainEditor(tmp.getProjectEditorPanel());
         }
@@ -187,7 +216,7 @@ public class GraphicInterface {
     }
 
     // EFFECTS: replace the content of the main editor panel
-    private void replaceMainEditor(JPanel content) {
+    public void replaceMainEditor(JPanel content) {
         mainContainer.getMainEditor().remove(0);
         mainContainer.getMainEditor().add(content);
         mainContainer.getMainEditor().revalidate();
@@ -244,7 +273,7 @@ public class GraphicInterface {
     private static void initStyle() {
         System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Psychosis Studio");
         Toolkit defToolkit = Toolkit.getDefaultToolkit();
-        java.lang.reflect.Field awtAppClassNameField = null;
+        Field awtAppClassNameField = null;
         try {
             awtAppClassNameField = defToolkit.getClass().getDeclaredField("awtAppClassName");
             awtAppClassNameField.setAccessible(true);

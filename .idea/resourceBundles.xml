@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ResourceBundleManager">
-    <file url="file://$PROJECT_DIR$/data/resources/PsychosisResource.properties" />
-    <file url="file://$PROJECT_DIR$/data/resources/PsychosisResource_EN.properties" />
     <file url="file://$PROJECT_DIR$/data/resources/PsychosisResource_EO.properties" />
+    <file url="file://$PROJECT_DIR$/data/resources/PsychosisResource_en_US.properties" />
+    <file url="file://$PROJECT_DIR$/data/resources/PsychosisResource_eo.properties" />
     <custom-resource-bundle>
-      <file value="file://$PROJECT_DIR$/data/resources/PsychosisResource.properties" />
-      <file value="file://$PROJECT_DIR$/data/resources/PsychosisResource_EN.properties" />
       <file value="file://$PROJECT_DIR$/data/resources/PsychosisResource_EO.properties" />
+      <base-name>PsychosisResource</base-name>
+    </custom-resource-bundle>
+    <custom-resource-bundle>
+      <file value="file://$PROJECT_DIR$/data/resources/PsychosisResource_en_US.properties" />
       <file value="file://$PROJECT_DIR$/data/resources/PsychosisResource_eo.properties" />
       <base-name>PsychosisResource</base-name>
     </custom-resource-bundle>

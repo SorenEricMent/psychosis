@@ -2,11 +2,14 @@ package ui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 
 public class HelpDialog extends JDialog {
     private static final int[] YUUTA_SEQ =
-            { KeyEvent.VK_Y, KeyEvent.VK_U, KeyEvent.VK_U, KeyEvent.VK_T, KeyEvent.VK_A };
+            {KeyEvent.VK_Y, KeyEvent.VK_U, KeyEvent.VK_U, KeyEvent.VK_T, KeyEvent.VK_A};
 
     private JPanel contentPane;
     private JButton buttonClose;

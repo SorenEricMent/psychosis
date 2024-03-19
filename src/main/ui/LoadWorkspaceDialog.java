@@ -1,65 +1,61 @@
 package ui;
 
+import model.CustomReader;
+import model.Pair;
+import model.ProjectModel;
+import model.TrackerModel;
+import persistence.Workspace;
+
 import javax.swing.*;
-import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
-// Pop a file chooser to load a workspace
+// File chooser dialog for loading workspace and overwrite the current globalObject core fields
+// and reload GUI after, also remove all panel mapping
 public class LoadWorkspaceDialog extends JDialog {
-    private JPanel contentPane;
-    private JButton buttonOK;
-    private JButton buttonCancel;
+    private final JFileChooser fileChooser;
+    private final GraphicInterface globalObjects;
 
-    private void initPane() {
-        setContentPane(contentPane);
-        setModal(true);
-        getRootPane().setDefaultButton(buttonOK);
-    }
+    public LoadWorkspaceDialog(GraphicInterface globalObjects) {
+        this.globalObjects = globalObjects;
+        this.fileChooser = new JFileChooser(System.getProperty("user.dir"));
+        initDialog();
 
-    public LoadWorkspaceDialog() {
-        initPane();
-        buttonOK.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onOK();
+        int userSelection = fileChooser.showOpenDialog(this);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            Workspace w = new Workspace("", 0, new ArrayList<ProjectModel>());
+            try {
+                w.parser(CustomReader.readAsWhole(fileChooser.getSelectedFile()));
+                loadWorkspace(w);
+                globalObjects.getMainContainer().disableProgressBar();
+            } catch (IOException e) {
+                WarningDialog.main(e.getMessage());
+                globalObjects.getMainContainer().disableProgressBar();
             }
-        });
-
-        buttonCancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
-
-        // call onCancel() when cross is clicked
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                onCancel();
-            }
-        });
-
-        // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        } else {
+            globalObjects.getMainContainer().disableProgressBar();
+        }
     }
 
-    private void onOK() {
-        // add your code here
-        dispose();
+    private void loadWorkspace(Workspace w) {
+        this.globalObjects.setLoadedProjects(w.getProjects().stream().map(x -> {
+            return new Pair<ProjectModel, TrackerModel>(x, new TrackerModel());
+        }).collect(Collectors.toCollection(ArrayList::new)));
+        this.globalObjects.rebuildWholeProjectTree();
+        //todo: use index for selection
+        //for now, just switch back to placeholder
+        this.globalObjects.replaceMainEditor(
+                this.globalObjects.getMainContainer().getProjectPlaceholder().getProjectPlaceholderContainer());
+        this.globalObjects.emptyEditorMap();
     }
 
-    private void onCancel() {
-        // add your code here if necessary
-        dispose();
+    // EFFECTS: init the file chooser dialog
+    private void initDialog() {
+        globalObjects.getMainContainer().enableProgressBar();
+        fileChooser.setDialogTitle("Loading workspace from JSON");
+        fileChooser.setSelectedFile(new File("workspace.json"));
     }
-
-    public static void main(GraphicInterface args) {
-        LoadWorkspaceDialog dialog = new LoadWorkspaceDialog();
-        dialog.pack();
-        dialog.setLocationRelativeTo(null);
-        dialog.setVisible(true);
-    }
-
 }

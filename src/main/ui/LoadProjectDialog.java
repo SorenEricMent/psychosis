@@ -42,6 +42,9 @@ public class LoadProjectDialog extends JDialog {
         loadProjectChooser.setSelectedFile(new File("project.json"));
     }
 
+    // EFFECTS: add the project to loadedProjects, add the corresponding element
+    // to project tree ans remove progress bar finally
+    // MODIFIES: loadedProject, globalObject(GUI Component)
     private void loadProject(ArrayList<Pair<ProjectModel, TrackerModel>> loadedProjects,
                              Pair<ProjectModel, TrackerModel> proj) {
         loadedProjects.add(proj);

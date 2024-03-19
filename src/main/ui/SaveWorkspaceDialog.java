@@ -8,12 +8,13 @@ import java.io.File;
 public class SaveWorkspaceDialog extends JDialog {
     private final JFileChooser saveWorkspaceChooser;
 
-    public SaveWorkspaceDialog() {
+    public SaveWorkspaceDialog(GraphicInterface globalObjects) {
         saveWorkspaceChooser = new JFileChooser(System.getProperty("user.dir"));
         saveWorkspaceChooser.setDialogTitle("Saving all states to a workspace.json");
         saveWorkspaceChooser.setSelectedFile(new File("workspace.json"));
 
-        int userSelection = saveWorkspaceChooser.showDialog(this, "Save");
+        int userSelection = saveWorkspaceChooser.showSaveDialog(this);
+        //TODO
 
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             File fileToSave = saveWorkspaceChooser.getSelectedFile();

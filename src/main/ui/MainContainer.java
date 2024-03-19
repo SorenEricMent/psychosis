@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.lang.reflect.Method;
 import java.util.ResourceBundle;
 
 // The container panel that contained all GUI components
@@ -24,7 +23,7 @@ public class MainContainer {
 
     private final GraphicInterface globalObjects;
 
-    private ResourceBundle bundle;
+    private final ResourceBundle bundle;
 
     // EFFECTS: create all GUI components
     public MainContainer(GraphicInterface globalObjects) {
@@ -57,7 +56,7 @@ public class MainContainer {
             new LoadProjectDialog(this.globalObjects);
         });
         projectPlaceholder.getLoadWorkspaceButton().addActionListener(e -> {
-            LoadWorkspaceDialog.main(this.globalObjects);
+            new LoadWorkspaceDialog(this.globalObjects);
         });
     }
 
@@ -71,11 +70,11 @@ public class MainContainer {
     private JPopupMenu topToolbarFileMenu() {
         JPopupMenu filePopup = new JPopupMenu("");
         filePopup.setOpaque(true);
-        JMenuItem openProjectPop = new JMenuItem("Open Project");
+        JMenuItem openProjectPop = new JMenuItem("Open Project (Compiled)");
 
         JMenuItem openWorkspacePop = new JMenuItem("Open Workspace");
 
-        JMenuItem saveWorkspacePop = new JMenuItem("Save Workspace");
+        JMenuItem saveWorkspacePop = new JMenuItem("Save Workspace (Compiled)");
 
         topToolBarFileMenuBinding(openProjectPop, openWorkspacePop, saveWorkspacePop);
         filePopup.add(openProjectPop);
@@ -88,24 +87,9 @@ public class MainContainer {
     // EFFECTS: add event listener for file menu popups
     private void topToolBarFileMenuBinding(JMenuItem openProjectPop,
                                            JMenuItem openWorkspacePop, JMenuItem saveWorkspacePop) {
-        openProjectPop.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-
-            }
-        });
-        openWorkspacePop.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-
-            }
-        });
-        saveWorkspacePop.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                new SaveWorkspaceDialog();
-            }
-        });
+        openProjectPop.addActionListener(actionEvent -> new LoadProjectDialog(globalObjects));
+        openWorkspacePop.addActionListener(actionEvent -> new LoadWorkspaceDialog(globalObjects));
+        saveWorkspacePop.addActionListener(actionEvent -> new SaveWorkspaceDialog(globalObjects));
     }
 
     // EFFECTS: add event listener for the file button at top toolbar with
