@@ -95,7 +95,7 @@ public class ProjectSL {
                 InterfaceModel ifToAdd = new InterfaceModel(line.getString("name"), false);
                 line.getJSONArray("statements").forEach(s -> {
                     JSONObject statement = (JSONObject) s;
-                    ifToAdd.addRuleSetModels(new RuleSetModel(
+                    ifToAdd.addStatement(new RuleSetModel(
                             RuleSetModel.toRuleType(statement.getString("rule")),
                             statement.getString("source"),
                             statement.getString("target"),

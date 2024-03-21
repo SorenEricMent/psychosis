@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 public class WarningDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
-    private JButton buttonCancel;
     private JLabel warningInfo;
 
     // EFFECTS: create the dialog with info as the content

@@ -21,6 +21,7 @@ public class LayerEditor {
     private JLabel title2;
     private JList moduleList;
     private JLabel numberModule;
+    private JButton addModuleBtn;
     private final LayerModel layer;
 
     // EFFECTS: create a new editing panel for a layer, update field to it accordingly

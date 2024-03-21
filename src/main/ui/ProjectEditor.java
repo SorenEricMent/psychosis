@@ -1,12 +1,15 @@
 package ui;
 
 import model.ProjectModel;
+import model.exception.SyntaxParseException;
 import model.policy.LayerModel;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 // The editor panel for projects
 public class ProjectEditor {
@@ -15,8 +18,8 @@ public class ProjectEditor {
     private JLabel name;
     private JPanel projectEditorPanel;
     private JTable capabilityTable;
-    private JList list1;
-    private JList list2;
+    private JList secClassList;
+    private JList vecList;
     private JList layerList;
     private JButton addVectorButton;
     private JButton addSecurityClassButton;
@@ -24,6 +27,7 @@ public class ProjectEditor {
     private JLabel numberLayer;
     private JLabel numberModule;
     private JPanel numberPanel;
+    private JButton loadBuiltinBtn;
 
     private final ProjectModel bindedProject;
     private final GraphicInterface globalObjects;
@@ -33,7 +37,7 @@ public class ProjectEditor {
     // EFFECTS: init fields defined, update GUI accordingly and call init functions to init
     // event listeners for buttons, reload the layer list finally
     public ProjectEditor(ProjectModel p, GraphicInterface g) {
-        self = this;
+        self = this; // Use global scope to override anonymous scope
         this.bindedProject = p;
         this.globalObjects = g;
         this.name.setText(p.getName());
@@ -43,7 +47,9 @@ public class ProjectEditor {
         initAddLayerBtn();
         initAddSecClassBtn();
         initAddVecBtn();
+        initLoadBuiltinBtn();
 
+        refreshSecClassList();
         refreshLayerList();
     }
 
@@ -82,6 +88,39 @@ public class ProjectEditor {
                 AddVecDialog.main(bindedProject);
             }
         });
+    }
+
+    // EFFECTS: add event listener for loading builtin definition button
+    private void initLoadBuiltinBtn() {
+        loadBuiltinBtn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                try {
+                    bindedProject.setAccessVectors(TerminalInterface
+                            .loadAccessVectors(Main.DEFAULT_ACCESS_VEC_PATH, Main.DEFAULT_SEC_CLASS_PATH));
+                } catch (IOException ex) {
+                    WarningDialog.main("Failed to load built-in file, check ./data , error: " + ex.getMessage());
+                } catch (SyntaxParseException ex) {
+                    WarningDialog.main("Broken syntax in built-in file, should not happen! " + ex.getMessage());
+                }
+                refreshSecClassList();
+            }
+        });
+    }
+
+    // EFFECTS: completely reload the list for security classes with bindedProject's definition
+    private void refreshSecClassList() {
+        DefaultListModel<String> resModel = new DefaultListModel<>();
+        if (bindedProject.getAccessVectors().getAccessVector().isEmpty()) {
+            resModel.addElement("None");
+            vecList.setModel(resModel); // No element, overwrite with same placeholder
+        } else {
+            for (String secClassName : bindedProject.getAccessVectors().getAccessVector().keySet()) {
+                resModel.addElement(secClassName);
+            }
+        }
+        secClassList.setModel(resModel);
     }
 
     // EFFECTS: refresh the list of layers on GUI

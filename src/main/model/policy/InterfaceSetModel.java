@@ -99,7 +99,7 @@ public class InterfaceSetModel extends FileObjectModel implements Encodeable, De
                     }
                     if (RuleSetModel.isProcessed(tokenized[j])) {
                         int statementEnd = getStatementEnd(j, tokenized);
-                        interfaceToAdd.addRuleSetModels(
+                        interfaceToAdd.addStatement(
                                 RuleSetModel.ruleSetParser(Arrays.copyOfRange(tokenized, j, statementEnd)));
                         j = statementEnd - 1;
                     }

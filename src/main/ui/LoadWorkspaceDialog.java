@@ -18,6 +18,8 @@ public class LoadWorkspaceDialog extends JDialog {
     private final JFileChooser fileChooser;
     private final GraphicInterface globalObjects;
 
+    // EFFECTS: init the fields and call initDialog to create the dialog, also init the
+    // Approve button handling logic
     public LoadWorkspaceDialog(GraphicInterface globalObjects) {
         this.globalObjects = globalObjects;
         this.fileChooser = new JFileChooser(System.getProperty("user.dir"));
@@ -40,6 +42,7 @@ public class LoadWorkspaceDialog extends JDialog {
         }
     }
 
+    // EFFECTS: load fields from a workspace to the current globalObjects and regenerate the GUI
     private void loadWorkspace(Workspace w) {
         this.globalObjects.setLoadedProjects(w.getProjects().stream().map(x -> {
             return new Pair<ProjectModel, TrackerModel>(x, new TrackerModel());

@@ -1,0 +1,8 @@
+<root>
+    <item name='javax.swing.JList void setModel(javax.swing.ListModel&lt;E&gt;)'>
+        <annotation name='org.jetbrains.annotations.Contract'>
+            <val name="value" val="&quot;!null-&gt; _&quot;"/>
+            <val name="mutates" val="&quot;this, param1&quot;"/>
+        </annotation>
+    </item>
+</root>

@@ -477,7 +477,7 @@ public class TerminalInterface {
         switch (params[2]) {
             case "add":
                 Collections.addAll(actions, Arrays.copyOfRange(params, 7, params.length));
-                this.getFocus().getGlobalInterfaceSet().getInterface(params[2]).addRuleSetModels(
+                this.getFocus().getGlobalInterfaceSet().getInterface(params[2]).addStatement(
                         new RuleSetModel(RuleSetModel.toRuleType(
                                 params[3]), params[4], params[5], params[6],
                                 actions)
@@ -604,10 +604,10 @@ public class TerminalInterface {
             String securityClassPath = inputList[2];
 
             if (accessVectorPath.equals("default")) {
-                accessVectorPath = "./data/fallback/access_vectors";
+                accessVectorPath = Main.DEFAULT_ACCESS_VEC_PATH;
             }
             if (securityClassPath.equals("default")) {
-                securityClassPath = "./data/fallback/security_classes";
+                securityClassPath = Main.DEFAULT_SEC_CLASS_PATH;
             }
 
             this.getFocus().setAccessVectors(loadAccessVectors(accessVectorPath, securityClassPath));

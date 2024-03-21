@@ -20,10 +20,20 @@ public class MainContainer {
     private JPanel statusPanel;
     private JProgressBar progressBar;
     private JLabel status;
+    private JLabel modified;
 
     private final GraphicInterface globalObjects;
 
     private final ResourceBundle bundle;
+
+    private ModifyStatus modifyStatus = ModifyStatus.UNMODIFIED;
+
+    public static enum ModifyStatus {
+        UNMODIFIED,
+        MODIFIED,
+        MODIFIED_SAVED,
+        UNMODIFIED_SAVED //???
+    }
 
     // EFFECTS: create all GUI components
     public MainContainer(GraphicInterface globalObjects) {
@@ -143,5 +153,25 @@ public class MainContainer {
         progressBar = new JProgressBar();
         progressBar.setIndeterminate(true);
         disableProgressBar();
+    }
+
+    // EFFECTS: return if Psychosis should alarm User of unsaved changes;
+    public boolean shouldAlarmUnsave() {
+        return this.modifyStatus == ModifyStatus.MODIFIED;
+    }
+
+    // EFFECTS: update the modify status to modified
+    // MODIFIES: this
+    public void modificationHappened() {
+        this.modifyStatus = ModifyStatus.MODIFIED;
+        this.modified.setText("[MODIFIED]");
+    }
+
+    // EFFECTS: update the modify status to the SAVED version of the current status
+    // MODIFIES: this
+    public void saveHappened() {
+        this.modifyStatus =
+                modifyStatus == ModifyStatus.UNMODIFIED ? ModifyStatus.UNMODIFIED_SAVED : ModifyStatus.MODIFIED_SAVED;
+        this.modified.setText(modifyStatus == ModifyStatus.UNMODIFIED_SAVED ? "[UNMODIFIED, SAVED]" : "[SAVED]");
     }
 }

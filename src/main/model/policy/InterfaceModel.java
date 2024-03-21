@@ -9,7 +9,7 @@ import java.util.HashSet;
 // Syntactically templates is just interfaces with more possible statements
 // So Psychosis does not currently differ them internally.
 
-public class InterfaceModel {
+public class InterfaceModel implements RuleAddable {
     private final String name;
 
     private ArrayList<String> parameters;
@@ -48,7 +48,7 @@ public class InterfaceModel {
 
     // EFFECTS: add a rule to ruleset, combine based on action when possible
     // MODIFIES: this
-    public void addRuleSetModels(RuleSetModel rule) {
+    public void addStatement(RuleSetModel rule) {
         // First, check if the statement-source-target-targetclass tuple already exists
         boolean containEquv = false;
         for (RuleSetModel r : ruleSetModels) {

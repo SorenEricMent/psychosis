@@ -65,3 +65,20 @@ As a user, I want to be able to:
 - Load from a .pcsw workspace file to recover the whole previous program state
 
 ## Instructions
+#### Basics
+Please run Psychosis with the given JVM parameters.
+If you want to build Psychosis to a binary with Gradle, you'll need to switch the GUI designer's working mode to source code, fix some broken ResourceBundle import (Bug in IDEA), rebuild the project with IDEA and finally use `gradle build`
+#### Language
+Psychosis has i18n support with EO and EN
+Psychosis's language is by default Esperanto. Psychosis also support English and will switch to it if the current language is a variation of it. If you want to force Psychosis to use English, run the program with LANG=en_US.UTF-8
+#### Help
+For the "Help" button in the top bar, clicking it will bring you a dialog containing about info and debug info.
+Inputting yuuta will trigger an easter egg uwu :heart: 
+#### Workspaces & Projects operations
+After booting up Psychosis, you will be greeted with a "no project selected" page. At this page, you can click "Load Project" / "Load Workspace" to load a single project or recover from a previous working state. Alternatively, those options are also available on the "File" menu in the top toolbar. 
+On the left side, you will see a tree, the structure of this tree is Root-Project-Layer-Module, clicking at the Root will bring you to the welcome page, clicking the rest will bring you to the corresponding editing page (Editing Project/Layer/Module). 
+
+#### Project Editing
+
+#### Layer Editing
+#### Module Editing

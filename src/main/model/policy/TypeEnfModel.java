@@ -11,7 +11,7 @@ import java.util.HashSet;
 // SELinux type enforcement (.te) file
 // Contain a list of first-order statements and a list of calls
 
-public class TypeEnfModel extends FileObjectModel implements Encodeable, Decodeable {
+public class TypeEnfModel extends FileObjectModel implements Encodeable, Decodeable, RuleAddable {
     private final String name;
     private final ArrayList<String> requiredType = new ArrayList<>();
     private final ArrayList<RuleSetModel> statementsFO = new ArrayList<>();

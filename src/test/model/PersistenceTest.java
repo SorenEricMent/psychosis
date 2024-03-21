@@ -78,7 +78,7 @@ public class PersistenceTest {
                 testModule
         );
         testProject.addInterface("example_layer", "example_module", "yuuta");
-        testModule.getInterface("yuuta").addRuleSetModels(
+        testModule.getInterface("yuuta").addStatement(
                 new RuleSetModel(RuleSetModel.RuleType.allow, "$1", "$2", "candy",
                         new HashSet<>(List.of("eat")))
         );
@@ -199,7 +199,7 @@ public class PersistenceTest {
                 testModule
         );
         testProject.addInterface("example_layer", "example_module", "yuuta");
-        testModule.getInterface("yuuta").addRuleSetModels(
+        testModule.getInterface("yuuta").addStatement(
                 new RuleSetModel(RuleSetModel.RuleType.allow, "$1", "$2", "candy",
                         new HashSet<>(List.of("eat")))
         );

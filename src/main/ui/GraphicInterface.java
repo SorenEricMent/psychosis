@@ -33,6 +33,18 @@ public class GraphicInterface {
     private final HashMap<LayerModel, LayerEditor> layerEditorMap = new HashMap<>();
     private final HashMap<PolicyModuleModel, ModuleEditor> moduleEditorMap = new HashMap<>();
 
+    // EFFECTS: init the GUI and create global objects storing working information
+    public GraphicInterface() {
+        splashScreen();
+        System.out.println("Starting in GUI.");
+        this.loadedProjects.add(
+                new Pair<>(new TempProjectModel("Temp"),
+                        new TrackerModel()));
+        initStyle();
+        initWindow();
+        rebuildWholeProjectTree();
+    }
+
     public ArrayList<Pair<ProjectModel, TrackerModel>> getLoadedProjects() {
         return loadedProjects;
     }
@@ -223,18 +235,6 @@ public class GraphicInterface {
         mainContainer.getMainEditor().repaint();
     }
 
-    // EFFECTS: init the GUI and create global objects storing working information
-    public GraphicInterface() {
-        splashScreen();
-        System.out.println("Starting in GUI.");
-        this.loadedProjects.add(
-                new Pair<>(new TempProjectModel("Temp"),
-                        new TrackerModel()));
-        initStyle();
-        initWindow();
-        rebuildWholeProjectTree();
-    }
-
     // EFFECTS: init the main application window
     private void initWindow() {
         JFrame mainWindow = new JFrame("Psychosis Studio " + Main.getVersion());
@@ -247,6 +247,7 @@ public class GraphicInterface {
         mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainWindow.pack();
         mainWindow.setVisible(true);
+        mainWindow.setResizable(false);
         mainWindow.setLocationRelativeTo(null);
     }
 

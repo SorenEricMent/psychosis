@@ -95,21 +95,21 @@ public class InterfaceTest {
 
     @Test
     public void testInterfaceAddRuleSet() {
-        i1.addRuleSetModels(r1);
-        i1.addRuleSetModels(r3);
+        i1.addStatement(r1);
+        i1.addStatement(r3);
         assertEquals(
                 "interface(`test1',`\n" +
                         "allow test_s_t test_t_t:test { testact testact2 };\n" +
                         "')",
                 i1.toString());
-        i1.addRuleSetModels(r1);
+        i1.addStatement(r1);
         assertEquals(
                 "interface(`test1',`\n" +
                         "allow test_s_t test_t_t:test { testact testact2 };\n" +
                         "')",
                 i1.toString());
-        i2.addRuleSetModels(r3);
-        i2.addRuleSetModels(r5);
+        i2.addStatement(r3);
+        i2.addStatement(r5);
         assertEquals(
                 "interface(`test2',`\n" +
                         "allow test_s_t test_t_t:test { testact testact2 };\n" +

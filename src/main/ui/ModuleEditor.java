@@ -4,7 +4,10 @@ import model.policy.PolicyModuleModel;
 import model.policy.RuleSetModel;
 
 import javax.swing.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
 
 // The editor panel for modules, consist of editor plane for te, if and fc in a tabbed pane
 public class ModuleEditor {
@@ -15,7 +18,7 @@ public class ModuleEditor {
     private JLabel moduleName;
     private JLabel title2;
     private JTabbedPane moduleEditorTabs;
-    private JButton addRuleBtn;
+    private JButton teAddRuleBtn;
     private JButton addCallBtn;
     private JTable ruleTable;
     private JList interfaceList;
@@ -32,13 +35,29 @@ public class ModuleEditor {
         this.project = project;
         moduleName.setText(bindedModule.getName());
         masterName.setText(layer + "." + project);
+        teAddRuleBtnHandler();
     }
 
     public JPanel getModuleEditorPanel() {
         return moduleEditorPanel;
     }
 
-    private void rebuildRuleList() {
+    private void teAddRuleBtnHandler() {
+        teAddRuleBtn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                AddRuleDialog.main(bindedModule.getTypeEnf(), new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        return rebuildTeRuleList();
+                    }
+                }, true);
+            }
+        });
+    }
+
+    private Void rebuildTeRuleList() {
         String[] columns = {"Type", "Source", "Target", "Class", "Actions"};
         ArrayList<String[]> data = new ArrayList<>();
 
@@ -53,6 +72,7 @@ public class ModuleEditor {
 
         ruleTable = new JTable(data.toArray(String[][]::new), columns);
         ruleTable.setDefaultEditor(Object.class, null);
+        return null;
     }
 
     private void rebuildCallList() {
@@ -62,7 +82,7 @@ public class ModuleEditor {
     // EFFECTS: custom create hook, rebuild the rule list and call list
     // at the first load
     private void createUIComponents() {
-        rebuildRuleList();
+        rebuildTeRuleList();
         rebuildCallList();
     }
 }
