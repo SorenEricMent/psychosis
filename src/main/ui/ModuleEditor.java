@@ -1,5 +1,6 @@
 package ui;
 
+import model.policy.AccessVectorModel;
 import model.policy.PolicyModuleModel;
 import model.policy.RuleSetModel;
 
@@ -27,10 +28,12 @@ public class ModuleEditor {
     private final PolicyModuleModel bindedModule;
     private String layer;
     private String project;
+    private AccessVectorModel accessVector;
 
     // EFFECTS: create this new module editor panel from a module and its belonging
-    public ModuleEditor(PolicyModuleModel p, String layer, String project) {
+    public ModuleEditor(PolicyModuleModel p, AccessVectorModel av, String layer, String project) {
         this.bindedModule = p;
+        this.accessVector = av;
         this.layer = layer;
         this.project = project;
         moduleName.setText(bindedModule.getName());
@@ -52,7 +55,7 @@ public class ModuleEditor {
                     public Void call() throws Exception {
                         return rebuildTeRuleList();
                     }
-                }, true);
+                }, accessVector, true);
             }
         });
     }

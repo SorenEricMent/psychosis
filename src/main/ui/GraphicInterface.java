@@ -201,7 +201,7 @@ public class GraphicInterface {
         if (moduleEditorMap.containsKey(module)) {
             replaceMainEditor(moduleEditorMap.get(module).getModuleEditorPanel());
         } else {
-            ModuleEditor tmp = new ModuleEditor(module, proj.getName(), layer.getName());
+            ModuleEditor tmp = new ModuleEditor(module, proj.getAccessVectors(), proj.getName(), layer.getName());
             moduleEditorMap.put(module, tmp);
             replaceMainEditor(tmp.getModuleEditorPanel());
         }

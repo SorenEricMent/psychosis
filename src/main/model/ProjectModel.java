@@ -94,7 +94,7 @@ public class ProjectModel {
 
     // MODIFIES: this
     public void setAccessVectors(AccessVectorModel accessVectors) {
-        this.accessVectors = accessVectors;
+        this.accessVectors.setAccessVector(accessVectors.getAccessVector());
     }
 
     // EnumType for SELinux refpolicy's policy_capabilities

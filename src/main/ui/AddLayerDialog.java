@@ -61,6 +61,7 @@ public class AddLayerDialog extends JDialog {
         String name = layerName.getText();
         if (name.isEmpty()) {
             WarningDialog.main("Layer name cannot be empty.");
+            dispose();
         }
 
         try {

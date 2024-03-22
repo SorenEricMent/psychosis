@@ -9,6 +9,7 @@ public class WarningDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JLabel warningInfo;
+    private JButton buttonCancel;
 
     // EFFECTS: create the dialog with info as the content
     public WarningDialog(String info) {

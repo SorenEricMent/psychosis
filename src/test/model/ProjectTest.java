@@ -106,6 +106,8 @@ public class ProjectTest {
                         "\nLayers: " +
                         "test\n" +
                         "\nYOU ARE WORKING ON A TEST PROJECT, YOUR PROGRESS WILL NOT BE SAVED.");
+        testProj.setName("UPDATED");
+        assertEquals(testProj.getName(), "UPDATED");
     }
 
     @Test
@@ -157,7 +159,7 @@ public class ProjectTest {
 
         AccessVectorModel testAV = new AccessVectorModel();
         testProj.setAccessVectors(testAV);
-        assertEquals(testAV, testProj.getAccessVectors());
+        assertEquals(testAV.getAccessVector(), testProj.getAccessVectors().getAccessVector());
     }
 
     @Test

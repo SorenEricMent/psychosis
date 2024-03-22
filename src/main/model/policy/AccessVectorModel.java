@@ -11,7 +11,7 @@ import java.util.HashSet;
 // TODO: enforce security_classes matches with access_vectors and lookup method for future enf system
 public class AccessVectorModel {
 
-    private final HashMap<String, HashSet<String>> accessVector;
+    private HashMap<String, HashSet<String>> accessVector;
 
     // EFFECTS: init AccessVectorModel with a empty set of accessVector
     public AccessVectorModel() {
@@ -20,6 +20,10 @@ public class AccessVectorModel {
 
     public HashMap<String, HashSet<String>> getValue() {
         return accessVector;
+    }
+
+    public void setAccessVector(HashMap<String, HashSet<String>> accessVector) {
+        this.accessVector = accessVector;
     }
 
     // EFFECTS: update access vectors with new class

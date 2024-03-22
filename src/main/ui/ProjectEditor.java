@@ -28,6 +28,7 @@ public class ProjectEditor {
     private JLabel numberModule;
     private JPanel numberPanel;
     private JButton loadBuiltinBtn;
+    private JButton loadExVecBtn;
 
     private final ProjectModel bindedProject;
     private final GraphicInterface globalObjects;
@@ -48,6 +49,7 @@ public class ProjectEditor {
         initAddSecClassBtn();
         initAddVecBtn();
         initLoadBuiltinBtn();
+        initSecVecBinding();
 
         refreshSecClassList();
         refreshLayerList();
@@ -105,6 +107,26 @@ public class ProjectEditor {
                     WarningDialog.main("Broken syntax in built-in file, should not happen! " + ex.getMessage());
                 }
                 refreshSecClassList();
+            }
+        });
+    }
+
+    // EFFECTS: init the event handler for security class list's click action
+    private void initSecVecBinding() {
+        secClassList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                String selected = secClassList.getSelectedValue().toString();
+                DefaultListModel<String> vecModel = new DefaultListModel<>();
+                if (selected.equals("None")) {
+                    vecModel.addElement("None");
+                } else {
+                    for (String vec : bindedProject.getAccessVectors().getAccessVector().get(selected)) {
+                        vecModel.addElement(vec);
+                    }
+                }
+                vecList.setModel(vecModel);
             }
         });
     }
