@@ -26,6 +26,7 @@ public class Debouncer<T> {
     // EFFECTS: if last fire is away interval, schedule an execution after interval
     // otherwise, cancel the execution and create a new future with new interval
     // no matter what, update lastFire
+    // MODIFIES: callback's side effect
     @SuppressWarnings({"checkstyle:MethodLength", "checkstyle:SuppressWarnings"})
     // Suppress as I need single method synchronized execution and I don't want to create more
     // synchronized methods for obvious reasons.
@@ -47,22 +48,22 @@ public class Debouncer<T> {
                         }
                     }, this.interval, TimeUnit.MILLISECONDS);
                 } else {
-                    if (!future.isDone()) {
-                        // The previous task is not done, we wait for it to finish before replacing it with our new task
-                        // rare case, force cancel
+                    while (!future.isDone()) {
+                        // If the previous task is not done, we wait for it to finish before replacing it with our new task
+                        // rare case, just wait with while
+                        // I don't even think we will get there as we have future.cancel(false)'s
                         // Guarantee on uninterrupted execution and synchronous so this should only be executed
                         // after prev is finalized.
-                        future.cancel(true);
-                        // Now future must have been done, we immediately execute ours
-                        this.lastFire = System.currentTimeMillis();
-                        future = executor.schedule(() -> {
-                            try {
-                                callback.call();
-                            } catch (Exception e) {
-                                throw new RuntimeException(e);
-                            }
-                        }, 0, TimeUnit.MILLISECONDS);
                     }
+                    // Now future must have been done
+                    this.lastFire = System.currentTimeMillis();
+                    future = executor.schedule(() -> {
+                        try {
+                            callback.call();
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    }, this.interval, TimeUnit.MILLISECONDS);
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -70,7 +71,7 @@ public class Debouncer<T> {
         } else {
             this.lastFire = System.currentTimeMillis();
             // In interval call, reset the previous task
-            future.cancel(true);
+            future.cancel(false); // Allow prev complete (to avoid partial write on object)
             future = executor.schedule(() -> {
                 try {
                     this.callback.call();

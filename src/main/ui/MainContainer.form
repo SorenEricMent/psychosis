@@ -48,7 +48,7 @@
               <focusPainted value="false"/>
               <focusable value="false"/>
               <preferredSize width="98" height="36"/>
-              <text value="File"/>
+              <text resource-bundle="resources/PsychosisResource" key="MainContainer.top.file"/>
             </properties>
           </component>
           <component id="c9656" class="javax.swing.JToolBar$Separator">
@@ -64,7 +64,7 @@
               <focusPainted value="false"/>
               <focusable value="false"/>
               <preferredSize width="98" height="36"/>
-              <text value="Help"/>
+              <text resource-bundle="resources/PsychosisResource" key="MainContainer.top.help"/>
             </properties>
           </component>
         </children>

@@ -5,6 +5,7 @@ import model.policy.PolicyModuleModel;
 import model.policy.RuleSetModel;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -62,19 +63,20 @@ public class ModuleEditor {
 
     private Void rebuildTeRuleList() {
         String[] columns = {"Type", "Source", "Target", "Class", "Actions"};
-        ArrayList<String[]> data = new ArrayList<>();
+        DefaultTableModel res = new DefaultTableModel(columns, 0);
 
         for (RuleSetModel r : bindedModule.getTypeEnf().getStatementsFO()) {
-            data.add(new String[5]);
-            data.get(data.size() - 1)[0] = r.getRuleType().toString();
-            data.get(data.size() - 1)[1] = r.getSourceContext();
-            data.get(data.size() - 1)[2] = r.getTargetContext();
-            data.get(data.size() - 1)[3] = r.getTargetClass();
-            data.get(data.size() - 1)[4] = r.getActions().toString();
+            String[] data = new String[5];
+            data[0] = r.getRuleType().toString();
+            data[1] = r.getSourceContext();
+            data[2] = r.getTargetContext();
+            data[3] = r.getTargetClass();
+            data[4] = r.getActions().toString();
+            res.addRow(data);
         }
 
-        ruleTable = new JTable(data.toArray(String[][]::new), columns);
-        ruleTable.setDefaultEditor(Object.class, null);
+        ruleTable.setModel(res);
+//        ruleTable.setDefaultEditor(Object.class, null);
         return null;
     }
 
@@ -85,7 +87,17 @@ public class ModuleEditor {
     // EFFECTS: custom create hook, rebuild the rule list and call list
     // at the first load
     private void createUIComponents() {
-        rebuildTeRuleList();
+        String[] columns = {"Type", "Source", "Target", "Class", "Actions"};
+        ArrayList<String[]> data = new ArrayList<>();
+        for (RuleSetModel r : bindedModule.getTypeEnf().getStatementsFO()) {
+            data.add(new String[5]);
+            data.get(data.size() - 1)[0] = r.getRuleType().toString();
+            data.get(data.size() - 1)[1] = r.getSourceContext();
+            data.get(data.size() - 1)[2] = r.getTargetContext();
+            data.get(data.size() - 1)[3] = r.getTargetClass();
+            data.get(data.size() - 1)[4] = r.getActions().toString();
+        }
+        ruleTable = new JTable(data.toArray(String[][]::new), columns);
         rebuildCallList();
     }
 }

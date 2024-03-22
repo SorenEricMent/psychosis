@@ -34,7 +34,7 @@
               <gridbag weightx="1.0" weighty="0.0"/>
             </constraints>
             <properties>
-              <text value="Module List"/>
+              <text resource-bundle="resources/PsychosisResource" key="LayerEditor.module_list"/>
             </properties>
           </component>
           <component id="78461" class="javax.swing.JButton" binding="addModuleBtn">
@@ -69,7 +69,7 @@
                   <gridbag weightx="0.0" weighty="0.0"/>
                 </constraints>
                 <properties>
-                  <text value="Number of Modules"/>
+                  <text resource-bundle="resources/PsychosisResource" key="EditorGeneral.num_module"/>
                 </properties>
               </component>
               <vspacer id="f8979">
