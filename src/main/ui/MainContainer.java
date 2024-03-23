@@ -1,4 +1,4 @@
-﻿package ui;
+package ui;
 
 import ui.closure.StatusDisplay;
 
@@ -102,7 +102,7 @@ public class MainContainer {
                     Main.selfLocaleRestart("eo", "");
                 } else if (langCombo.getSelectedItem().toString().equals("English")) {
                     Main.selfLocaleRestart("en", "");
-                } else if (langCombo.getSelectedItem().toString().equals("Français")) {
+                } else if (langCombo.getSelectedItem().toString().equals("Francais")) {
                     Main.selfLocaleRestart("fr", "");
                 }
                 return null;
