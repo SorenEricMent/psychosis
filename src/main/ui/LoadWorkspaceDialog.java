@@ -4,6 +4,7 @@ import model.CustomReader;
 import model.Pair;
 import model.ProjectModel;
 import model.TrackerModel;
+import org.json.JSONException;
 import persistence.Workspace;
 
 import javax.swing.*;
@@ -28,13 +29,16 @@ public class LoadWorkspaceDialog extends JDialog {
         int userSelection = fileChooser.showOpenDialog(this);
 
         if (userSelection == JFileChooser.APPROVE_OPTION) {
-            Workspace w = new Workspace("", 0, new ArrayList<ProjectModel>());
             try {
+                Workspace w = new Workspace("", 0, new ArrayList<ProjectModel>());
                 w.parser(CustomReader.readAsWhole(fileChooser.getSelectedFile()));
                 loadWorkspace(w);
                 globalObjects.getMainContainer().disableProgressBar();
             } catch (IOException e) {
                 WarningDialog.main(e.getMessage());
+                globalObjects.getMainContainer().disableProgressBar();
+            } catch (JSONException e) {
+                WarningDialog.main("Not a valid workspace file, " + e.getMessage());
                 globalObjects.getMainContainer().disableProgressBar();
             }
         } else {

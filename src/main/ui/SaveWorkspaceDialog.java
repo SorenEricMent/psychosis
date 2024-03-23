@@ -29,7 +29,6 @@ public class SaveWorkspaceDialog extends JDialog {
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             File fileToSave = saveWorkspaceChooser.getSelectedFile();
             Workspace workspaceToSave = generateWorkspace(this.globalObjects);
-            System.out.println("Save as file: " + fileToSave.getAbsolutePath());
             try {
                 CustomReader.writeToFile(fileToSave, workspaceToSave.toStringCompiled());
             } catch (IOException e) {

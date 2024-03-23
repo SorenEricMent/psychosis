@@ -3,6 +3,7 @@ package ui;
 import model.ProjectModel;
 import model.exception.SyntaxParseException;
 import model.policy.LayerModel;
+import ui.closure.StatusDisplay;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
@@ -31,16 +32,18 @@ public class ProjectEditor {
     private JButton loadExVecBtn;
 
     private final ProjectModel bindedProject;
+    private final StatusDisplay sd;
     private final GraphicInterface globalObjects;
     private final ProjectEditor self;
 
 
     // EFFECTS: init fields defined, update GUI accordingly and call init functions to init
     // event listeners for buttons, reload the layer list finally
-    public ProjectEditor(ProjectModel p, GraphicInterface g) {
+    public ProjectEditor(ProjectModel p, StatusDisplay sd, GraphicInterface g) {
         self = this; // Use global scope to override anonymous scope
         this.bindedProject = p;
         this.globalObjects = g;
+        this.sd = sd;
         this.name.setText(p.getName());
         this.numberLayer.setText(String.valueOf(p.getLayers().size()));
         this.numberModule.setText(String.valueOf(p.totalModules()));
@@ -76,7 +79,7 @@ public class ProjectEditor {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                AddSecClassDialog.main(bindedProject);
+                AddSecClassDialog.main(bindedProject.getAccessVectors(), sd);
             }
         });
     }
@@ -87,7 +90,7 @@ public class ProjectEditor {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                AddVecDialog.main(bindedProject);
+                AddVecDialog.main(bindedProject.getAccessVectors(), sd);
             }
         });
     }
@@ -101,6 +104,7 @@ public class ProjectEditor {
                 try {
                     bindedProject.setAccessVectors(TerminalInterface
                             .loadAccessVectors(Main.DEFAULT_ACCESS_VEC_PATH, Main.DEFAULT_SEC_CLASS_PATH));
+                    sd.modificationHappened();
                 } catch (IOException ex) {
                     WarningDialog.main("Failed to load built-in file, check ./data , error: " + ex.getMessage());
                 } catch (SyntaxParseException ex) {

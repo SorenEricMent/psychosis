@@ -83,6 +83,29 @@ public class GraphicInterface {
 
     // EFFECTS: update project tree with a new layer added to the end of a project's child
     // REQUIRES: must not call rebuildWholeProjectTree before together or duplicate will be created
+    public void updateModuleTree(String projName, String layerName, String moduleName) {
+        DefaultTreeModel projectTreeModel = (DefaultTreeModel) mainContainer.getProjectList().getModel();
+        DefaultMutableTreeNode projectTreeRoot = (DefaultMutableTreeNode) projectTreeModel.getRoot();
+        DefaultMutableTreeNode projectNode = null;
+        DefaultMutableTreeNode layerNode = null;
+        for (int i = 0; i < projectTreeModel.getChildCount(projectTreeRoot); i++) {
+            if (projectTreeModel.getChild(projectTreeRoot, i).toString().equals(projName)) {
+                projectNode = (DefaultMutableTreeNode) projectTreeModel.getChild(projectTreeRoot, i);
+            }
+        }
+
+        for (int i = 0; i < projectNode.getChildCount(); i++) {
+            if (projectNode.getChildAt(i).toString().equals(layerName)) {
+                layerNode = (DefaultMutableTreeNode) projectNode.getChildAt(i);
+                break;
+            }
+        }
+        projectTreeModel.insertNodeInto(
+                new DefaultMutableTreeNode(moduleName), layerNode, layerNode.getChildCount());
+    }
+
+    // EFFECTS: update project tree with a new layer added to the end of a project's child
+    // REQUIRES: must not call rebuildWholeProjectTree before together or duplicate will be created
     public void updateLayerTree(String projName, String layerName) {
         DefaultTreeModel projectTreeModel = (DefaultTreeModel) mainContainer.getProjectList().getModel();
         DefaultMutableTreeNode projectTreeRoot = (DefaultMutableTreeNode) projectTreeModel.getRoot();
@@ -178,7 +201,7 @@ public class GraphicInterface {
         if (projectEditorMap.containsKey(proj)) {
             replaceMainEditor(projectEditorMap.get(proj).getProjectEditorPanel());
         } else {
-            ProjectEditor tmp = new ProjectEditor(proj, this);
+            ProjectEditor tmp = new ProjectEditor(proj, getStatusDisplay(), this);
             projectEditorMap.put(proj, tmp);
             replaceMainEditor(tmp.getProjectEditorPanel());
         }
@@ -193,7 +216,7 @@ public class GraphicInterface {
         if (layerEditorMap.containsKey(layer)) {
             replaceMainEditor(layerEditorMap.get(layer).getLayerEditorPanel());
         } else {
-            LayerEditor tmp = new LayerEditor(layer, proj.getName());
+            LayerEditor tmp = new LayerEditor(layer, this, proj.getName());
             layerEditorMap.put(layer, tmp);
             replaceMainEditor(tmp.getLayerEditorPanel());
         }
@@ -210,7 +233,7 @@ public class GraphicInterface {
             replaceMainEditor(moduleEditorMap.get(module).getModuleEditorPanel());
         } else {
             ModuleEditor tmp = new ModuleEditor(getStatusDisplay(),
-                    module, proj.getAccessVectors(), proj.getName(), layer.getName());
+                    module, proj.getAccessVectors(), proj.getGlobalInterfaceSet(), proj.getName(), layer.getName());
             moduleEditorMap.put(module, tmp);
             replaceMainEditor(tmp.getModuleEditorPanel());
         }

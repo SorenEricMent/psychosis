@@ -1,6 +1,7 @@
 package ui;
 
-import model.ProjectModel;
+import model.policy.AccessVectorModel;
+import ui.closure.StatusDisplay;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -53,7 +54,7 @@ public class AddVecDialog extends JDialog {
         dispose();
     }
 
-    public static void main(ProjectModel args) {
+    public static void main(AccessVectorModel args, StatusDisplay sd) {
         AddVecDialog dialog = new AddVecDialog();
         dialog.pack();
         dialog.setVisible(true);

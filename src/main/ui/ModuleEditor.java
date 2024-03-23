@@ -1,6 +1,7 @@
 package ui;
 
 import model.policy.AccessVectorModel;
+import model.policy.InterfaceSetModel;
 import model.policy.PolicyModuleModel;
 import model.policy.RuleSetModel;
 import ui.closure.StatusDisplay;
@@ -35,18 +36,22 @@ public class ModuleEditor {
     private String project;
     private AccessVectorModel accessVector;
     private StatusDisplay statusDisplay;
+    private InterfaceSetModel interfaceSet;
 
     // EFFECTS: create this new module editor panel from a module and its belonging
-    public ModuleEditor(StatusDisplay sd, PolicyModuleModel p, AccessVectorModel av, String layer, String project) {
+    public ModuleEditor(StatusDisplay sd, PolicyModuleModel p, AccessVectorModel av,
+                        InterfaceSetModel ifs, String layer, String project) {
         this.statusDisplay = sd;
         this.bindedModule = p;
         this.accessVector = av;
+        this.interfaceSet = ifs;
         this.layer = layer;
         this.project = project;
         moduleName.setText(bindedModule.getName());
         masterName.setText(layer + "." + project);
         teAddRuleBtnHandler();
         teAddCallBtnHandler();
+        initExportTeBtn();
     }
 
     public JPanel getModuleEditorPanel() {
@@ -100,6 +105,13 @@ public class ModuleEditor {
 
     private void rebuildCallList() {
 
+    }
+
+    private void initExportTeBtn() {
+        exportTeBtn.addActionListener(actionEvent ->
+                new ExportTEDialog(statusDisplay, null, bindedModule.getTypeEnf(), false));
+        exportTeCompBtn.addActionListener(actionEvent ->
+                new ExportTEDialog(statusDisplay, interfaceSet, bindedModule.getTypeEnf(), true));
     }
 
     // EFFECTS: custom create hook, rebuild the rule list and call list

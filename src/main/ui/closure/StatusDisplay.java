@@ -55,6 +55,19 @@ public class StatusDisplay {
         bar.setVisible(true);
     }
 
+    // EFFECTS: set the status to writing
+    public void onWrite() {
+        this.status.setText("Writing...");
+        enableProgress();
+    }
+
+    // EFFECTS: set the status to Ready
+    public void ready() {
+        this.status.setText("Ready");
+    }
+
+    // EFFECTS:
+
     // EFFECTS: hide the progress bar
     public void disableProgress() {
         bar.setVisible(false);

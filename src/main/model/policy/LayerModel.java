@@ -1,5 +1,6 @@
 package model.policy;
 
+import model.exception.DuplicateException;
 import model.exception.NotFoundException;
 
 import java.util.HashMap;
@@ -23,8 +24,12 @@ public class LayerModel {
 
     // EFFECTS: add PolicyModule to this layer with its name as the index
     // MODIFIES: this
-    public void addPolicyModule(PolicyModuleModel module) {
-        this.policyModules.put(module.getName(), module);
+    public void addPolicyModule(PolicyModuleModel module) throws DuplicateException {
+        if (this.policyModules.containsKey(module.getName())) {
+            throw new DuplicateException(module.getName() + " already exists;");
+        } else {
+            this.policyModules.put(module.getName(), module);
+        }
     }
 
     // Fot testing only
