@@ -49,7 +49,8 @@ public class Debouncer<T> {
                     }, this.interval, TimeUnit.MILLISECONDS);
                 } else {
                     while (!future.isDone()) {
-                        // If the previous task is not done, we wait for it to finish before replacing it with our new task
+                        // If the previous task is not done,
+                        // we wait for it to finish before replacing it with our new task
                         // rare case, just wait with while
                         // I don't even think we will get there as we have future.cancel(false)'s
                         // Guarantee on uninterrupted execution and synchronous so this should only be executed
