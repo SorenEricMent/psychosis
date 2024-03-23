@@ -1,10 +1,8 @@
 package ui;
 
 import model.CustomReader;
-import model.exception.SyntaxParseException;
 import model.policy.InterfaceSetModel;
 import model.policy.TypeEnfModel;
-import persistence.Workspace;
 import ui.closure.StatusDisplay;
 
 import javax.swing.*;

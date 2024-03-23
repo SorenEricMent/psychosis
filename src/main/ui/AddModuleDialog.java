@@ -4,7 +4,9 @@ import model.exception.DuplicateException;
 import model.policy.*;
 
 import javax.swing.*;
-import java.awt.event.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class AddModuleDialog extends JDialog {
     private JPanel contentPane;

@@ -22,14 +22,14 @@ public class AddRuleDialog extends JDialog {
     private JButton addActionBtn;
     private JComboBox actionCombo;
     private JTextPane ruleVisual;
-    private RuleAddable target;
-    private Callable<Void> callback;
-    private boolean varCheck;
+    private final RuleAddable target;
+    private final Callable<Void> callback;
+    private final boolean varCheck;
     private Debouncer<Void> actionFieldDebouncer;
     private Debouncer<Void> ruleTextDebouncer;
-    private AccessVectorModel accessVector;
+    private final AccessVectorModel accessVector;
     private RuleSetModel newRule;
-    private HashSet<String> actions;
+    private final HashSet<String> actions;
     private final StatusDisplay statusDisplay;
 
     // EFFECTS: init content pane
@@ -107,12 +107,8 @@ public class AddRuleDialog extends JDialog {
 
     // EFFECTS: disable the ok button if any field is empty and vice versa
     private void okButtonUpdateStatus() {
-        if (sourceField.getText().isEmpty() || targetField.getText().isEmpty()
-                || classField.getText().isEmpty() || actions.isEmpty()) {
-            buttonOK.setEnabled(false);
-        } else {
-            buttonOK.setEnabled(true);
-        }
+        buttonOK.setEnabled(!sourceField.getText().isEmpty() && !targetField.getText().isEmpty()
+                && !classField.getText().isEmpty() && !actions.isEmpty());
     }
 
     // EFFECTS: create and bind the debounced action listener for updating list of actions by class field

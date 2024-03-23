@@ -54,7 +54,6 @@ public class AddLayerDialog extends JDialog {
     }
 
 
-
     // EFFECTS: OK button handler
     // MODIFIES: bindedProject
     private void onOK() {

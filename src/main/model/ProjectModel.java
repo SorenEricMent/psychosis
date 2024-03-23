@@ -23,7 +23,7 @@ public class ProjectModel {
     private HashMap<PolicyCapabilities, Boolean>
             capabilities = new HashMap<PolicyCapabilities, Boolean>();
 
-    private AccessVectorModel accessVectors;
+    private final AccessVectorModel accessVectors;
 
     private final TrackerModel tracker = new TrackerModel();
 

@@ -1,10 +1,9 @@
 package ui;
 
-import model.exception.DuplicateException;
-
 import javax.swing.*;
-import java.awt.event.*;
-import java.util.concurrent.Callable;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 // All add operations that enforce uniqueness could be achieved with this
 // Dialog, it warns for duplication.

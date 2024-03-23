@@ -32,11 +32,11 @@ public class ModuleEditor {
     private JButton addInterface;
     private JButton addStatementIf;
     private final PolicyModuleModel bindedModule;
-    private String layer;
-    private String project;
-    private AccessVectorModel accessVector;
-    private StatusDisplay statusDisplay;
-    private InterfaceSetModel interfaceSet;
+    private final String layer;
+    private final String project;
+    private final AccessVectorModel accessVector;
+    private final StatusDisplay statusDisplay;
+    private final InterfaceSetModel interfaceSet;
 
     // EFFECTS: create this new module editor panel from a module and its belonging
     public ModuleEditor(StatusDisplay sd, PolicyModuleModel p, AccessVectorModel av,

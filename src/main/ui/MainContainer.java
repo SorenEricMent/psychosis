@@ -1,4 +1,4 @@
-package ui;
+﻿package ui;
 
 import ui.closure.StatusDisplay;
 
@@ -75,7 +75,7 @@ public class MainContainer {
     private void initLangCombo() {
         langCombo.addItem("Esperanto");
         langCombo.addItem("English");
-        langCombo.addItem("Français");
+        langCombo.addItem("Francais");
 
         Locale locale = Locale.getDefault();
         if (locale.getLanguage().equals("eo")) {

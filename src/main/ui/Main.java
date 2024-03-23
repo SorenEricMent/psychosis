@@ -12,7 +12,7 @@ public class Main {
     }
 
     public static final String DEFAULT_ACCESS_VEC_PATH = "./data/fallback/access_vectors";
-    public static final String DEFAULT_SEC_CLASS_PATH =  "./data/fallback/security_classes";
+    public static final String DEFAULT_SEC_CLASS_PATH = "./data/fallback/security_classes";
     private static boolean useTUI = true;
 
     // EFFECTS: process locale fallback, start TUI/GUI based on flag

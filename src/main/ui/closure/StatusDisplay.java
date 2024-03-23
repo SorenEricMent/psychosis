@@ -11,7 +11,7 @@ public class StatusDisplay {
     private final JLabel modify;
     private final ResourceBundle bundle;
 
-    public static enum ModifyStatus {
+    public enum ModifyStatus {
         UNMODIFIED,
         MODIFIED,
         MODIFIED_SAVED,
