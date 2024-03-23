@@ -3,11 +3,12 @@ package ui;
 import model.policy.AccessVectorModel;
 import model.policy.PolicyModuleModel;
 import model.policy.RuleSetModel;
+import ui.closure.StatusDisplay;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
 
@@ -26,13 +27,18 @@ public class ModuleEditor {
     private JList interfaceList;
     private JButton exportTeBtn;
     private JButton exportTeCompBtn;
+    private JList statementList;
+    private JButton addInterface;
+    private JButton addStatementIf;
     private final PolicyModuleModel bindedModule;
     private String layer;
     private String project;
     private AccessVectorModel accessVector;
+    private StatusDisplay statusDisplay;
 
     // EFFECTS: create this new module editor panel from a module and its belonging
-    public ModuleEditor(PolicyModuleModel p, AccessVectorModel av, String layer, String project) {
+    public ModuleEditor(StatusDisplay sd, PolicyModuleModel p, AccessVectorModel av, String layer, String project) {
+        this.statusDisplay = sd;
         this.bindedModule = p;
         this.accessVector = av;
         this.layer = layer;
@@ -40,18 +46,19 @@ public class ModuleEditor {
         moduleName.setText(bindedModule.getName());
         masterName.setText(layer + "." + project);
         teAddRuleBtnHandler();
+        teAddCallBtnHandler();
     }
 
     public JPanel getModuleEditorPanel() {
         return moduleEditorPanel;
     }
 
+    // EFFECTS: init click handler for add rule button in TE tab
     private void teAddRuleBtnHandler() {
-        teAddRuleBtn.addMouseListener(new MouseAdapter() {
+        teAddRuleBtn.addActionListener(new ActionListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                AddRuleDialog.main(bindedModule.getTypeEnf(), new Callable<Void>() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                AddRuleDialog.main(statusDisplay, bindedModule.getTypeEnf(), new Callable<Void>() {
                     @Override
                     public Void call() throws Exception {
                         return rebuildTeRuleList();
@@ -59,6 +66,17 @@ public class ModuleEditor {
                 }, accessVector, true);
             }
         });
+    }
+
+    // EFFECTS: init click handler for add call button in TE tab
+    private void teAddCallBtnHandler() {
+        addCallBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                AddCallDialog.main();
+            }
+        });
+
     }
 
     private Void rebuildTeRuleList() {

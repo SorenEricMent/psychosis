@@ -37,6 +37,7 @@
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
+                  <enabled value="false"/>
                   <text resource-bundle="resources/PsychosisResource" key="ButtonGeneral.add"/>
                 </properties>
               </component>
@@ -94,6 +95,7 @@
                     <item value="allow"/>
                     <item value="dontaudit"/>
                   </model>
+                  <preferredSize width="124" height="38"/>
                 </properties>
               </component>
               <component id="f5893" class="javax.swing.JTextField" binding="sourceField">
@@ -101,16 +103,16 @@
                   <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="-1"/>
                   </grid>
-                  <gridbag weightx="1.0" weighty="1.0"/>
+                  <gridbag weightx="1.5" weighty="1.0"/>
                 </constraints>
                 <properties/>
               </component>
               <component id="533a3" class="javax.swing.JTextField" binding="classField">
                 <constraints>
-                  <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                  <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="-1"/>
                   </grid>
-                  <gridbag weightx="1.0" weighty="1.0"/>
+                  <gridbag weightx="0.8" weighty="1.0"/>
                 </constraints>
                 <properties/>
               </component>
@@ -126,14 +128,14 @@
               <component id="501ef" class="javax.swing.JComboBox" binding="actionCombo">
                 <constraints>
                   <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
-                  <gridbag weightx="1.0" weighty="0.0"/>
+                  <gridbag weightx="1.0" weighty="1.0"/>
                 </constraints>
                 <properties/>
               </component>
               <component id="e73ce" class="javax.swing.JButton" binding="addActionBtn">
                 <constraints>
                   <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                  <gridbag weightx="1.0" weighty="0.0"/>
+                  <gridbag weightx="0.8" weighty="1.0"/>
                 </constraints>
                 <properties>
                   <enabled value="false"/>

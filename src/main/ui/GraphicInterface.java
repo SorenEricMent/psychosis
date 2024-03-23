@@ -6,6 +6,7 @@ import model.TempProjectModel;
 import model.TrackerModel;
 import model.policy.LayerModel;
 import model.policy.PolicyModuleModel;
+import ui.closure.StatusDisplay;
 
 import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
@@ -15,10 +16,12 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.concurrent.Callable;
 
 // The class to create and manage the main window of Psychosis
 public class GraphicInterface {
@@ -55,6 +58,11 @@ public class GraphicInterface {
 
     public MainContainer getMainContainer() {
         return mainContainer;
+    }
+
+    // EFFECTS: get the StatusDisplay Object from MainContainer
+    public StatusDisplay getStatusDisplay() {
+        return this.mainContainer.getStatusBoxed();
     }
 
     public void setCurrentWorkIndex(Integer currentWorkIndex) {
@@ -201,7 +209,8 @@ public class GraphicInterface {
         if (moduleEditorMap.containsKey(module)) {
             replaceMainEditor(moduleEditorMap.get(module).getModuleEditorPanel());
         } else {
-            ModuleEditor tmp = new ModuleEditor(module, proj.getAccessVectors(), proj.getName(), layer.getName());
+            ModuleEditor tmp = new ModuleEditor(getStatusDisplay(),
+                    module, proj.getAccessVectors(), proj.getName(), layer.getName());
             moduleEditorMap.put(module, tmp);
             replaceMainEditor(tmp.getModuleEditorPanel());
         }

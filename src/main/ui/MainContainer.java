@@ -1,12 +1,16 @@
 package ui;
 
+import ui.closure.StatusDisplay;
+
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.concurrent.Callable;
 
 // The container panel that contained all GUI components
 public class MainContainer {
@@ -21,19 +25,15 @@ public class MainContainer {
     private JProgressBar progressBar;
     private JLabel status;
     private JLabel modified;
+    private JComboBox langCombo;
 
     private final GraphicInterface globalObjects;
 
     private final ResourceBundle bundle;
 
-    private ModifyStatus modifyStatus = ModifyStatus.UNMODIFIED;
+    // CLOSURES
+    private final StatusDisplay statusBoxed;
 
-    public static enum ModifyStatus {
-        UNMODIFIED,
-        MODIFIED,
-        MODIFIED_SAVED,
-        UNMODIFIED_SAVED //???
-    }
 
     // EFFECTS: create all GUI components
     public MainContainer(GraphicInterface globalObjects) {
@@ -42,11 +42,23 @@ public class MainContainer {
         status.setText(getReflectiveResource("status.ready"));
         initProjectPlaceholder();
         topToolbar();
+        initLangCombo();
+
+        statusBoxed = new StatusDisplay(getBundle(), statusPanel, progressBar, status, modified);
+        globalToolbar.add(Box.createHorizontalGlue(), globalToolbar.getComponentCount() - 1);
+    }
+
+    public StatusDisplay getStatusBoxed() {
+        return statusBoxed;
     }
 
     // EFFECTS: Get i18n value from the bundle imported by Intellij
     public String getReflectiveResource(String key) {
         return bundle.getString(key);
+    }
+
+    public ResourceBundle getBundle() {
+        return bundle;
     }
 
     public JPanel getMainEditor() {
@@ -55,6 +67,47 @@ public class MainContainer {
 
     public ProjectPlaceholder getProjectPlaceholder() {
         return projectPlaceholder;
+    }
+
+    // EFFECTS: init action listener for language switch
+    // The reason of the length is that two Callables are created
+    // ,and it makes no sense to split as it is already minimal
+    private void initLangCombo() {
+        langCombo.addItem("Esperanto");
+        langCombo.addItem("English");
+        langCombo.addItem("Français");
+
+        Locale locale = Locale.getDefault();
+        if (locale.getLanguage().equals("eo")) {
+            langCombo.setSelectedIndex(0);
+        } else if (locale.getLanguage().equals("en")) {
+            langCombo.setSelectedIndex(1);
+        } else if (locale.getLanguage().equals("fr")) {
+            langCombo.setSelectedIndex(2);
+        }
+        langCombo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                restartWithLocale();
+            }
+        });
+    }
+
+    private void restartWithLocale() {
+        WarningDialog.main("This would require a restart! Continue after save.", new Callable<Void>() {
+            @Override
+            public Void call() throws Exception {
+                Locale locale = Locale.getDefault();
+                if (langCombo.getSelectedItem().toString().equals("Esperanto")) {
+                    Main.selfLocaleRestart("eo", "");
+                } else if (langCombo.getSelectedItem().toString().equals("English")) {
+                    Main.selfLocaleRestart("en", "");
+                } else if (langCombo.getSelectedItem().toString().equals("Français")) {
+                    Main.selfLocaleRestart("fr", "");
+                }
+                return null;
+            }
+        });
     }
 
     // EFFECTS: init the event handler for buttons in project placeholder with globalObjects reference
@@ -153,25 +206,5 @@ public class MainContainer {
         progressBar = new JProgressBar();
         progressBar.setIndeterminate(true);
         disableProgressBar();
-    }
-
-    // EFFECTS: return if Psychosis should alarm User of unsaved changes;
-    public boolean shouldAlarmUnsave() {
-        return this.modifyStatus == ModifyStatus.MODIFIED;
-    }
-
-    // EFFECTS: update the modify status to modified
-    // MODIFIES: this
-    public void modificationHappened() {
-        this.modifyStatus = ModifyStatus.MODIFIED;
-        this.modified.setText("[MODIFIED]");
-    }
-
-    // EFFECTS: update the modify status to the SAVED version of the current status
-    // MODIFIES: this
-    public void saveHappened() {
-        this.modifyStatus =
-                modifyStatus == ModifyStatus.UNMODIFIED ? ModifyStatus.UNMODIFIED_SAVED : ModifyStatus.MODIFIED_SAVED;
-        this.modified.setText(modifyStatus == ModifyStatus.UNMODIFIED_SAVED ? "[UNMODIFIED, SAVED]" : "[SAVED]");
     }
 }

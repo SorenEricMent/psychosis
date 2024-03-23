@@ -3,6 +3,7 @@ package ui;
 import model.policy.AccessVectorModel;
 import model.policy.RuleAddable;
 import model.policy.RuleSetModel;
+import ui.closure.StatusDisplay;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -29,6 +30,7 @@ public class AddRuleDialog extends JDialog {
     private AccessVectorModel accessVector;
     private RuleSetModel newRule;
     private HashSet<String> actions;
+    private final StatusDisplay statusDisplay;
 
     // EFFECTS: init content pane
     private void initPane() {
@@ -38,8 +40,10 @@ public class AddRuleDialog extends JDialog {
     }
 
     // EFFECTS: init the dialog with empty actions and params given
-    public AddRuleDialog(RuleAddable target, Callable<Void> callback, AccessVectorModel av, boolean varCheck) {
+    public AddRuleDialog(StatusDisplay sd,
+                         RuleAddable target, Callable<Void> callback, AccessVectorModel av, boolean varCheck) {
         initPane();
+        this.statusDisplay = sd;
         this.target = target;
         this.callback = callback;
         this.varCheck = varCheck;
@@ -73,6 +77,7 @@ public class AddRuleDialog extends JDialog {
             public Void call() throws Exception {
                 ruleVisual.setText(ruleFieldToPreview(ruleTypeCombo.getSelectedItem().toString(), sourceField.getText(),
                         targetField.getText(), classField.getText(), actions));
+                okButtonUpdateStatus();
                 return null;
             }
         }, 200);
@@ -98,6 +103,16 @@ public class AddRuleDialog extends JDialog {
                 + (classStr.isEmpty() ? "[Class]" : classStr) + " "
                 + (actions.isEmpty() ? "{ Actions }" : "{ "
                 + tmp.substring(1).substring(0, tmp.length() - 2) + " };");
+    }
+
+    // EFFECTS: disable the ok button if any field is empty and vice versa
+    private void okButtonUpdateStatus() {
+        if (sourceField.getText().isEmpty() || targetField.getText().isEmpty()
+                || classField.getText().isEmpty() || actions.isEmpty()) {
+            buttonOK.setEnabled(false);
+        } else {
+            buttonOK.setEnabled(true);
+        }
     }
 
     // EFFECTS: create and bind the debounced action listener for updating list of actions by class field
@@ -139,6 +154,7 @@ public class AddRuleDialog extends JDialog {
                 actions.add(actionCombo.getSelectedItem().toString());
                 ruleVisual.setText(ruleFieldToPreview(ruleTypeCombo.getSelectedItem().toString(), sourceField.getText(),
                         targetField.getText(), classField.getText(), actions));
+                okButtonUpdateStatus();
             }
         });
     }
@@ -154,6 +170,7 @@ public class AddRuleDialog extends JDialog {
                     classField.getText(),
                     actions));
             callback.call();
+            statusDisplay.modificationHappened();
         } catch (Exception e) {
             WarningDialog.main(e.getMessage());
         }
@@ -164,8 +181,9 @@ public class AddRuleDialog extends JDialog {
         dispose();
     }
 
-    public static void main(RuleAddable target, Callable<Void> callback, AccessVectorModel av, boolean varCheck) {
-        AddRuleDialog dialog = new AddRuleDialog(target, callback, av, varCheck);
+    public static void main(StatusDisplay sd,
+                            RuleAddable target, Callable<Void> callback, AccessVectorModel av, boolean varCheck) {
+        AddRuleDialog dialog = new AddRuleDialog(sd, target, callback, av, varCheck);
         dialog.pack();
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
