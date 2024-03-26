@@ -39,13 +39,13 @@ public class AddVecDialog extends JDialog {
     }
 
     private void onCancel() {
-        // add your code here if necessary
         dispose();
     }
 
     public static void main(AccessVectorModel args, StatusDisplay sd) {
         AddVecDialog dialog = new AddVecDialog();
         dialog.pack();
+        dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
     }
 }

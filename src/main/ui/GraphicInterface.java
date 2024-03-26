@@ -16,6 +16,8 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,9 +35,11 @@ public class GraphicInterface {
     private final HashMap<ProjectModel, ProjectEditor> projectEditorMap = new HashMap<>();
     private final HashMap<LayerModel, LayerEditor> layerEditorMap = new HashMap<>();
     private final HashMap<PolicyModuleModel, ModuleEditor> moduleEditorMap = new HashMap<>();
+    private final GraphicInterface self;
 
     // EFFECTS: init the GUI and create global objects storing working information
     public GraphicInterface() {
+        this.self = this;
         splashScreen();
         System.out.println("Starting in GUI.");
         this.loadedProjects.add(
@@ -274,11 +278,26 @@ public class GraphicInterface {
         mainWindow.setIconImage(img.getImage());
 
         mainWindow.setContentPane(mainContainer.getMainContainer());
-        mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainWindow.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+        mainWindow.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                if (getStatusDisplay().getModifyStatus() == StatusDisplay.ModifyStatus.MODIFIED) {
+                    SaveWarningDialog.main(getStatusDisplay(), self);
+                } else {
+                    System.exit(0);
+                }
+            }
+        });
+
         mainWindow.pack();
         mainWindow.setVisible(true);
         mainWindow.setResizable(false);
         mainWindow.setLocationRelativeTo(null);
+
+
     }
 
     // EFFECTS: draw a splash screen

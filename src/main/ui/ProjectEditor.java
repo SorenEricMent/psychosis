@@ -22,7 +22,7 @@ public class ProjectEditor {
     private JList vecList;
     private JList layerList;
     private JButton addVectorButton;
-    private JButton addSecurityClassButton;
+    private JButton addSecClassButton;
     private JButton addLayerButton;
     private JLabel numberLayer;
     private JLabel numberModule;
@@ -51,7 +51,8 @@ public class ProjectEditor {
         initAddSecClassBtn();
         initAddVecBtn();
         initLoadBuiltinBtn();
-        initSecVecBinding();
+        initSecVecListBinding();
+        initAddSecVecBtn();
 
         refreshSecClassList();
         refreshLayerList();
@@ -74,7 +75,7 @@ public class ProjectEditor {
 
     // EFFECTS: add event listener for add security class button
     private void initAddSecClassBtn() {
-        addSecurityClassButton.addMouseListener(new MouseAdapter() {
+        addSecClassButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
@@ -115,7 +116,7 @@ public class ProjectEditor {
     }
 
     // EFFECTS: init the event handler for security class list's click action
-    private void initSecVecBinding() {
+    private void initSecVecListBinding() {
         secClassList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -146,6 +147,13 @@ public class ProjectEditor {
             }
         }
         secClassList.setModel(resModel);
+    }
+
+    // EFFECTS: bind the event handler for add security class button and add vector button
+    private void initAddSecVecBtn() {
+        addSecClassButton.addActionListener(actionEvent
+                -> AddSecClassDialog.main(bindedProject.getAccessVectors(), sd));
+        addVectorButton.addActionListener(actionEvent -> AddVecDialog.main(bindedProject.getAccessVectors(), sd));
     }
 
     // EFFECTS: refresh the list of layers on GUI

@@ -1,21 +1,22 @@
 package ui;
 
-import model.policy.AccessVectorModel;
 import ui.closure.StatusDisplay;
 
 import javax.swing.*;
 import java.awt.event.*;
 
-public class AddSecClassDialog extends JDialog {
+public class SaveWarningDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
+    private JFileChooser fileChooser;
+    private final GraphicInterface globalObjects;
 
-    public AddSecClassDialog() {
+    public SaveWarningDialog(StatusDisplay sd, GraphicInterface globalObjects) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
-
+        this.globalObjects = globalObjects;
         buttonOK.addActionListener(e -> onOK());
 
         buttonCancel.addActionListener(e -> onCancel());
@@ -29,21 +30,23 @@ public class AddSecClassDialog extends JDialog {
         });
 
         // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(e -> onCancel(),
-                KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
     private void onOK() {
-        // add your code here
+        new SaveWorkspaceDialog(this.globalObjects);
         dispose();
+        System.exit(0);
     }
 
     private void onCancel() {
+        System.exit(0);
         dispose();
     }
 
-    public static void main(AccessVectorModel args, StatusDisplay sd) {
-        AddSecClassDialog dialog = new AddSecClassDialog();
+    // EFFECTS: call constructor to create dialog and display it
+    public static void main(StatusDisplay sd, GraphicInterface globalObjects) {
+        SaveWarningDialog dialog = new SaveWarningDialog(sd, globalObjects);
         dialog.pack();
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);

@@ -29,6 +29,10 @@ public class StatusDisplay {
         this.bundle = b;
     }
 
+    public ModifyStatus getModifyStatus() {
+        return modifyStatus;
+    }
+
     // EFFECTS: return if Psychosis should alarm User of unsaved changes;
     public boolean shouldAlarmUnsave() {
         return this.modifyStatus == ModifyStatus.MODIFIED;

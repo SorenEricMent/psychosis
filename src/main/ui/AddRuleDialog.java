@@ -3,6 +3,7 @@ package ui;
 import model.policy.AccessVectorModel;
 import model.policy.RuleAddable;
 import model.policy.RuleSetModel;
+import ui.async.Debouncer;
 import ui.closure.StatusDisplay;
 
 import javax.swing.*;

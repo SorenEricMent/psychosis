@@ -1,9 +1,7 @@
 package ui;
 
-import model.policy.AccessVectorModel;
-import model.policy.InterfaceSetModel;
-import model.policy.PolicyModuleModel;
-import model.policy.RuleSetModel;
+import model.Pair;
+import model.policy.*;
 import ui.closure.StatusDisplay;
 
 import javax.swing.*;
@@ -31,12 +29,14 @@ public class ModuleEditor {
     private JList statementList;
     private JButton addInterface;
     private JButton addStatementIf;
+    private JList callList;
     private final PolicyModuleModel bindedModule;
     private final String layer;
     private final String project;
     private final AccessVectorModel accessVector;
     private final StatusDisplay statusDisplay;
-    private final InterfaceSetModel interfaceSet;
+    private final InterfaceSetModel globalInfSet;
+    private final ModuleEditor self = this;
 
     // EFFECTS: create this new module editor panel from a module and its belonging
     public ModuleEditor(StatusDisplay sd, PolicyModuleModel p, AccessVectorModel av,
@@ -44,13 +44,16 @@ public class ModuleEditor {
         this.statusDisplay = sd;
         this.bindedModule = p;
         this.accessVector = av;
-        this.interfaceSet = ifs;
+        this.globalInfSet = ifs;
         this.layer = layer;
         this.project = project;
         moduleName.setText(bindedModule.getName());
         masterName.setText(layer + "." + project);
         teAddRuleBtnHandler();
         teAddCallBtnHandler();
+        ifAddEmptyIfHandler();
+        rebuildTeRuleList();
+        rebuildCallList();
         initExportTeBtn();
     }
 
@@ -73,6 +76,16 @@ public class ModuleEditor {
         });
     }
 
+    // EFFECTS: init click handler for add interface button in interface tab
+    private void ifAddEmptyIfHandler() {
+        addInterface.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                AddInterfaceDialog.main(statusDisplay, bindedModule.getInterfaceSet(), globalInfSet, self);
+            }
+        });
+    }
+
     // EFFECTS: init click handler for add call button in TE tab
     private void teAddCallBtnHandler() {
         addCallBtn.addActionListener(new ActionListener() {
@@ -84,7 +97,8 @@ public class ModuleEditor {
 
     }
 
-    private Void rebuildTeRuleList() {
+    // EFFECTS: rebuild the list showing all first-order statements
+    public Void rebuildTeRuleList() {
         String[] columns = {"Type", "Source", "Target", "Class", "Actions"};
         DefaultTableModel res = new DefaultTableModel(columns, 0);
 
@@ -103,15 +117,29 @@ public class ModuleEditor {
         return null;
     }
 
-    private void rebuildCallList() {
+    // EFFECTS: rebuild the list showing the interface calls from the interface
+    public void rebuildCallList() {
+        DefaultListModel<String> res = new DefaultListModel<String>();
+        for (Pair<String, String[]> call : this.bindedModule.getTypeEnf().getInterfaceCall()) {
+            res.addElement(call.getFirst() + "(" + String.join(",", call.getSecond()) + ")");
+        }
+        callList.setModel(res);
+    }
 
+    // EFFECTS: rebuild the interface list from the binded module, with InterfaceSetModule's order
+    public void rebuildIfList() {
+        DefaultListModel<String> res = new DefaultListModel<String>();
+        for (InterfaceModel call : this.bindedModule.getInterfaceSet().getInterfaces()) {
+            res.addElement(call.getName());
+        }
+        interfaceList.setModel(res);
     }
 
     private void initExportTeBtn() {
         exportTeBtn.addActionListener(actionEvent ->
                 new ExportTEDialog(statusDisplay, null, bindedModule.getTypeEnf(), false));
         exportTeCompBtn.addActionListener(actionEvent ->
-                new ExportTEDialog(statusDisplay, interfaceSet, bindedModule.getTypeEnf(), true));
+                new ExportTEDialog(statusDisplay, globalInfSet, bindedModule.getTypeEnf(), true));
     }
 
     // EFFECTS: custom create hook, rebuild the rule list and call list
@@ -128,6 +156,5 @@ public class ModuleEditor {
             data.get(data.size() - 1)[4] = r.getActions().toString();
         }
         ruleTable = new JTable(data.toArray(String[][]::new), columns);
-        rebuildCallList();
     }
 }

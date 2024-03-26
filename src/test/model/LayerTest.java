@@ -1,5 +1,6 @@
 package model;
 
+import model.exception.DuplicateException;
 import model.exception.NotFoundException;
 import model.policy.LayerModel;
 import model.policy.PolicyModuleModel;
@@ -25,6 +26,12 @@ public class LayerTest {
 
         l1.addPolicyModule(p1);
         l3.addPolicyModule(p1);
+    }
+
+    @Test
+    public void testDupAdd() {
+        ProjectModel proj = new TempProjectModel("cute yuuta");
+        assertThrows(DuplicateException.class, () -> {proj.addLayer("test");});
     }
 
     @Test

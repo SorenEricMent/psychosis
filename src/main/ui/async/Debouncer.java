@@ -1,4 +1,4 @@
-package ui;
+package ui.async;
 
 import java.util.concurrent.*;
 

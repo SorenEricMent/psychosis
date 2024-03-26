@@ -20,8 +20,18 @@ public class WarningDialog extends JDialog {
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
 
-        warningInfo.setText(info);
+        buttonOK.addActionListener(e -> onCancel());
+        buttonCancel.addActionListener(e -> onCancel());
 
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                onCancel();
+            }
+        });
+
+
+        warningInfo.setText(info);
     }
 
     // EFFECTS: constructor for with-callback call

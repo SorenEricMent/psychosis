@@ -7,7 +7,9 @@ public class AddCallDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JTextField textField1;
+    private JLabel lookupStatus;
+    private JComboBox comboBox1;
+    private JTable previewTable;
 
     public AddCallDialog() {
         setContentPane(contentPane);
