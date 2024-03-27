@@ -11,6 +11,7 @@ public class SaveWarningDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
+    private JButton neButton;
     private JFileChooser fileChooser;
     private final GraphicInterface globalObjects;
     private final StatusDisplay statusDisplay;
@@ -22,6 +23,8 @@ public class SaveWarningDialog extends JDialog {
         this.globalObjects = globalObjects;
         this.statusDisplay = sd;
         buttonOK.addActionListener(e -> onOK());
+
+        neButton.addActionListener(e -> System.exit(0));
 
         buttonCancel.addActionListener(e -> onCancel());
 
@@ -45,7 +48,6 @@ public class SaveWarningDialog extends JDialog {
     }
 
     private void onCancel() {
-        System.exit(0);
         dispose();
     }
 

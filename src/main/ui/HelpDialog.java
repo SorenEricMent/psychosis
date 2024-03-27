@@ -17,6 +17,7 @@ public class HelpDialog extends JDialog {
     private JLabel debugContent;
     private JLabel logo;
     private JLabel title;
+    private JButton gcButton;
     private int yuutaIndex = 0;
 
     private final KeyEventDispatcher fnEaster = (keyEvent) -> {
@@ -43,6 +44,7 @@ public class HelpDialog extends JDialog {
         getRootPane().setDefaultButton(buttonClose);
 
         buttonClose.addActionListener(e -> onOK());
+        gcButton.addActionListener(e -> System.gc());
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);

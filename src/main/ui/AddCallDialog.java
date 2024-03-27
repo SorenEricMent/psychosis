@@ -21,11 +21,11 @@ public class AddCallDialog extends JDialog {
     private JButton buttonCancel;
     private JLabel lookupStatus;
     private JComboBox<String> interfaceCombo;
-    private JTable previewTable;
     private JButton addParamBtn;
     private JTextField paramData;
     private JLabel paramList;
     private JLabel paramCount;
+    private JTextArea previewPane;
     private final InterfaceSetModel globalSet;
     private final StatusDisplay sd;
     private final ModuleEditor editor;
@@ -70,13 +70,21 @@ public class AddCallDialog extends JDialog {
     // notice that there is no if interface exists check as it is not syntactically wrong
     private void onOK() {
         target.addInterfaceCall(interfaceCombo.getEditor().getItem().toString(), addParams.toArray(String[]::new));
+        editor.rebuildCallList();
+        try {
+            previewPane.setText(globalSet
+                    .getInterface(interfaceCombo.getEditor().getItem().toString())
+                    .call(addParams.stream().toArray(String[]::new))
+                    .toString());
+        } catch (NotFoundException e) {
+            //Do nothing
+        }
         sd.modificationHappened();
         dispose();
     }
 
     // EFFECTS: quit the dialog
     private void onCancel() {
-        // add your code here if necessary
         dispose();
     }
 
@@ -129,7 +137,7 @@ public class AddCallDialog extends JDialog {
             lookupStatus.setText(inf.getOwner());
             // TODO: update table
         } catch (NotFoundException e) {
-            // Clear the preview
+            // Clear the
         }
     }
 

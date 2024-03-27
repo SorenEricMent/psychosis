@@ -29,6 +29,7 @@ public class MainContainer {
     private JComboBox langCombo;
     private JButton quitApplicationBtn;
     private JLabel appTitle;
+    private JPanel titlePanel;
 
     private final GraphicInterface globalObjects;
 
@@ -130,9 +131,9 @@ public class MainContainer {
     // EFFECTS: call and init the whole toolbar
     private void topToolbar() {
         appTitle.setText("Psychosis Studio " + Main.getVersion());
+        initWindowMove();
         topToolbarFile();
         topToolbarHelp();
-        initWindowMove();
         initQuitBtn();
     }
 
@@ -211,7 +212,8 @@ public class MainContainer {
         fileBtn.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 if (e.getButton() == 1) {
-                    filePopup.show(e.getComponent(), fileBtn.getX(), fileBtn.getY() + fileBtn.getHeight());
+                    filePopup.show(e.getComponent(), fileBtn.getX() - titlePanel.getWidth(),
+                            fileBtn.getY() + fileBtn.getHeight());
                 }
             }
         });

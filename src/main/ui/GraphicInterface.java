@@ -279,7 +279,7 @@ public class GraphicInterface {
     private void initWindow() {
         mainWindow = new JFrame("Psychosis Studio " + Main.getVersion());
         mainContainer = new MainContainer(this);
-        ImageIcon img = new ImageIcon("./data/resources/logo.jpg");
+        ImageIcon img = new ImageIcon("./data/resources/logo1024.png");
 
         mainWindow.setIconImage(img.getImage());
 
