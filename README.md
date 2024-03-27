@@ -92,14 +92,25 @@ On the left side, you will see a tree, the structure of this tree is Root-Projec
 On the bottom-right of the editor, you will have a status indicator showing if any unsaved changes have been made and if Psychosis is busy, this is still in development and might not capture some(most) specific edits.
 ### Project Editing
 You can create new Projects with "Create Project" button in the greeting page, which can be navigated by clicking Projects in the Tree, Since no live saving is required and Psychosis didn't do diff-based editing, the create project option now only have the option to create a new empty project in memory.
-You can add multiple layers to the project in the project editing page, 
+You can add multiple layers to the project in the project editing page.
+
+After you clicked a project in the tree, you will be greeted with its editing panel, it will show you the layer/module count for it, a button to add new layer - clicking it will give you a dialog to add new empty unique layer, the list of capabilities - clicking on it will switch the capability status of that row, Security Vector section - the list of security classes and vectors, clicking on a security class will display its vectors on the right side, buttons to add new class or access vector, a button to load external access vector definition (not finished), and a button to load builtin, newest refpolicy definition.
 ### Layer Editing
 You can add multiple modules to a layer in the layer editing page
 You can remove them with the popup menu poped on right click
 ### Module Editing
+You can edit the three core aspects of a SELinux Module by clicking the module in the tree, 
+after selected a module, you will be greeted with a three-tabbed panel
 #### Type Enforcement
-
-You can edit the three core aspects of a SELinux Module by clicking the module in the tree
+You can export the current .te file, or compiled and export, with the button at the bottom-right
 ##### Adding new rules
+At the Type Enforcement panel, you can add new first order rules to the policy module, rules that are the same in the 4-tuple will be automatically merged, the way you add action is - you will need to have that class defined, and you will be able to search for its access vector definition for action by typing its name in the class section, and you can click "Add action" to add the action showed in the combo box, the search is debounced.
 ##### Adding new interface call
-
+Adding new interface call is similar to adding a rule, you type in interface's name and you will be able to search interface defined project-wide, the way you add param is also similar to the way you add action to rules. You will be showed the preview of the function call(todo)
+#### Interface
+In the interface tab, you will be showed the list of this module's interfaces, by click
+You can import a SELinux .if file in the button below and it will overwrite all interfaces declared.
+You can add new empty interface with the buttom below
+Clicking on a interface will show you its rules at the right side, you will be able to add rules the same way you add rules in Type Enforcement
+#### File Context
+No relevant functionality for this stage
