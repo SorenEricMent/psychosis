@@ -195,16 +195,18 @@ public class ProjectEditor {
             @Override
             public void mouseReleased(MouseEvent e) {
                 super.mouseClicked(e);
-                String capString = capabilityTable.getValueAt(capabilityTable.getSelectedRow(), 0).toString();
-                String status = capabilityTable.getValueAt(capabilityTable.getSelectedRow(), 1).toString();
-                try {
-                    bindedProject.updateCapability(ProjectModel.strToCapability(capString),
-                            !status.equals("true"));
-                    capabilityTable.getModel().setValueAt(!status.equals("true") ? "true" : "false",
-                            capabilityTable.getSelectedRow(), 1);
-                    sd.modificationHappened();
-                } catch (UnknownCapabilityException ex) {
-                    WarningDialog.main(ex.getMessage());
+                if (capabilityTable.getSelectedRow() != -1) {
+                    String capString = capabilityTable.getValueAt(capabilityTable.getSelectedRow(), 0).toString();
+                    String status = capabilityTable.getValueAt(capabilityTable.getSelectedRow(), 1).toString();
+                    try {
+                        bindedProject.updateCapability(ProjectModel.strToCapability(capString),
+                                !status.equals("true"));
+                        capabilityTable.getModel().setValueAt(!status.equals("true") ? "true" : "false",
+                                capabilityTable.getSelectedRow(), 1);
+                        sd.modificationHappened();
+                    } catch (UnknownCapabilityException ex) {
+                        WarningDialog.main(ex.getMessage());
+                    }
                 }
             }
         });
