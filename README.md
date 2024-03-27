@@ -73,11 +73,15 @@ Psychosis has i18n support with EO, FR and EN
 Psychosis's language is by default Esperanto. Psychosis also support English/French and will switch to it if the current language is a variation of it. You can select the language at the top-right corner of toolbar, but it will require a reboot. 
 
 ### Top bar
-#### Help
+##### Help
 For the "Help" button in the top bar, clicking it will bring you a dialog containing about info and debug info.
 Inputting yuuta will trigger an easter egg uwu :heart: 
-#### Files
+##### Files
 Contained some common file operations, like import/export project and workspace
+##### Quit
+Literally quit the application, warn the user if the workspace is not saved
+##### SEStatus
+There is an indicator after the Help button to indicate current system's SELinux status, on non-linux platforms it will be green and "SELinux Not Available", on Linux system, if SELinux is not in LSM, it will be displayed as "SELinux Disabled", And if SELinux is in LSM, it will judge and display SELinux enforcing status.
 ### Workspaces & Projects operations
 After booting up Psychosis, you will be greeted with a "no project selected" page. At this page, you can click "Load Project" / "Load Workspace" to load a single project or recover from a previous working state. Alternatively, those options are also available on the "File" menu in the top toolbar. 
 On the left side, you will see a tree, the structure of this tree is Root-Project-Layer-Module, clicking at the Root will bring you to the welcome page, clicking the rest will bring you to the corresponding editing page (Editing Project/Layer/Module). 

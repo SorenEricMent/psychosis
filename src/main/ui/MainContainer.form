@@ -99,6 +99,15 @@
               <text resource-bundle="resources/PsychosisResource" key="MainContainer.top.help"/>
             </properties>
           </component>
+          <component id="80acd" class="javax.swing.JLabel" binding="seStatus">
+            <constraints/>
+            <properties>
+              <font size="16"/>
+              <foreground color="-3145189"/>
+              <icon value="resources/icons/shield-off-custom-red.png"/>
+              <text value="SELinux Not Enabled"/>
+            </properties>
+          </component>
           <component id="23f8d" class="javax.swing.JComboBox" binding="langCombo">
             <constraints/>
             <properties>
@@ -107,11 +116,33 @@
               <preferredSize width="148" height="32"/>
             </properties>
           </component>
+          <hspacer id="568a2">
+            <constraints/>
+          </hspacer>
+          <component id="bf483" class="javax.swing.JButton" binding="minimizeBtn">
+            <constraints/>
+            <properties>
+              <focusPainted value="false"/>
+              <focusable value="false"/>
+              <icon value="resources/icons/window-minimize-custom.png"/>
+              <maximumSize width="32" height="36"/>
+              <minimumSize width="32" height="36"/>
+              <preferredSize width="32" height="32"/>
+              <requestFocusEnabled value="false"/>
+              <text value=""/>
+            </properties>
+          </component>
           <component id="836d2" class="javax.swing.JButton" binding="quitApplicationBtn">
             <constraints/>
             <properties>
-              <preferredSize width="96" height="32"/>
-              <text value="Quit"/>
+              <focusPainted value="false"/>
+              <focusable value="false"/>
+              <icon value="resources/icons/close-custom.png"/>
+              <maximumSize width="32" height="36"/>
+              <minimumSize width="32" height="36"/>
+              <preferredSize width="32" height="32"/>
+              <requestFocusEnabled value="false"/>
+              <text value=""/>
             </properties>
           </component>
         </children>

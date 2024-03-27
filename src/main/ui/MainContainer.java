@@ -1,5 +1,6 @@
 package ui;
 
+import model.CustomReader;
 import ui.closure.StatusDisplay;
 
 import javax.swing.*;
@@ -9,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.concurrent.Callable;
@@ -30,6 +33,8 @@ public class MainContainer {
     private JButton quitApplicationBtn;
     private JLabel appTitle;
     private JPanel titlePanel;
+    private JLabel seStatus;
+    private JButton minimizeBtn;
 
     private final GraphicInterface globalObjects;
 
@@ -50,7 +55,7 @@ public class MainContainer {
         initLangCombo();
 
         statusBoxed = new StatusDisplay(getBundle(), statusPanel, progressBar, status, modified);
-        globalToolbar.add(Box.createHorizontalGlue(), globalToolbar.getComponentCount() - 2);
+        globalToolbar.add(Box.createHorizontalGlue(), globalToolbar.getComponentCount() - 4);
     }
 
     public StatusDisplay getStatusBoxed() {
@@ -134,21 +139,51 @@ public class MainContainer {
         initWindowMove();
         topToolbarFile();
         topToolbarHelp();
+        topToolbarSeStat();
         initQuitBtn();
+    }
+
+    // EFFECTS: update seStatus based on selinux status and operating system
+    @SuppressWarnings({"checkstyle:MethodLength", "checkstyle:SuppressWarnings"})
+    private void topToolbarSeStat() {
+        if (System.getProperty("os.name").toLowerCase().equals("linux")) {
+            try {
+                if (CustomReader.readAsWhole(new File("/sys/kernel/security/lsm")).contains("selinux")) {
+                    if (CustomReader.readAsWholeCode(new File("/sys/fs/selinux/enforce")).getFirst().equals("1")) {
+                        seStatus.setIcon(new ImageIcon("./data/resources/icons/security-custom-green.png"));
+                        seStatus.setText("SELinux Enforced");
+                        seStatus.setForeground(new Color(126, 211, 33));
+                    } else {
+                        seStatus.setIcon(new ImageIcon("./data/resources/icons/security-custom-yellow.png"));
+                        seStatus.setText("SELinux Permissive");
+                        seStatus.setForeground(new Color(248, 231, 38));
+                    }
+                } else {
+                    // Linux with no SELinux
+                    seStatus.setIcon(new ImageIcon("./data/resources/icons/shield-off-custom-red.png"));
+                    seStatus.setText("SELinux Disabled");
+                    seStatus.setForeground(new Color(208, 2, 27));
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            seStatus.setIcon(new ImageIcon("./data/resources/icons/shield-off-custom-green.png"));
+            seStatus.setText("SELinux Not Available");
+            seStatus.setForeground(new Color(126, 211, 33));
+        }
     }
 
     // EFFECTS: Add event handler of quitting the app to quitApplicationBtn
     private void initQuitBtn() {
-        quitApplicationBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                if (statusBoxed.shouldAlarmUnsave()) {
-                    SaveWarningDialog.main(statusBoxed, globalObjects);
-                } else {
-                    System.exit(0);
-                }
+        quitApplicationBtn.addActionListener(actionEvent -> {
+            if (statusBoxed.shouldAlarmUnsave()) {
+                SaveWarningDialog.main(statusBoxed, globalObjects);
+            } else {
+                System.exit(0);
             }
         });
+        minimizeBtn.addActionListener(actionEvent -> globalObjects.getMainWindow().setState(Frame.ICONIFIED));
     }
 
     // EFFECTS: add drag event listener to topToolbar and make the main window update position
