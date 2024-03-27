@@ -82,7 +82,8 @@ public class MainContainer {
         return projectPlaceholder;
     }
 
-    // EFFECTS: init action listener for language switch
+    // EFFECTS: init action listener for language switch that restart the program with new locale
+    // after switch
     private void initLangCombo() {
         langCombo.addItem("Esperanto");
         langCombo.addItem("English");

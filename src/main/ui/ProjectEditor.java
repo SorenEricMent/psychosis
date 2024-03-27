@@ -10,6 +10,8 @@ import ui.closure.StatusDisplay;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -56,6 +58,7 @@ public class ProjectEditor {
         initAddSecClassBtn();
         initAddVecBtn();
         initLoadBuiltinBtn();
+        initLoadExVecBtn();
         initSecVecListBinding();
         initAddSecVecBtn();
         initCapabilityTableSelect();
@@ -101,23 +104,30 @@ public class ProjectEditor {
         });
     }
 
-    // EFFECTS: add event listener for loading builtin definition button
+    // EFFECTS: add event listener for loading builtin definition button, the listener
+    // load access vector files from a constant path and overwrite the original definition
+    // MODIFIES: bindedProject, (side-effect) sd
     private void initLoadBuiltinBtn() {
-        loadBuiltinBtn.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                try {
-                    bindedProject.setAccessVectors(TerminalInterface
-                            .loadAccessVectors(Main.DEFAULT_ACCESS_VEC_PATH, Main.DEFAULT_SEC_CLASS_PATH));
-                    sd.modificationHappened();
-                } catch (IOException ex) {
-                    WarningDialog.main("Failed to load built-in file, check ./data , error: " + ex.getMessage());
-                } catch (SyntaxParseException ex) {
-                    WarningDialog.main("Broken syntax in built-in file, should not happen! " + ex.getMessage());
-                }
-                refreshSecClassList();
+        loadBuiltinBtn.addActionListener(actionEvent -> {
+            try {
+                bindedProject.setAccessVectors(TerminalInterface
+                        .loadAccessVectors(Main.DEFAULT_ACCESS_VEC_PATH, Main.DEFAULT_SEC_CLASS_PATH));
+                sd.modificationHappened();
+            } catch (IOException ex) {
+                WarningDialog.main("Failed to load built-in file, check ./data , error: " + ex.getMessage());
+            } catch (SyntaxParseException ex) {
+                WarningDialog.main("Broken syntax in built-in file, should not happen! " + ex.getMessage());
             }
+            refreshSecClassList();
+        });
+    }
+
+    // EFFECTS: init the event listener for loading external definition button, which brings up the LoadSecVecDialog
+    // and load access vector with two files
+    // MODIFIES: bindedProject, (side-effect) sd
+    private void initLoadExVecBtn() {
+        loadExVecBtn.addActionListener(actionEvent -> {
+
         });
     }
 
