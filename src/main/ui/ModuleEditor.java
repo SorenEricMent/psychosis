@@ -77,13 +77,15 @@ public class ModuleEditor {
 
     // EFFECTS: init click handler for add interface button in interface tab
     private void ifAddEmptyIfHandler() {
-        addInterface.addActionListener(actionEvent -> AddInterfaceDialog.main(statusDisplay, bindedModule.getInterfaceSet(), globalInfSet,
+        addInterface.addActionListener(actionEvent ->
+                AddInterfaceDialog.main(statusDisplay, bindedModule.getInterfaceSet(), globalInfSet,
                 bindedModule.getName(), self));
     }
 
     // EFFECTS: init click handler for add call button in TE tab
     private void teAddCallBtnHandler() {
-        addCallBtn.addActionListener(actionEvent -> AddCallDialog.main(statusDisplay, globalInfSet, self, bindedModule.getTypeEnf()));
+        addCallBtn.addActionListener(actionEvent ->
+                AddCallDialog.main(statusDisplay, globalInfSet, self, bindedModule.getTypeEnf()));
 
     }
 
