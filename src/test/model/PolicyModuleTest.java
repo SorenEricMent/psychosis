@@ -39,4 +39,11 @@ public class PolicyModuleTest {
         p1.setTypeEnfObject(test);
         assertEquals(test, p1.getTypeEnf());
     }
+
+    @Test
+    public void testSetInfSet() {
+        InterfaceSetModel test = new InterfaceSetModel();
+        p1.setInterfaceObject(test);
+        assertEquals(test, p1.getInterfaceSet());
+    }
 }

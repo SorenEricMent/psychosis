@@ -237,4 +237,15 @@ public class InterfaceTest {
         // Only for coverage, it is internally managed and can't really be tested
         // the getter is only used for tracking global set of interfaces
     }
+    @Test
+    public void testInterfaceOwner() {
+        InterfaceSetModel test = new InterfaceSetModel();
+        test.addInterface(i1);
+        test.addInterface(i2);
+        test.addInterface(i3);
+        test.setOwners("winslow");
+        assertEquals("winslow", i1.getOwner());
+        assertEquals("winslow", i2.getOwner());
+        assertEquals("winslow", i3.getOwner());
+    }
 }
