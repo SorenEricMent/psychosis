@@ -32,4 +32,11 @@ public class PolicyModuleTest {
         assertEquals("p1", p1.getTypeEnf().getName());
         assertEquals("p2", p2.getTypeEnf().getName());
     }
+
+    @Test
+    public void testSetTypeEnf() {
+        TypeEnfModel test = new TypeEnfModel("test");
+        p1.setTypeEnfObject(test);
+        assertEquals(test, p1.getTypeEnf());
+    }
 }

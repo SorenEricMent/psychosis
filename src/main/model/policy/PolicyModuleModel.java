@@ -10,7 +10,7 @@ package model.policy;
 public class PolicyModuleModel {
     private final String name;
 
-    private final TypeEnfModel typeEnfObject;
+    private TypeEnfModel typeEnfObject;
     private FileContextModel fileContentObject =
             new FileContextModel();
     private InterfaceSetModel interfaceObject =
@@ -63,6 +63,10 @@ public class PolicyModuleModel {
 
     public TypeEnfModel getTypeEnf() {
         return this.typeEnfObject;
+    }
+
+    public void setTypeEnfObject(TypeEnfModel typeEnfObject) {
+        this.typeEnfObject = typeEnfObject;
     }
 
     // EFFECTS: remove the interface with name (proxy call to interface set's removeInterface)

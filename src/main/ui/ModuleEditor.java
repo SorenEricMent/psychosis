@@ -194,11 +194,16 @@ public class ModuleEditor {
         });
     }
 
+    // EFFECTS: create the event handler for export type enf file button and bind it
     private void initExportTeBtn() {
         exportTeBtn.addActionListener(actionEvent ->
                 new ExportTEDialog(statusDisplay, null, bindedModule.getTypeEnf(), false));
         exportTeCompBtn.addActionListener(actionEvent ->
                 new ExportTEDialog(statusDisplay, globalInfSet, bindedModule.getTypeEnf(), true));
+    }
+
+    private void initImportIfBtn() {
+
     }
 
     // EFFECTS: custom create hook, rebuild the rule list and call list

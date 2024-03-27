@@ -6,8 +6,12 @@ import model.policy.PolicyModuleModel;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.tree.TreePath;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Arrays;
 
 // The editor panel for a specific layer, one instance for every layer
 public class LayerEditor {
@@ -17,7 +21,7 @@ public class LayerEditor {
     private JLabel projectName;
     private JLabel layerName;
     private JLabel title2;
-    private JList moduleList;
+    private JList<String> moduleList;
     private JLabel numberModule;
     private JButton addModuleBtn;
     private final LayerModel layer;
@@ -36,7 +40,8 @@ public class LayerEditor {
 
         JPopupMenu modulePopup = new JPopupMenu("");
         modulePopup.setOpaque(true);
-        JMenuItem removeModuleOption = new JMenuItem("Remove Module");
+        JMenuItem removeModuleOption = new
+                JMenuItem(globalObject.getMainContainer().getReflectiveResource("LayerEditor.popup.remove_module"));
 
         moduleList.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
@@ -45,10 +50,26 @@ public class LayerEditor {
                 }
             }
         });
+        initRemoveModulePopup(removeModuleOption);
+
         modulePopup.add(removeModuleOption);
         modulePopup.pack();
 
         reloadModuleList();
+    }
+
+    // EFFECTS: init the event handler for module list right-click
+    private void initRemoveModulePopup(JMenuItem target) {
+        target.addActionListener(actionEvent -> {
+            String moduleName = moduleList.getSelectedValue();
+            layer.removePolicyModule(moduleName);
+            TreePath prevPath = globalObject.getMainContainer().getProjectList().getSelectionPath();
+            globalObject.rebuildWholeProjectTree();
+            globalObject.getMainContainer().getProjectList().scrollPathToVisible(new TreePath(
+                    Arrays.copyOfRange(prevPath.getPath(), 0, prevPath.getPath().length - 1)
+            ));
+            reloadModuleList();
+        });
     }
 
     // EFFECTS: for init the module list with modules in layer
