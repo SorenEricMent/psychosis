@@ -16,6 +16,7 @@
           <gridbag weightx="1.8" weighty="1.0"/>
         </constraints>
         <properties>
+          <doubleBuffered value="true"/>
           <font size="20"/>
           <minimumSize width="500" height="476"/>
           <preferredSize width="588" height="452"/>
@@ -149,7 +150,9 @@
                   </grid>
                   <gridbag weightx="1.0" weighty="1.0"/>
                 </constraints>
-                <properties/>
+                <properties>
+                  <selectionBackground color="-13670965"/>
+                </properties>
               </component>
               <component id="ac843" class="javax.swing.JLabel">
                 <constraints>
@@ -160,15 +163,6 @@
                   <font size="20"/>
                   <text resource-bundle="resources/PsychosisResource" key="ModuleEditor.interfaces.title"/>
                 </properties>
-              </component>
-              <component id="1b0b2" class="javax.swing.JList" binding="statementList">
-                <constraints>
-                  <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="50"/>
-                  </grid>
-                  <gridbag weightx="1.0" weighty="1.0"/>
-                </constraints>
-                <properties/>
               </component>
               <component id="40943" class="javax.swing.JButton" binding="addInterface">
                 <constraints>
@@ -192,6 +186,24 @@
                 <constraints>
                   <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                   <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="2e5ad" class="javax.swing.JButton" binding="infImportBtn">
+                <constraints>
+                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <text resource-bundle="resources/PsychosisResource" key="ModuleEditor.interface.button.import"/>
+                </properties>
+              </component>
+              <component id="85a1e" class="javax.swing.JTable" binding="infRuleTable">
+                <constraints>
+                  <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="50"/>
+                  </grid>
+                  <gridbag weightx="1.0" weighty="0.0"/>
                 </constraints>
                 <properties/>
               </component>

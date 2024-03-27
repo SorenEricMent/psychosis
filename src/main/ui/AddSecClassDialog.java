@@ -4,12 +4,15 @@ import model.policy.AccessVectorModel;
 import ui.closure.StatusDisplay;
 
 import javax.swing.*;
-import java.awt.event.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class AddSecClassDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
+    private JTextField secClassName;
 
     public AddSecClassDialog() {
         setContentPane(contentPane);

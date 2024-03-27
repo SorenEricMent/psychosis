@@ -1,6 +1,5 @@
 package ui.async;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
@@ -11,6 +10,9 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+// File writer on a separate thread, locked per path
+// Experimental, not yet used.
+
 public class AsyncWriter {
 
     private final HashMap<String, Lock> fileLock;
@@ -19,7 +21,8 @@ public class AsyncWriter {
         fileLock = new HashMap<>();
     }
 
-    //File file, String content, Callable<Void> postHook
+    // EFFECTS: write to path with content, call posthool after finish, use progressupdate to update
+    // a JProgressBar with percentage
     public void write(String path, String content, Callable<Void> postHook, ProgressUpdate progress) {
         if (!fileLock.containsKey(path)) {
             Lock newLock = new ReentrantLock();
@@ -32,7 +35,7 @@ public class AsyncWriter {
         }
         // Now lock must have been acquired
         try (RandomAccessFile file = new RandomAccessFile(path, "w");
-                FileChannel channel = file.getChannel()) {
+             FileChannel channel = file.getChannel()) {
             FileLock writeLock;
             try {
                 writeLock = channel.tryLock();

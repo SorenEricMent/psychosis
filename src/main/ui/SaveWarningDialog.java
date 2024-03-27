@@ -3,7 +3,9 @@ package ui;
 import ui.closure.StatusDisplay;
 
 import javax.swing.*;
-import java.awt.event.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class SaveWarningDialog extends JDialog {
     private JPanel contentPane;
@@ -11,12 +13,14 @@ public class SaveWarningDialog extends JDialog {
     private JButton buttonCancel;
     private JFileChooser fileChooser;
     private final GraphicInterface globalObjects;
+    private final StatusDisplay statusDisplay;
 
     public SaveWarningDialog(StatusDisplay sd, GraphicInterface globalObjects) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
         this.globalObjects = globalObjects;
+        this.statusDisplay = sd;
         buttonOK.addActionListener(e -> onOK());
 
         buttonCancel.addActionListener(e -> onCancel());
@@ -34,7 +38,7 @@ public class SaveWarningDialog extends JDialog {
     }
 
     private void onOK() {
-        new SaveWorkspaceDialog(this.globalObjects);
+        new SaveWorkspaceDialog(this.statusDisplay, this.globalObjects);
         dispose();
         System.exit(0);
     }

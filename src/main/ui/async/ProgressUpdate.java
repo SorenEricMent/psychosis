@@ -1,6 +1,7 @@
 package ui.async;
 
+// Not yet used
 @FunctionalInterface
 public interface ProgressUpdate {
-    public void update(int percentage);
+    void update(int percentage);
 }

@@ -69,16 +69,27 @@ As a user, I want to be able to:
 Please run Psychosis with the given JVM parameters.
 If you want to build Psychosis to a binary with Gradle, you'll need to switch the GUI designer's working mode to source code, fix some broken ResourceBundle import (Bug in IDEA), rebuild the project with IDEA and finally use `gradle build`
 #### Language
-Psychosis has i18n support with EO and EN
-Psychosis's language is by default Esperanto. Psychosis also support English and will switch to it if the current language is a variation of it. If you want to force Psychosis to use English, run the program with LANG=en_US.UTF-8
+Psychosis has i18n support with EO, FR and EN
+Psychosis's language is by default Esperanto. Psychosis also support English/French and will switch to it if the current language is a variation of it. You can select the language at the top-right corner of toolbar, but it will require a reboot. 
+
+### Top bar
 #### Help
 For the "Help" button in the top bar, clicking it will bring you a dialog containing about info and debug info.
 Inputting yuuta will trigger an easter egg uwu :heart: 
-#### Workspaces & Projects operations
+#### Files
+Contained some common file operations, like import/export project and workspace
+### Workspaces & Projects operations
 After booting up Psychosis, you will be greeted with a "no project selected" page. At this page, you can click "Load Project" / "Load Workspace" to load a single project or recover from a previous working state. Alternatively, those options are also available on the "File" menu in the top toolbar. 
 On the left side, you will see a tree, the structure of this tree is Root-Project-Layer-Module, clicking at the Root will bring you to the welcome page, clicking the rest will bring you to the corresponding editing page (Editing Project/Layer/Module). 
 
+#### Status panel
+On the bottom-right of the editor, you will have a status indicator showing if any unsaved changes have been made and if Psychosis is busy, this is still in development and might not capture some specific edits.
 #### Project Editing
-
+You can create new Projects with "Create Project" button in the greeting page, which can be navigated by clicking Projects in the Tree, Since no live saving is required and Psychosis didn't do diff-based editing, the create project option now only have the option to create a new empty project in memory.
+You can add multiple layers to the project in the project editing page, 
 #### Layer Editing
+You can add multiple modules to a layer in the layer editing page, 
 #### Module Editing
+You can edit the three core aspects of a SELinux Module by clicking the module in the tree
+##### Adding new rules
+

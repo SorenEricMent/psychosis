@@ -6,17 +6,19 @@ import model.policy.InterfaceSetModel;
 import ui.closure.StatusDisplay;
 
 import javax.swing.*;
-import java.awt.event.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class AddInterfaceDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
     private JTextField interfaceName;
-    private StatusDisplay sd;
-    private InterfaceSetModel interfaceSet;
-    private InterfaceSetModel globalSet;
-    private ModuleEditor editor;
+    private final StatusDisplay sd;
+    private final InterfaceSetModel interfaceSet;
+    private final InterfaceSetModel globalSet;
+    private final ModuleEditor editor;
 
     // EFFECTS: init the add interface dialog and basic listeners
     public AddInterfaceDialog(StatusDisplay sd, InterfaceSetModel interfaceSet, InterfaceSetModel globalSet, ModuleEditor editor) {

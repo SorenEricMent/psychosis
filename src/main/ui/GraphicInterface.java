@@ -23,7 +23,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-// The class to create and manage the main window of Psychosis
+// The class to create and manage the main window of Psychosis, also contained some
+// global states shared across components
 public class GraphicInterface {
     private ArrayList<
             Pair<ProjectModel, TrackerModel>> loadedProjects = new ArrayList<>();

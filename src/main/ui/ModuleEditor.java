@@ -5,6 +5,8 @@ import model.policy.*;
 import ui.closure.StatusDisplay;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,13 +25,14 @@ public class ModuleEditor {
     private JButton teAddRuleBtn;
     private JButton addCallBtn;
     private JTable ruleTable;
-    private JList interfaceList;
+    private JList<String> interfaceList;
     private JButton exportTeBtn;
     private JButton exportTeCompBtn;
-    private JList statementList;
     private JButton addInterface;
     private JButton addStatementIf;
-    private JList callList;
+    private JList<String> callList;
+    private JButton infImportBtn;
+    private JTable infRuleTable;
     private final PolicyModuleModel bindedModule;
     private final String layer;
     private final String project;
@@ -54,7 +57,10 @@ public class ModuleEditor {
         ifAddEmptyIfHandler();
         rebuildTeRuleList();
         rebuildCallList();
+        rebuildIfList();
         initExportTeBtn();
+        interfaceCallAssociation();
+        initIfAddRuleBtn();
     }
 
     public JPanel getModuleEditorPanel() {
@@ -91,7 +97,7 @@ public class ModuleEditor {
         addCallBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                AddCallDialog.main();
+                AddCallDialog.main(statusDisplay, globalInfSet);
             }
         });
 
@@ -126,6 +132,36 @@ public class ModuleEditor {
         callList.setModel(res);
     }
 
+    // EFFECTS: bind the event handler to make the right a preview of clicked interface's rules
+    // MODIFIES: statementList
+    public void interfaceCallAssociation() {
+        interfaceList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent listSelectionEvent) {
+                if (interfaceList.getSelectedValue() != null) {
+                    rebuildIfCallList(bindedModule.getInterface(interfaceList.getSelectedValue()));
+                } else {
+                    rebuildIfCallList(new InterfaceModel("_internal_clear", false));
+                }
+            }
+        });
+    }
+
+    // EFFECTS: rebuild the call table preview with an InterfaceModel
+    public void rebuildIfCallList(InterfaceModel inf) {
+        DefaultTableModel res = new DefaultTableModel(0, 5);
+        for (RuleSetModel r : inf.getRuleSetModels()) {
+            String[] data = new String[5];
+            data[0] = r.getRuleType().toString();
+            data[1] = r.getSourceContext();
+            data[2] = r.getTargetContext();
+            data[3] = r.getTargetClass();
+            data[4] = r.getActions().toString();
+            res.addRow(data);
+        }
+        infRuleTable.setModel(res);
+    }
+
     // EFFECTS: rebuild the interface list from the binded module, with InterfaceSetModule's order
     public void rebuildIfList() {
         DefaultListModel<String> res = new DefaultListModel<String>();
@@ -133,6 +169,31 @@ public class ModuleEditor {
             res.addElement(call.getName());
         }
         interfaceList.setModel(res);
+    }
+
+    // EFFECTS: init the event handler for add rule button in if tab.
+    // If none selected, warn the user, else call AddRuleDialog
+    private void initIfAddRuleBtn() {
+        addStatementIf.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                if (interfaceList.getSelectedIndex() == -1) {
+                    WarningDialog.main("No interface selected.");
+                } else {
+                    InterfaceModel addTarget = bindedModule.getInterface(interfaceList.getSelectedValue());
+                    AddRuleDialog.main(statusDisplay,
+                            addTarget,
+                            new Callable<Void>() {
+                                @Override
+                                public Void call() throws Exception {
+                                    statusDisplay.modificationHappened();
+                                    rebuildIfCallList(addTarget);
+                                    return null;
+                                }
+                            }, accessVector, false);
+                }
+            }
+        });
     }
 
     private void initExportTeBtn() {

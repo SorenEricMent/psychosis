@@ -3,6 +3,7 @@ package ui;
 import model.CustomReader;
 import model.Pair;
 import persistence.Workspace;
+import ui.closure.StatusDisplay;
 
 import javax.swing.*;
 import java.io.File;
@@ -15,9 +16,12 @@ import java.util.stream.Collectors;
 public class SaveWorkspaceDialog extends JDialog {
     private final JFileChooser saveWorkspaceChooser;
     private final GraphicInterface globalObjects;
+    private final StatusDisplay statusDisplay;
+
 
     // EFFECTS: init the workspace dialog and init the handling logic for approve/cancel
-    public SaveWorkspaceDialog(GraphicInterface globalObjects) {
+    public SaveWorkspaceDialog(StatusDisplay sd, GraphicInterface globalObjects) {
+        this.statusDisplay = sd;
         this.globalObjects = globalObjects;
         saveWorkspaceChooser = new JFileChooser(System.getProperty("user.dir"));
         saveWorkspaceChooser.setDialogTitle("Saving all states to a workspace.json");
@@ -31,6 +35,7 @@ public class SaveWorkspaceDialog extends JDialog {
             Workspace workspaceToSave = generateWorkspace(this.globalObjects);
             try {
                 CustomReader.writeToFile(fileToSave, workspaceToSave.toStringCompiled());
+                statusDisplay.saveHappened();
             } catch (IOException e) {
                 new WarningDialog(e.getMessage());
                 globalObjects.getMainContainer().disableProgressBar();

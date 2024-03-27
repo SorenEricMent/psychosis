@@ -48,7 +48,7 @@ public class InterfaceSetModel extends FileObjectModel implements Encodeable, De
                 return i;
             }
         }
-        throw new NotFoundException("Interface not found");
+        throw new NotFoundException("Interface not found: " + name);
     }
 
     // EFFECTS: remove the interface with a specific name from the set

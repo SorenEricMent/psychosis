@@ -133,11 +133,11 @@ public class MainContainer {
     private JPopupMenu topToolbarFileMenu() {
         JPopupMenu filePopup = new JPopupMenu("");
         filePopup.setOpaque(true);
-        JMenuItem openProjectPop = new JMenuItem("Open Project (Compiled)");
+        JMenuItem openProjectPop = new JMenuItem(getReflectiveResource("Toolbar.file.open_project_comp"));
 
-        JMenuItem openWorkspacePop = new JMenuItem("Open Workspace");
+        JMenuItem openWorkspacePop = new JMenuItem(getReflectiveResource("Toolbar.file.open_workspace"));
 
-        JMenuItem saveWorkspacePop = new JMenuItem("Save Workspace (Compiled)");
+        JMenuItem saveWorkspacePop = new JMenuItem(getReflectiveResource("Toolbar.file.save_workspace"));
 
         topToolBarFileMenuBinding(openProjectPop, openWorkspacePop, saveWorkspacePop);
         filePopup.add(openProjectPop);
@@ -152,7 +152,7 @@ public class MainContainer {
                                            JMenuItem openWorkspacePop, JMenuItem saveWorkspacePop) {
         openProjectPop.addActionListener(actionEvent -> new LoadProjectDialog(globalObjects));
         openWorkspacePop.addActionListener(actionEvent -> new LoadWorkspaceDialog(globalObjects));
-        saveWorkspacePop.addActionListener(actionEvent -> new SaveWorkspaceDialog(globalObjects));
+        saveWorkspacePop.addActionListener(actionEvent -> new SaveWorkspaceDialog(getStatusBoxed(), globalObjects));
     }
 
     // EFFECTS: add event listener for the file button at top toolbar with

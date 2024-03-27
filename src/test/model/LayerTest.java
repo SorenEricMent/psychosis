@@ -31,7 +31,9 @@ public class LayerTest {
     @Test
     public void testDupAdd() {
         ProjectModel proj = new TempProjectModel("cute yuuta");
-        assertThrows(DuplicateException.class, () -> {proj.addLayer("test");});
+        assertThrows(DuplicateException.class, () -> {
+            proj.addLayer("test");
+        });
     }
 
     @Test
