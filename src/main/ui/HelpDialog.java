@@ -7,6 +7,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 
+// Dialog triggered by topbar Help button, contain about and debug info, will add Help info in future
 public class HelpDialog extends JDialog {
     private static final int[] YUUTA_SEQ =
             {KeyEvent.VK_Y, KeyEvent.VK_U, KeyEvent.VK_U, KeyEvent.VK_T, KeyEvent.VK_A};
@@ -20,6 +21,8 @@ public class HelpDialog extends JDialog {
     private JButton gcButton;
     private int yuutaIndex = 0;
 
+    // EFFECTS: replace the logo with Yuuta the cutest and set title text to EatYuuta Studio
+    // MODIFIES: (side-effect) logo, (side-effect) title, yuutaIndex
     private final KeyEventDispatcher fnEaster = (keyEvent) -> {
         if (keyEvent.getID() != KeyEvent.KEY_PRESSED) {
             return false;
@@ -38,6 +41,9 @@ public class HelpDialog extends JDialog {
         return false;
     };
 
+    // EFFECTS: init the content pane and bind buttons with their event handler, init yuuta's easter egg,
+    // update debug content's info
+    // MODIFIES: (side-effect) debugContent
     public HelpDialog() {
         setContentPane(contentPane);
         setModal(true);
@@ -102,15 +108,13 @@ public class HelpDialog extends JDialog {
         });
     }
 
-    // EFFECTS: ok button handler
+    // EFFECTS: ok button handler, dispose the dialog
     private void onOK() {
-        // add your code here
         dispose();
     }
 
-    // EFFECTS: cancel button handler
+    // EFFECTS: cancel button handler, dispose the dialog
     private void onCancel() {
-        // add your code here if necessary
         dispose();
     }
 

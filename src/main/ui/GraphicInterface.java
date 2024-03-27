@@ -91,6 +91,7 @@ public class GraphicInterface {
 
     // EFFECTS: update project tree with a new layer added to the end of a project's child
     // REQUIRES: must not call rebuildWholeProjectTree before together or duplicate will be created
+    // MODIFIES: (side effect) mainContainer.getProjectList()
     public void updateModuleTree(String projName, String layerName, String moduleName) {
         DefaultTreeModel projectTreeModel = (DefaultTreeModel) mainContainer.getProjectList().getModel();
         DefaultMutableTreeNode projectTreeRoot = (DefaultMutableTreeNode) projectTreeModel.getRoot();
@@ -114,6 +115,7 @@ public class GraphicInterface {
 
     // EFFECTS: update project tree with a new layer added to the end of a project's child
     // REQUIRES: must not call rebuildWholeProjectTree before together or duplicate will be created
+    // MODIFIES: (side effect) mainContainer.getProjectList()
     public void updateLayerTree(String projName, String layerName) {
         DefaultTreeModel projectTreeModel = (DefaultTreeModel) mainContainer.getProjectList().getModel();
         DefaultMutableTreeNode projectTreeRoot = (DefaultMutableTreeNode) projectTreeModel.getRoot();
@@ -129,6 +131,7 @@ public class GraphicInterface {
 
     // EFFECTS: update project tree with a new project at the end
     // REQUIRES: must not call rebuildWholeProjectTree before together or duplicate will be created
+    // MODIFIES: (side effect) mainContainer.getProjectList()
     public void updateProjectTree(ProjectModel p) {
         DefaultTreeModel projectTreeModel = (DefaultTreeModel) mainContainer.getProjectList().getModel();
         DefaultMutableTreeNode projectTreeRoot = (DefaultMutableTreeNode) projectTreeModel.getRoot();
@@ -152,6 +155,7 @@ public class GraphicInterface {
     }
 
     // EFFECTS: completely regenerate the content in project tree from loadedProjects;
+    // MODIFIES: (side effect) mainContainer.getProjectList()
     public void rebuildWholeProjectTree() {
         DefaultTreeModel projectTreeModel = (DefaultTreeModel) mainContainer.getProjectList().getModel();
         DefaultMutableTreeNode projectTreeRoot = (DefaultMutableTreeNode) projectTreeModel.getRoot();
@@ -178,25 +182,23 @@ public class GraphicInterface {
     }
 
     // EFFECTS: handle GUI update triggered on project tree click
+    // MODIFIES: (side effect) mainContainer.getProjectList()
     public TreeSelectionListener projectTreeEvent(JTree tree) {
-        return new TreeSelectionListener() {
-            @Override
-            public void valueChanged(TreeSelectionEvent treeSelectionEvent) {
-                TreePath node = tree.getSelectionPath();
-                if (node == null) {
-                    return;
-                }
-                // This is dirty, but this tree's structure is determined.
-                if (node.getPath().length == 1) {
-                    replaceMainEditor(mainContainer.getProjectPlaceholder().getProjectPlaceholderContainer());
-                } else if (node.getPath().length == 2) {
-                    // The following non-null promise is given by projectTree's way of updating
-                    switchProjectEditor(Arrays.stream(node.getPath()).map(Object::toString).toArray(String[]::new));
-                } else if (node.getPath().length == 3) {
-                    switchLayerEditor(Arrays.stream(node.getPath()).map(Object::toString).toArray(String[]::new));
-                } else if (node.getPath().length == 4) {
-                    switchModuleEditor(Arrays.stream(node.getPath()).map(Object::toString).toArray(String[]::new));
-                }
+        return treeSelectionEvent -> {
+            TreePath node = tree.getSelectionPath();
+            if (node == null) {
+                return;
+            }
+            // This is dirty, but this tree's structure is determined.
+            if (node.getPath().length == 1) {
+                replaceMainEditor(mainContainer.getProjectPlaceholder().getProjectPlaceholderContainer());
+            } else if (node.getPath().length == 2) {
+                // The following non-null promise is given by projectTree's way of updating
+                switchProjectEditor(Arrays.stream(node.getPath()).map(Object::toString).toArray(String[]::new));
+            } else if (node.getPath().length == 3) {
+                switchLayerEditor(Arrays.stream(node.getPath()).map(Object::toString).toArray(String[]::new));
+            } else if (node.getPath().length == 4) {
+                switchModuleEditor(Arrays.stream(node.getPath()).map(Object::toString).toArray(String[]::new));
             }
         };
     }
@@ -204,6 +206,7 @@ public class GraphicInterface {
     // EFFECTS: look up if a project editor panel is already created
     //   if not: create and replace the main editor content the panel
     //   if yes: replace the panel and update the map
+    // MODIFIES: (side effect) this
     private void switchProjectEditor(String[] args) {
         ProjectModel proj = findProjectWithName(args[1]);
         if (projectEditorMap.containsKey(proj)) {
@@ -218,6 +221,7 @@ public class GraphicInterface {
     // EFFECTS: look up if a layer editor panel is already created
     //   if not: create and replace the main editor content the panel
     //   if yes: replace the panel and update the map
+    // MODIFIES: (side effect) this
     private void switchLayerEditor(String[] args) {
         ProjectModel proj = findProjectWithName(args[1]);
         LayerModel layer = proj.getLayer(args[2]);
@@ -233,6 +237,7 @@ public class GraphicInterface {
     // EFFECTS: look up if a module editor panel is already created
     //   if not: create and replace the main editor content the panel
     //   if yes: replace the panel and update the map
+    // MODIFIES: (side effect) this
     private void switchModuleEditor(String[] args) {
         ProjectModel proj = findProjectWithName(args[1]);
         LayerModel layer = proj.getLayer(args[2]);
@@ -240,8 +245,8 @@ public class GraphicInterface {
         if (moduleEditorMap.containsKey(module)) {
             replaceMainEditor(moduleEditorMap.get(module).getModuleEditorPanel());
         } else {
-            ModuleEditor tmp = new ModuleEditor(getStatusDisplay(),
-                    module, proj.getAccessVectors(), proj.getGlobalInterfaceSet(), proj.getName(), layer.getName());
+            ModuleEditor tmp = new ModuleEditor(getStatusDisplay(), module,
+                    proj.getAccessVectors(), proj.getGlobalInterfaceSet(), proj.getName(), layer.getName(), proj);
             moduleEditorMap.put(module, tmp);
             replaceMainEditor(tmp.getModuleEditorPanel());
         }
@@ -268,6 +273,7 @@ public class GraphicInterface {
     }
 
     // EFFECTS: replace the content of the main editor panel
+    // MODIFIES: (side effect) this
     public void replaceMainEditor(JPanel content) {
         mainContainer.getMainEditor().remove(0);
         mainContainer.getMainEditor().add(content);
@@ -276,6 +282,7 @@ public class GraphicInterface {
     }
 
     // EFFECTS: init the main application window
+    // MODIFIES: this
     private void initWindow() {
         mainWindow = new JFrame("Psychosis Studio " + Main.getVersion());
         mainContainer = new MainContainer(this);
@@ -328,7 +335,7 @@ public class GraphicInterface {
     private static void initStyle() {
         System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Psychosis Studio");
         Toolkit defToolkit = Toolkit.getDefaultToolkit();
-        Field awtAppClassNameField = null;
+        Field awtAppClassNameField;
         try {
             awtAppClassNameField = defToolkit.getClass().getDeclaredField("awtAppClassName");
             awtAppClassNameField.setAccessible(true);

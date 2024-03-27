@@ -7,6 +7,7 @@ import model.TrackerModel;
 import javax.swing.*;
 import java.awt.event.*;
 
+// Dialog to ask user to input a new name for the project on duplicate
 public class DuplicatedProjectDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;

@@ -20,6 +20,7 @@ public class AddSecClassDialog extends JDialog {
     private final StatusDisplay sd;
     private final ProjectEditor editor;
 
+    // EFFECTS: init the fields and create the dialog's content pane, bind event handler for buttons
     public AddSecClassDialog(AccessVectorModel vector, StatusDisplay sd, ProjectEditor editor) {
         setContentPane(contentPane);
         setModal(true);
@@ -46,6 +47,7 @@ public class AddSecClassDialog extends JDialog {
                 KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
+    // EFFECTS: ok handler, add the security class-vec and dispose the dialog, warn the user on exception
     private void onOK() {
         try {
             vector.addSecurityClass(secClassName.getText());
@@ -57,10 +59,12 @@ public class AddSecClassDialog extends JDialog {
         }
     }
 
+    // EFFECTS: dispose the dialog
     private void onCancel() {
         dispose();
     }
 
+    // EFFECTS: invoke constructor to create the dialog and display it
     public static void main(AccessVectorModel vector, StatusDisplay sd, ProjectEditor editor) {
         AddSecClassDialog dialog = new AddSecClassDialog(vector, sd, editor);
         dialog.pack();

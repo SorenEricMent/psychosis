@@ -11,8 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-// Dialog to save workspace data to a .json
-// Although this is a Dialog, it is not managed by GUI designer as JFileChooser pop its own
+// file chooser dialog to save workspace data to a .json
 public class SaveWorkspaceDialog extends JDialog {
     private final JFileChooser saveWorkspaceChooser;
     private final GraphicInterface globalObjects;
@@ -43,6 +42,7 @@ public class SaveWorkspaceDialog extends JDialog {
         }
     }
 
+    // EFFECTS: create a workspace object with information in the shared global object GraphicalInterface
     private Workspace generateWorkspace(GraphicInterface g) {
         return new Workspace("", 0, g.getLoadedProjects().stream().map(Pair::getFirst)
                 .collect(Collectors.toCollection(ArrayList::new)));

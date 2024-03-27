@@ -153,6 +153,7 @@ public class ProjectSL {
         return res; //stub
     }
 
+    // EFFECTS: parse an access vector model to JSON format
     private static JSONArray saveAccessVectorToJson(AccessVectorModel val) {
         JSONArray res = new JSONArray();
         for (String k : val.getAccessVector().keySet()) {

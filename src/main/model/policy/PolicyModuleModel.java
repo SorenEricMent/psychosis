@@ -57,6 +57,11 @@ public class PolicyModuleModel {
         return interfaceObject.getInterface(name);
     }
 
+    // REQUIRES: postcondition: call project's rebuildGlobalInterfaceSet
+    public void setInterfaceObject(InterfaceSetModel interfaceObject) {
+        this.interfaceObject = interfaceObject;
+    }
+
     public InterfaceSetModel getInterfaceSet() {
         return this.interfaceObject;
     }

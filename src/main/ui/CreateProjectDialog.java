@@ -8,6 +8,7 @@ import model.TrackerModel;
 import javax.swing.*;
 import java.awt.event.*;
 
+// The dialog to create a new project, could be empty or from refpolicy or Psychosis format
 public class CreateProjectDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
@@ -17,26 +18,20 @@ public class CreateProjectDialog extends JDialog {
 
     private final GraphicInterface globalObjects;
 
+    // EFFECTS: init the content pane and its default button
     private void initPane() {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
     }
 
+    // EFFECTS: create the dialog with globalObjects the shared state, add actionListeners for buttons
     public CreateProjectDialog(GraphicInterface globalObjects) {
         this.globalObjects = globalObjects;
         initPane();
-        buttonOK.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onOK();
-            }
-        });
+        buttonOK.addActionListener(e -> onOK());
 
-        buttonCancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
+        buttonCancel.addActionListener(e -> onCancel());
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -54,6 +49,9 @@ public class CreateProjectDialog extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
+    // EFFECTS: warn user on empty/duplicated project name, otherwise add the project to the globalObjects
+    // and update the project tree ui
+    // MODIFIES: this, (side-effect) globalObjects.getProjectTree
     private void onOK() {
         if (inputProjectNameEmpty.getText().isEmpty()) {
             WarningDialog.main("Name must not be empty");
@@ -70,11 +68,13 @@ public class CreateProjectDialog extends JDialog {
         }
     }
 
+    // EFFECTS: dispose the dialog
     private void onCancel() {
         // add your code here if necessary
         dispose();
     }
 
+    // EFFECTS: invoke constructor to create the dialog and display it
     public static void main(GraphicInterface globalObjects) {
         CreateProjectDialog dialog = new CreateProjectDialog(globalObjects);
         dialog.pack();

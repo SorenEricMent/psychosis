@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+// Dialog to warn user that there is unsaved changes to the workspace
 public class SaveWarningDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
@@ -16,6 +17,7 @@ public class SaveWarningDialog extends JDialog {
     private final GraphicInterface globalObjects;
     private final StatusDisplay statusDisplay;
 
+    // EFFECTS: init the content pane and fields, bind event handler for buttons
     public SaveWarningDialog(StatusDisplay sd, GraphicInterface globalObjects) {
         setContentPane(contentPane);
         setModal(true);
@@ -41,12 +43,14 @@ public class SaveWarningDialog extends JDialog {
                 KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
+    // EFFECTS: ok button handler, create the save workspace file chooser dialog and quit upon finish
     private void onOK() {
         new SaveWorkspaceDialog(this.statusDisplay, this.globalObjects);
         dispose();
         System.exit(0);
     }
 
+    // EFFECTS: cancel button handler, dispose the dialog
     private void onCancel() {
         dispose();
     }

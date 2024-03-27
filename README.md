@@ -72,10 +72,12 @@ If you want to build Psychosis to a binary with Gradle, you'll need to switch th
 Psychosis has i18n support with EO, FR and EN
 Psychosis's language is by default Esperanto. Psychosis also support English/French and will switch to it if the current language is a variation of it. You can select the language at the top-right corner of toolbar, but it will require a reboot. 
 
+### Appearance
+Psychosis respect and use system's theme. However, Psychosis is designed and works best under dark themes, specifically GTK theme "Mojave-dark". Using light theme might cause some components to be hard to see.
 ### Top bar
 ##### Help
 For the "Help" button in the top bar, clicking it will bring you a dialog containing about info and debug info.
-Inputting yuuta will trigger an easter egg uwu :heart: 
+Inputting yuuta will trigger an easter egg uwu :heart:  :heart:  :heart: 
 ##### Files
 Contained some common file operations, like import/export project and workspace
 ##### Quit
@@ -92,8 +94,9 @@ On the bottom-right of the editor, you will have a status indicator showing if a
 You can create new Projects with "Create Project" button in the greeting page, which can be navigated by clicking Projects in the Tree, Since no live saving is required and Psychosis didn't do diff-based editing, the create project option now only have the option to create a new empty project in memory.
 You can add multiple layers to the project in the project editing page, 
 #### Layer Editing
-You can add multiple modules to a layer in the layer editing page, 
+You can add multiple modules to a layer in the layer editing page
 #### Module Editing
+You can add new module in Layer editor and remove them with the popup menu poped on right click
 You can edit the three core aspects of a SELinux Module by clicking the module in the tree
 ##### Adding new rules
 

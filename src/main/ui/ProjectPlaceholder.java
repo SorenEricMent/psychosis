@@ -2,6 +2,7 @@ package ui;
 
 import javax.swing.*;
 
+// The page to display at main editor on load or if the root node is selected on project tree
 public class ProjectPlaceholder {
     private JPanel projectPlaceholderContainer;
     private JButton createProjectButton;

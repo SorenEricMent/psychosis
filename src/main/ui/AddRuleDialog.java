@@ -16,12 +16,12 @@ public class AddRuleDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JComboBox ruleTypeCombo;
+    private JComboBox<String> ruleTypeCombo;
     private JTextField sourceField;
     private JTextField classField;
     private JTextField targetField;
     private JButton addActionBtn;
-    private JComboBox actionCombo;
+    private JComboBox<String> actionCombo;
     private JTextPane ruleVisual;
     private final RuleAddable target;
     private final Callable<Void> callback;
@@ -174,10 +174,12 @@ public class AddRuleDialog extends JDialog {
         dispose();
     }
 
+    // EFFECTS: dispose the dialog
     private void onCancel() {
         dispose();
     }
 
+    // EFFECTS: invoke constructor to create the dialog and display it
     public static void main(StatusDisplay sd,
                             RuleAddable target, Callable<Void> callback, AccessVectorModel av, boolean varCheck) {
         AddRuleDialog dialog = new AddRuleDialog(sd, target, callback, av, varCheck);

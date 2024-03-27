@@ -38,6 +38,7 @@ public class Workspace implements Encodeable, Decodeable {
         return name;
     }
 
+    // EFFECTS: return how many projects there are in the Workspace
     public int getProjectNum() {
         return projects.size();
     }
@@ -78,7 +79,7 @@ public class Workspace implements Encodeable, Decodeable {
 
     // Commented out as meta export not expected to be done for phase 2, don't want it to mess with Jacococ
 
-    // EFFECTS: Encode the workspace to a .pcsw file, fully compiled
+    // EFFECTS: Encode the workspace to a .pcsw JSON file, fully compiled
     public String toStringCompiled() {
         JSONObject res = new JSONObject();
         res.put("name", this.name);
@@ -93,7 +94,7 @@ public class Workspace implements Encodeable, Decodeable {
         return res.toString();
     }
 
-    // EFFECTS: Load workspace from a .pcsw file
+    // EFFECTS: Load workspace from a .pcsw JSON file
     public void parser(String content) {
         JSONObject parsed = new JSONObject(content);
         this.name = parsed.getString("name");

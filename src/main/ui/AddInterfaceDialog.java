@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+// Dialog to add a new empty interface
 public class AddInterfaceDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;

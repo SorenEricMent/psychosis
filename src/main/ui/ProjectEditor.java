@@ -2,14 +2,19 @@ package ui;
 
 import model.ProjectModel;
 import model.exception.SyntaxParseException;
+import model.exception.UnknownCapabilityException;
 import model.policy.LayerModel;
+import model.policy.PolicyModuleModel;
 import ui.closure.StatusDisplay;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 // The editor panel for projects
 public class ProjectEditor {
@@ -53,6 +58,7 @@ public class ProjectEditor {
         initLoadBuiltinBtn();
         initSecVecListBinding();
         initAddSecVecBtn();
+        initCapabilityTableSelect();
 
         refreshSecClassList();
         refreshLayerList();
@@ -180,6 +186,29 @@ public class ProjectEditor {
         }
         capabilityTable = new JTable(data.toArray(String[][]::new), columns);
         capabilityTable.setDefaultEditor(Object.class, null);
+    }
+
+    // EFFECTS: add and bind the event handler for capability table selection
+    // on select, update that row's capability to inverse
+    private void initCapabilityTableSelect() {
+        capabilityTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                super.mouseClicked(e);
+                String capString = capabilityTable.getValueAt(capabilityTable.getSelectedRow(), 0).toString();
+                String status = capabilityTable.getValueAt(capabilityTable.getSelectedRow(), 1).toString();
+                try {
+                    bindedProject.updateCapability(ProjectModel.strToCapability(capString),
+                            !status.equals("true"));
+                    capabilityTable.getModel().setValueAt(!status.equals("true") ? "true" : "false",
+                            capabilityTable.getSelectedRow(), 1);
+                    sd.modificationHappened();
+                } catch (UnknownCapabilityException ex) {
+                    WarningDialog.main(ex.getMessage());
+                }
+            }
+        });
+
     }
 
     // EFFECTS: custom create to update the capabilityTable with the capabilities declared

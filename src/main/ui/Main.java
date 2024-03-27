@@ -49,7 +49,7 @@ public class Main {
         command.add("-Duser.language=" + locale);
         command.add("-Duser.country=" + country);
         command.add("-splash:data/resources/splash.jpg");
-        command.add("--add-opens=java.desktop/sun.awt.X11=ALL-UNNAMED");
+        command.add("--add-opens=java.desktop/sun.awt.X11=ALL-UNNAMED"); // for reflective access to set system title
         command.add("-XX:+UseG1GC");
         command.add("-XX:MaxGCPauseMillis=200");
         command.add("-cp");

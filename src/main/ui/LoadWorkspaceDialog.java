@@ -59,7 +59,8 @@ public class LoadWorkspaceDialog extends JDialog {
         this.globalObjects.emptyEditorMap();
     }
 
-    // EFFECTS: init the file chooser dialog
+    // EFFECTS: init the file chooser dialog (title and default selection), enable progress bar
+    // MODIFIES: (side-effect) progressBar
     private void initDialog() {
         globalObjects.getMainContainer().enableProgressBar();
         fileChooser.setDialogTitle("Loading workspace from JSON");

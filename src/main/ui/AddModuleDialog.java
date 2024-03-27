@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+// Dialog to add a new empty module
 public class AddModuleDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
@@ -67,6 +68,7 @@ public class AddModuleDialog extends JDialog {
         dispose();
     }
 
+    // EFFECTS: invoke constructor to create the dialog and display it
     public static void main(LayerModel layer, GraphicInterface globalObject, String proj) {
         AddModuleDialog dialog = new AddModuleDialog(layer, globalObject, proj);
         dialog.pack();

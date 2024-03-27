@@ -8,6 +8,7 @@ import java.awt.event.WindowEvent;
 // All add operations that enforce uniqueness could be achieved with this
 // Dialog, it warns for duplication.
 
+// EXPERIMENTAL, NOT USED
 public class UniqueAddDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
@@ -16,6 +17,7 @@ public class UniqueAddDialog extends JDialog {
     private final String title;
     private final String duplicateInfo;
 
+    // EFFECTS: init the content pane and fields, bind event handler for buttons
     public UniqueAddDialog(String title, String duplicateInfo) {
         setContentPane(contentPane);
         setModal(true);
@@ -40,14 +42,17 @@ public class UniqueAddDialog extends JDialog {
                 KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
+    // EFFECTS: ok button handler, dispose the dialog
     private void onOK() {
         dispose();
     }
 
+    // EFFECTS: cancel button handler, dispose the dialog
     private void onCancel() {
         dispose();
     }
 
+    // EFFECTS: call constructor to create dialog and display it
     public static void main(String title, String info) {
         UniqueAddDialog dialog = new UniqueAddDialog(title, info);
         dialog.pack();

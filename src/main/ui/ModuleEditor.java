@@ -1,12 +1,11 @@
 package ui;
 
 import model.Pair;
+import model.ProjectModel;
 import model.policy.*;
 import ui.closure.StatusDisplay;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,17 +38,19 @@ public class ModuleEditor {
     private final AccessVectorModel accessVector;
     private final StatusDisplay statusDisplay;
     private final InterfaceSetModel globalInfSet;
+    private final ProjectModel proj;
     private final ModuleEditor self = this;
 
     // EFFECTS: create this new module editor panel from a module and its belonging
     public ModuleEditor(StatusDisplay sd, PolicyModuleModel p, AccessVectorModel av,
-                        InterfaceSetModel ifs, String layer, String project) {
+                        InterfaceSetModel ifs, String layer, String project, ProjectModel proj) {
         this.statusDisplay = sd;
         this.bindedModule = p;
         this.accessVector = av;
         this.globalInfSet = ifs;
         this.layer = layer;
         this.project = project;
+        this.proj = proj;
         moduleName.setText(bindedModule.getName());
         masterName.setText(layer + "." + project);
         teAddRuleBtnHandler();
@@ -61,6 +62,7 @@ public class ModuleEditor {
         initExportTeBtn();
         interfaceCallAssociation();
         initIfAddRuleBtn();
+        initImportIfBtn();
     }
 
     public JPanel getModuleEditorPanel() {
@@ -202,8 +204,11 @@ public class ModuleEditor {
                 new ExportTEDialog(statusDisplay, globalInfSet, bindedModule.getTypeEnf(), true));
     }
 
+    // EFFECTS: create and bind the event handler for import interface button
     private void initImportIfBtn() {
-
+        infImportBtn.addActionListener(actionEvent -> {
+            new ImportIFDialog(statusDisplay, bindedModule, bindedModule.getInterfaceSet(), proj, self);
+        });
     }
 
     // EFFECTS: custom create hook, rebuild the rule list and call list

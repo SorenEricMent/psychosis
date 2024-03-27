@@ -38,9 +38,13 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
+          <cellSelectionEnabled value="true"/>
+          <enabled value="true"/>
           <font size="18"/>
-          <intercellSpacing width="2" height="4"/>
-          <rowMargin value="4"/>
+          <intercellSpacing width="4" height="6"/>
+          <minimumSize width="30" height="65"/>
+          <preferredSize width="150" height="68"/>
+          <rowMargin value="6"/>
         </properties>
       </component>
       <component id="70608" class="javax.swing.JLabel">
@@ -50,7 +54,7 @@
         </constraints>
         <properties>
           <font size="18"/>
-          <text value="Security classes and Access Vectors"/>
+          <text resource-bundle="resources/PsychosisResource" key="ProjectEditor.title.sec_and_vec"/>
         </properties>
       </component>
       <component id="1dcc8" class="javax.swing.JLabel">
@@ -60,7 +64,7 @@
         </constraints>
         <properties>
           <font size="18"/>
-          <text value="Capabilities"/>
+          <text resource-bundle="resources/PsychosisResource" key="ProjectEditor.capabilities"/>
         </properties>
       </component>
       <grid id="77235" binding="numberPanel" layout-manager="GridLayoutManager" row-count="4" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
@@ -86,7 +90,7 @@
             </constraints>
             <properties>
               <font size="18"/>
-              <text value="Number of Layers"/>
+              <text resource-bundle="resources/PsychosisResource" key="EditorGeneral.num_layer"/>
             </properties>
           </component>
           <component id="10387" class="javax.swing.JLabel">
@@ -94,7 +98,7 @@
               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Number of Modules"/>
+              <text resource-bundle="resources/PsychosisResource" key="EditorGeneral.num_module"/>
             </properties>
           </component>
           <component id="3ccb5" class="javax.swing.JLabel" binding="numberModule">
@@ -161,7 +165,7 @@
         </constraints>
         <properties>
           <font size="18"/>
-          <text value="Layers"/>
+          <text resource-bundle="resources/PsychosisResource" key="ProjectEditor.title.layer"/>
         </properties>
       </component>
       <hspacer id="d59af">
@@ -194,7 +198,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="Load Built-in Definition"/>
+          <text resource-bundle="resources/PsychosisResource" key="ProjectEditor.button.load_builtin"/>
         </properties>
       </component>
       <vspacer id="30aaf">
@@ -209,7 +213,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="Load External Definition"/>
+          <text resource-bundle="resources/PsychosisResource" key="ProjectEditor.title.load_external"/>
         </properties>
       </component>
       <component id="7b8ab" class="javax.swing.JButton" binding="addSecClassButton">
@@ -218,7 +222,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="Add security class"/>
+          <text resource-bundle="resources/PsychosisResource" key="AddSecClassDialog.title.main"/>
         </properties>
       </component>
       <component id="93f55" class="javax.swing.JButton" binding="addVectorButton" default-binding="true">
@@ -227,7 +231,7 @@
           <gridbag weightx="1.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="Add vector"/>
+          <text resource-bundle="resources/PsychosisResource" key="AddVecDialog.title.main"/>
         </properties>
       </component>
       <component id="9f97f" class="javax.swing.JButton" binding="addLayerButton" default-binding="true">
@@ -236,7 +240,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="Add Layer"/>
+          <text resource-bundle="resources/PsychosisResource" key="AddLayerDialog.title.main"/>
         </properties>
       </component>
       <scrollpane id="fce71">

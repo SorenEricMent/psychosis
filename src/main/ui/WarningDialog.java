@@ -83,6 +83,8 @@ public class WarningDialog extends JDialog {
         dialog.setVisible(true);
     }
 
+    // EFFECTS: create a new warning dialog with a callback function given by the caller
+    // , call constructor and do basic sizing
     public static void main(String info, Callable<Void> ok) {
         WarningDialog dialog = new WarningDialog(info, ok);
         dialog.pack();

@@ -35,6 +35,7 @@ public class MainContainer {
     private JPanel titlePanel;
     private JLabel seStatus;
     private JButton minimizeBtn;
+    private JLabel logo;
 
     private final GraphicInterface globalObjects;
 
@@ -54,6 +55,8 @@ public class MainContainer {
         topToolbar();
         initLangCombo();
 
+        initTitleHide();
+
         statusBoxed = new StatusDisplay(getBundle(), statusPanel, progressBar, status, modified);
         globalToolbar.add(Box.createHorizontalGlue(), globalToolbar.getComponentCount() - 4);
     }
@@ -62,7 +65,7 @@ public class MainContainer {
         return statusBoxed;
     }
 
-    // EFFECTS: Get i18n value from the bundle imported by Intellij
+    // EFFECTS: Get i18n value from the bundle imported by IntelliJ
     public String getReflectiveResource(String key) {
         return bundle.getString(key);
     }
@@ -103,6 +106,7 @@ public class MainContainer {
         });
     }
 
+    // EFFECTS: Warn the user that updating language will require a restart, call Main.selfLocaleRestart on agree
     private void restartWithLocale() {
         WarningDialog.main("This would require a restart! Continue after save.", new Callable<Void>() {
             @Override
@@ -209,6 +213,17 @@ public class MainContainer {
                 Point currCoords = e.getLocationOnScreen();
                 globalObjects.getMainWindow()
                         .setLocation(currCoords.x - mouseDownCompCoords.x, currCoords.y - mouseDownCompCoords.y);
+            }
+        });
+    }
+
+    // EFFECTS: create the event listener for titlePanel that trigger title display hide
+    private void initTitleHide() {
+        titlePanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                appTitle.setVisible(!appTitle.isVisible());
             }
         });
     }

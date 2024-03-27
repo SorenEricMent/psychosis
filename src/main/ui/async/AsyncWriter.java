@@ -17,11 +17,12 @@ public class AsyncWriter {
 
     private final HashMap<String, Lock> fileLock;
 
+    // EFFECTS: init the async writer main thread with no locks
     public AsyncWriter() {
         fileLock = new HashMap<>();
     }
 
-    // EFFECTS: write to path with content, call posthool after finish, use progressupdate to update
+    // EFFECTS: write to path with content, call postHook after finish, use progress to update
     // a JProgressBar with percentage
     public void write(String path, String content, Callable<Void> postHook, ProgressUpdate progress) {
         if (!fileLock.containsKey(path)) {
