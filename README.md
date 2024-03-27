@@ -94,7 +94,9 @@ On the bottom-right of the editor, you will have a status indicator showing if a
 You can create new Projects with "Create Project" button in the greeting page, which can be navigated by clicking Projects in the Tree, Since no live saving is required and Psychosis didn't do diff-based editing, the create project option now only have the option to create a new empty project in memory.
 You can add multiple layers to the project in the project editing page.
 
-After you clicked a project in the tree, you will be greeted with its editing panel, it will show you the layer/module count for it, a button to add new layer - clicking it will give you a dialog to add new empty unique layer, the list of capabilities - clicking on it will switch the capability status of that row, Security Vector section - the list of security classes and vectors, clicking on a security class will display its vectors on the right side, buttons to add new class or access vector, a button to load external access vector definition (not finished), and a button to load builtin, newest refpolicy definition.
+After you clicked a project in the tree, you will be greeted with its editing panel, it will show you the layer/module count for it, a button to add new layer - clicking it will give you a dialog to add new empty unique layer, the list of capabilities - clicking on it will switch the capability status of that row, Security Vector section - the list of security classes and vectors, clicking on a security class will display its vectors on the right side, buttons to add new class or access vector, a button to load external access vector definition (not finished on gui part), and a button to load builtin, newest refpolicy definition.
+
+You can export a project solely in addition to exporting the whole workspace.
 ### Layer Editing
 You can add multiple modules to a layer in the layer editing page
 You can remove them with the popup menu poped on right click
@@ -106,7 +108,7 @@ You can export the current .te file, or compiled and export, with the button at 
 ##### Adding new rules
 At the Type Enforcement panel, you can add new first order rules to the policy module, rules that are the same in the 4-tuple will be automatically merged, the way you add action is - you will need to have that class defined, and you will be able to search for its access vector definition for action by typing its name in the class section, and you can click "Add action" to add the action showed in the combo box, the search is debounced.
 ##### Adding new interface call
-Adding new interface call is similar to adding a rule, you type in interface's name and you will be able to search interface defined project-wide, the way you add param is also similar to the way you add action to rules. You will be showed the preview of the function call(todo)
+Adding new interface call is similar to adding a rule, you type in interface's name and you will be able to search interface defined project-wide, the way you add param is also similar to the way you add action to rules. You will be showed the preview of the function call(todo, not done on gui part)
 #### Interface
 In the interface tab, you will be showed the list of this module's interfaces, by click
 You can import a SELinux .if file in the button below and it will overwrite all interfaces declared.
