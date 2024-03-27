@@ -1,4 +1,4 @@
-![大家好啊，我是說的Psychosis！](https://github.students.cs.ubc.ca/CPSC210-2023W-T2/project_x6a8w/blob/main/data/resources/banner.jpg "Psychosis Studio")
+![大家好啊，我是說的Psychosis！](https://github.students.cs.ubc.ca/CPSC210-2023W-T2/project_x6a8w/blob/main/data/resources/splash.jpg "Psychosis Studio")
 # Psychosis
 Psychosis is an SELinux Policy Development Studio, for UBC's CPSC 210 term project.
 
