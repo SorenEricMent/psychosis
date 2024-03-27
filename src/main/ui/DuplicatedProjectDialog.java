@@ -25,17 +25,9 @@ public class DuplicatedProjectDialog extends JDialog {
 
     // EFFECTS: create event binding for buttons
     private void initButtonEvent() {
-        buttonOK.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onOK();
-            }
-        });
+        buttonOK.addActionListener(e -> onOK());
 
-        buttonCancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
+        buttonCancel.addActionListener(e -> onCancel());
     }
 
     // EFFECTS: init fields and call initPane to create the dialog, call initButtonEvent to create event

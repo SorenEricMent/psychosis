@@ -24,6 +24,7 @@ public class AsyncWriter {
 
     // EFFECTS: write to path with content, call postHook after finish, use progress to update
     // a JProgressBar with percentage
+    // MODIFIES: (side-effect) Lock, (side-effect) filesystem at path, (side-effect) progress
     public void write(String path, String content, Callable<Void> postHook, ProgressUpdate progress) {
         if (!fileLock.containsKey(path)) {
             Lock newLock = new ReentrantLock();

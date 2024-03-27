@@ -68,6 +68,7 @@ public class AddCallDialog extends JDialog {
 
     // EFFECTS: add the interface call,
     // notice that there is no if interface exists check as it is not syntactically wrong
+    // MODIFIES: (side-effect) previewPane, target, editor
     private void onOK() {
         target.addInterfaceCall(interfaceCombo.getEditor().getItem().toString(), addParams.toArray(String[]::new));
         editor.rebuildCallList();

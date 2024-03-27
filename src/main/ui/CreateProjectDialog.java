@@ -51,7 +51,7 @@ public class CreateProjectDialog extends JDialog {
 
     // EFFECTS: warn user on empty/duplicated project name, otherwise add the project to the globalObjects
     // and update the project tree ui
-    // MODIFIES: this, (side-effect) globalObjects.getProjectTree
+    // MODIFIES: this, (side-effect) globalObjects.getProjectTree, globalObjects
     private void onOK() {
         if (inputProjectNameEmpty.getText().isEmpty()) {
             WarningDialog.main("Name must not be empty");

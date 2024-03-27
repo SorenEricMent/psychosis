@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+// Custom sync read/write functions
 public class CustomReader {
     // REQUIRES: target is a File object that exists in the filesystem.
     // EFFECTS: Read the target file as it is, including line breaks;

@@ -92,6 +92,8 @@ public class ProjectModel {
         return this.accessVectors;
     }
 
+    // EFFECTS: update the access vector definition, don't just replace the field due to
+    // consistency problem and memory leak
     // MODIFIES: this
     public void setAccessVectors(AccessVectorModel accessVectors) {
         this.accessVectors.setAccessVector(accessVectors.getAccessVector());
@@ -175,8 +177,8 @@ public class ProjectModel {
     // EFFECTS: add a layer with layerName, throw DuplicateException if a layer with that name already exists
     // Layer is not a set but an ArrayList because it is often in small size
     public void addLayer(String layerName) throws DuplicateException {
-        for (int i = 0; i < layers.size(); i++) {
-            if (layers.get(i).getName().equals(layerName)) {
+        for (LayerModel layer : layers) {
+            if (layer.getName().equals(layerName)) {
                 throw new DuplicateException(layerName);
             }
         }

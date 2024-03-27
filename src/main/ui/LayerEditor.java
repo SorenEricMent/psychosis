@@ -72,7 +72,8 @@ public class LayerEditor {
         });
     }
 
-    // EFFECTS: for init the module list with modules in layer
+    // EFFECTS: reload the module list with the modules in the layer
+    // MODIFIES: (side-effect) moduleList
     private void reloadModuleList() {
         DefaultListModel<String> newModuleList = new DefaultListModel<>();
         for (PolicyModuleModel p : this.layer.getPolicyModules().values()) {
@@ -90,7 +91,8 @@ public class LayerEditor {
         this.numberModule.setText(String.valueOf(newModuleList.size()));
     }
 
-    // EFFECTS: init event handler for add module button
+    // EFFECTS: init event handler for add module button, on click - dialog the user with add module dialog
+    // and reload module list after dialog disposed
     private void initAddModuleBtn() {
         addModuleBtn.addActionListener(actionEvent -> {
             AddModuleDialog.main(layer, globalObject, project);

@@ -6,6 +6,7 @@ import model.policy.PolicyModuleModel;
 // A layer that is in memory only, changes not flushed into fs
 public class DummyLayerModel extends LayerModel {
 
+    // EFFECTS: call super to construct the layer
     public DummyLayerModel(String name) {
         super(name);
     }

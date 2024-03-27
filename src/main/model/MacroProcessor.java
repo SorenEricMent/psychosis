@@ -20,6 +20,7 @@ public class MacroProcessor {
 
     // REQUIRES: to cannot contain from
     // EFFECTS: compile and add a new macro to replace from to to in a string
+    // MODIFIES: this
     public void addMacro(String from, String to) {
         macros.add(new Pair<Pattern, String>(Pattern.compile(from, Pattern.LITERAL), to));
     }

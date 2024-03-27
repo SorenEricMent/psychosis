@@ -54,25 +54,27 @@ public class StatusDisplay {
                 ? bundle.getString("status.unmodified_saved") : bundle.getString("status.saved"));
     }
 
-    // EFFECTS: display the progress bar
-    public void enableProgress() {
-        bar.setVisible(true);
-    }
-
     // EFFECTS: set the status to writing
+    // MODIFIES: this, (side-effect) progress bar
     public void onWrite() {
         this.status.setText("Writing...");
         enableProgress();
     }
 
     // EFFECTS: set the status to Ready
+    // MODIFIES: this
     public void ready() {
         this.status.setText("Ready");
     }
 
-    // EFFECTS:
+    // EFFECTS: display the progress bar
+    // MODIFIES: (side-effect) progress bar
+    public void enableProgress() {
+        bar.setVisible(true);
+    }
 
     // EFFECTS: hide the progress bar
+    // MODIFIES: (side-effect) progress bar
     public void disableProgress() {
         bar.setVisible(false);
     }

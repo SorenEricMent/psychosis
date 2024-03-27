@@ -34,6 +34,7 @@ public class ImportTEDialog extends JDialog  {
     }
 
     // EFFECTS: load the TE file and parse it to TypeEnfModel and use the result to override the module's one
+    // MODIFIES: target
     private void approveHandler(File path) {
         try {
             target.setTypeEnfObject(TypeEnfModel.parser(CustomReader.readAsWhole(path)));

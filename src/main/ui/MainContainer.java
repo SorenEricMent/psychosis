@@ -83,12 +83,10 @@ public class MainContainer {
     }
 
     // EFFECTS: init action listener for language switch
-    // The reason of the length is that two Callables are created
-    // ,and it makes no sense to split as it is already minimal
     private void initLangCombo() {
         langCombo.addItem("Esperanto");
         langCombo.addItem("English");
-        langCombo.addItem("Francais");
+        langCombo.addItem("Francais"); // Imaging not having non-ASCII support in autograder
 
         Locale locale = Locale.getDefault();
         if (locale.getLanguage().equals("eo")) {
@@ -98,12 +96,7 @@ public class MainContainer {
         } else if (locale.getLanguage().equals("fr")) {
             langCombo.setSelectedIndex(2);
         }
-        langCombo.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                restartWithLocale();
-            }
-        });
+        langCombo.addActionListener(actionEvent -> restartWithLocale());
     }
 
     // EFFECTS: Warn the user that updating language will require a restart, call Main.selfLocaleRestart on agree
@@ -228,7 +221,7 @@ public class MainContainer {
         });
     }
 
-    // EFFECTS: return the file menu
+    // EFFECTS: return the file menu constructed out of openProjectPop, openWorkspacePop and saveWorkspacePop
     private JPopupMenu topToolbarFileMenu() {
         JPopupMenu filePopup = new JPopupMenu("");
         filePopup.setOpaque(true);
@@ -289,11 +282,13 @@ public class MainContainer {
     }
 
     // EFFECTS: make progress bar visible
+    // MODIFIES: (side-effect) progressBar
     public void enableProgressBar() {
         progressBar.setVisible(true);
     }
 
     // EFFECTS: make progress bar invisible
+    // MODIFIES: (side-effect) progressBar
     public void disableProgressBar() {
         progressBar.setVisible(false);
     }

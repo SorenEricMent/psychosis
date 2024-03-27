@@ -35,7 +35,5 @@ public class ExportTEDialog extends JDialog {
             }
             sd.disableProgress();
         }
-
     }
-
 }

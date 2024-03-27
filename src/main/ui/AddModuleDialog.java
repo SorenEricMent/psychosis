@@ -26,6 +26,7 @@ public class AddModuleDialog extends JDialog {
         getRootPane().setDefaultButton(buttonOK);
     }
 
+    // EFFECTS: init the dialog's field and bind event handler for buttons
     public AddModuleDialog(LayerModel layer, GraphicInterface globalObject, String projectName) {
         initPane();
         this.layer = layer;

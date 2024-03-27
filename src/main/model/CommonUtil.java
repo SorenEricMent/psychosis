@@ -44,7 +44,7 @@ public class CommonUtil {
                 "(((\\r\\n|[\\r\\n])+|\\s+)|((?=\\{)|(?<=\\{))"
                         + "|((?=\\})|(?<=\\}))|((?=\\()|(?<=\\())|((?=\\))|(?<=\\))))"
                         + "|((?=,)|(?<=,))|((?=;)|(?<=;))|((?=`)|(?<=`))|((?=')|(?<='))");
-        return Arrays.stream(res).filter(t -> !t.equals("")).toArray(String[]::new);
+        return Arrays.stream(res).filter(t -> !t.isEmpty()).toArray(String[]::new);
     }
 
     // EFFECTS: return if the string is a valid selinux name (no reserved word, a-zA-Z0-9 and _)

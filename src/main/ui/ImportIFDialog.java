@@ -43,6 +43,7 @@ public class ImportIFDialog extends JDialog {
 
     // EFFECTS: load the If file and parse it to a InterfaceSet and use the result to override the module's one
     // and regenerate project's set
+    // MODIFIES: globalObjects
     private void approveHandler(File path) {
         try {
             InterfaceSetModel inf = InterfaceSetModel.parser(CustomReader.readAsWholeCode(path).getFirst());

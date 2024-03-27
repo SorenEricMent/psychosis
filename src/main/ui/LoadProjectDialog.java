@@ -34,7 +34,8 @@ public class LoadProjectDialog extends JDialog {
         }
     }
 
-    // EFFECTS: init the file chooser dialog
+    // EFFECTS: init the file chooser dialog and enable the progress bar
+    // MODIFIES: (side-effect) progressBar
     private void initDialog() {
         globalObjects.getMainContainer().enableProgressBar();
         loadProjectChooser.setDialogTitle("Loading project from JSON");
@@ -61,6 +62,7 @@ public class LoadProjectDialog extends JDialog {
     // EFFECTS: handle the logic for user approve save, call DuplicatedProjectDialog
     // if the name duplicated, call exceptionHandler for exception, add Project
     // and update GUI if no exception
+    // MODIFIES: globalObjects
     private void approveHandler(File fileToLoad) {
         if (fileToLoad.exists()) {
             System.out.println("Load from: " + fileToLoad.getAbsolutePath());
