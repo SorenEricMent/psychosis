@@ -1,0 +1,4 @@
+policy_module(test_module)
+
+allow winslow yuuta_t:soul { love };
+

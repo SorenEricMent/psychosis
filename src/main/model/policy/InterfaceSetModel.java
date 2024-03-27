@@ -51,6 +51,14 @@ public class InterfaceSetModel extends FileObjectModel implements Encodeable, De
         throw new NotFoundException("Interface not found: " + name);
     }
 
+    // EFFECTS: update all interfaces' owner
+    // MODIFIES: this
+    public void setOwners(String owner) {
+        for (InterfaceModel i : interfaces) {
+            i.setOwner(owner);
+        }
+    }
+
     // EFFECTS: remove the interface with a specific name from the set
     public void removeInterface(String interfaceName) {
         int position = -1;

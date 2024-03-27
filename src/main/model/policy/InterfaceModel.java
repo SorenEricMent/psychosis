@@ -71,6 +71,10 @@ public class InterfaceModel implements RuleAddable {
         }
     }
 
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
     // For testing only
     public ArrayList<RuleSetModel> getRuleSetModels() {
         return ruleSetModels;

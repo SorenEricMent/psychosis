@@ -28,7 +28,7 @@ public class ExportTEDialog extends JDialog {
             File fileToSave = fileChooser.getSelectedFile();
             try {
                 sd.onWrite();
-                CustomReader.writeToFile(fileToSave, te.toString());
+                CustomReader.writeToFile(fileToSave, compiled ? te.toString(projectIfSet) :  te.toString());
                 sd.ready();
             } catch (IOException e) {
                 new WarningDialog(e.getMessage());

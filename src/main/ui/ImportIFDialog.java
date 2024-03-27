@@ -20,6 +20,7 @@ public class ImportIFDialog extends JDialog {
     private final StatusDisplay sd;
     private final PolicyModuleModel target;
     private final ProjectModel project;
+    private final ModuleEditor editor;
 
     // EFFECTS: init the fields and approve event handler and create the file chooser dialog
     public ImportIFDialog(StatusDisplay sd, PolicyModuleModel target,
@@ -27,6 +28,7 @@ public class ImportIFDialog extends JDialog {
         this.sd = sd;
         this.target = target;
         this.project = proj;
+        this.editor = editor;
         fileChooser = new JFileChooser(System.getProperty("user.dir"));
 
         fileChooser.setDialogTitle("Loading SELinux Interface file");
@@ -43,8 +45,11 @@ public class ImportIFDialog extends JDialog {
     // and regenerate project's set
     private void approveHandler(File path) {
         try {
-            target.setInterfaceObject(InterfaceSetModel.parser(CustomReader.readAsWholeCode(path).getFirst()));
+            InterfaceSetModel inf = InterfaceSetModel.parser(CustomReader.readAsWholeCode(path).getFirst());
+            inf.setOwners(target.getName());
+            target.setInterfaceObject(inf);
             project.rebuildGlobalInterfaceSet();
+            editor.rebuildIfList();
             sd.modificationHappened();
         } catch (SyntaxParseException | IOException e) {
             WarningDialog.main(e.getMessage());
