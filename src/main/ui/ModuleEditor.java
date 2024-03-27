@@ -150,6 +150,8 @@ public class ModuleEditor {
     // EFFECTS: rebuild the call table preview with an InterfaceModel
     public void rebuildIfCallList(InterfaceModel inf) {
         DefaultTableModel res = new DefaultTableModel(0, 5);
+        String[] columns = {"Type", "Source", "Target", "Class", "Actions"};
+        res.setColumnIdentifiers(columns);
         for (RuleSetModel r : inf.getRuleSetModels()) {
             String[] data = new String[5];
             data[0] = r.getRuleType().toString();

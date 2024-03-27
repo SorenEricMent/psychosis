@@ -65,10 +65,10 @@ As a user, I want to be able to:
 - Load from a .pcsw workspace file to recover the whole previous program state
 
 ## Instructions
-#### Basics
+### Basics
 Please run Psychosis with the given JVM parameters.
 If you want to build Psychosis to a binary with Gradle, you'll need to switch the GUI designer's working mode to source code, fix some broken ResourceBundle import (Bug in IDEA), rebuild the project with IDEA and finally use `gradle build`
-#### Language
+### Language
 Psychosis has i18n support with EO, FR and EN
 Psychosis's language is by default Esperanto. Psychosis also support English/French and will switch to it if the current language is a variation of it. You can select the language at the top-right corner of toolbar, but it will require a reboot. 
 
@@ -89,14 +89,17 @@ After booting up Psychosis, you will be greeted with a "no project selected" pag
 On the left side, you will see a tree, the structure of this tree is Root-Project-Layer-Module, clicking at the Root will bring you to the welcome page, clicking the rest will bring you to the corresponding editing page (Editing Project/Layer/Module). 
 
 #### Status panel
-On the bottom-right of the editor, you will have a status indicator showing if any unsaved changes have been made and if Psychosis is busy, this is still in development and might not capture some specific edits.
-#### Project Editing
+On the bottom-right of the editor, you will have a status indicator showing if any unsaved changes have been made and if Psychosis is busy, this is still in development and might not capture some(most) specific edits.
+### Project Editing
 You can create new Projects with "Create Project" button in the greeting page, which can be navigated by clicking Projects in the Tree, Since no live saving is required and Psychosis didn't do diff-based editing, the create project option now only have the option to create a new empty project in memory.
 You can add multiple layers to the project in the project editing page, 
-#### Layer Editing
+### Layer Editing
 You can add multiple modules to a layer in the layer editing page
-#### Module Editing
-You can add new module in Layer editor and remove them with the popup menu poped on right click
+You can remove them with the popup menu poped on right click
+### Module Editing
+#### Type Enforcement
+
 You can edit the three core aspects of a SELinux Module by clicking the module in the tree
 ##### Adding new rules
+##### Adding new interface call
 
