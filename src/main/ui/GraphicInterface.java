@@ -37,6 +37,7 @@ public class GraphicInterface {
     private final HashMap<LayerModel, LayerEditor> layerEditorMap = new HashMap<>();
     private final HashMap<PolicyModuleModel, ModuleEditor> moduleEditorMap = new HashMap<>();
     private final GraphicInterface self;
+    private JFrame mainWindow;
 
     // EFFECTS: init the GUI and create global objects storing working information
     public GraphicInterface() {
@@ -66,6 +67,10 @@ public class GraphicInterface {
     // EFFECTS: get the StatusDisplay Object from MainContainer
     public StatusDisplay getStatusDisplay() {
         return this.mainContainer.getStatusBoxed();
+    }
+
+    public JFrame getMainWindow() {
+        return mainWindow;
     }
 
     public void setCurrentWorkIndex(Integer currentWorkIndex) {
@@ -272,7 +277,7 @@ public class GraphicInterface {
 
     // EFFECTS: init the main application window
     private void initWindow() {
-        JFrame mainWindow = new JFrame("Psychosis Studio " + Main.getVersion());
+        mainWindow = new JFrame("Psychosis Studio " + Main.getVersion());
         mainContainer = new MainContainer(this);
         ImageIcon img = new ImageIcon("./data/resources/logo.jpg");
 
@@ -293,6 +298,7 @@ public class GraphicInterface {
             }
         });
 
+        mainWindow.setUndecorated(true);
         mainWindow.pack();
         mainWindow.setVisible(true);
         mainWindow.setResizable(false);

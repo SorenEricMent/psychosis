@@ -35,7 +35,7 @@ public class AsyncWriter {
         }
         // Now lock must have been acquired
         try (RandomAccessFile file = new RandomAccessFile(path, "w");
-             FileChannel channel = file.getChannel()) {
+                FileChannel channel = file.getChannel()) {
             FileLock writeLock;
             try {
                 writeLock = channel.tryLock();

@@ -4,6 +4,7 @@ import ui.closure.StatusDisplay;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -26,6 +27,8 @@ public class MainContainer {
     private JLabel status;
     private JLabel modified;
     private JComboBox langCombo;
+    private JButton quitApplicationBtn;
+    private JLabel appTitle;
 
     private final GraphicInterface globalObjects;
 
@@ -33,6 +36,7 @@ public class MainContainer {
 
     // CLOSURES
     private final StatusDisplay statusBoxed;
+    private Point mouseDownCompCoords = null;
 
 
     // EFFECTS: create all GUI components
@@ -45,7 +49,7 @@ public class MainContainer {
         initLangCombo();
 
         statusBoxed = new StatusDisplay(getBundle(), statusPanel, progressBar, status, modified);
-        globalToolbar.add(Box.createHorizontalGlue(), globalToolbar.getComponentCount() - 1);
+        globalToolbar.add(Box.createHorizontalGlue(), globalToolbar.getComponentCount() - 2);
     }
 
     public StatusDisplay getStatusBoxed() {
@@ -125,8 +129,52 @@ public class MainContainer {
 
     // EFFECTS: call and init the whole toolbar
     private void topToolbar() {
+        appTitle.setText("Psychosis Studio " + Main.getVersion());
         topToolbarFile();
         topToolbarHelp();
+        initWindowMove();
+        initQuitBtn();
+    }
+
+    // EFFECTS: Add event handler of quitting the app to quitApplicationBtn
+    private void initQuitBtn() {
+        quitApplicationBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                if (statusBoxed.shouldAlarmUnsave()) {
+                    SaveWarningDialog.main(statusBoxed, globalObjects);
+                } else {
+                    System.exit(0);
+                }
+            }
+        });
+    }
+
+    // EFFECTS: add drag event listener to topToolbar and make the main window update position
+    // on mouse press and mouse motion
+    // Original from StackOverflow 16046824, edited to adapt on component
+    private void initWindowMove() {
+        globalToolbar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                mouseDownCompCoords = null;
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                mouseDownCompCoords = e.getPoint();
+            }
+
+        });
+
+        globalToolbar.addMouseMotionListener(new MouseAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                Point currCoords = e.getLocationOnScreen();
+                globalObjects.getMainWindow()
+                        .setLocation(currCoords.x - mouseDownCompCoords.x, currCoords.y - mouseDownCompCoords.y);
+            }
+        });
     }
 
     // EFFECTS: return the file menu

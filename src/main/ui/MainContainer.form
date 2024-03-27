@@ -39,6 +39,24 @@
         </clientProperties>
         <border type="none"/>
         <children>
+          <grid id="df510" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="4" left="4" bottom="4" right="4"/>
+            <constraints/>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="d6be2" class="javax.swing.JLabel" binding="appTitle">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <alignmentX value="0.5"/>
+                  <font name="Sarasa UI CL SemiBold" size="20"/>
+                  <text value="Psychosis Studio"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
           <component id="16bba" class="javax.swing.JButton" binding="fileBtn">
             <constraints/>
             <properties>
@@ -47,7 +65,7 @@
               <doubleBuffered value="false"/>
               <focusPainted value="false"/>
               <focusable value="false"/>
-              <preferredSize width="98" height="36"/>
+              <preferredSize width="98" height="32"/>
               <text resource-bundle="resources/PsychosisResource" key="MainContainer.top.file"/>
             </properties>
           </component>
@@ -63,7 +81,7 @@
               <doubleBuffered value="false"/>
               <focusPainted value="false"/>
               <focusable value="false"/>
-              <preferredSize width="98" height="36"/>
+              <preferredSize width="98" height="32"/>
               <text resource-bundle="resources/PsychosisResource" key="MainContainer.top.help"/>
             </properties>
           </component>
@@ -72,7 +90,14 @@
             <properties>
               <maximumSize width="148" height="38"/>
               <minimumSize width="148" height="38"/>
-              <preferredSize width="148" height="38"/>
+              <preferredSize width="148" height="32"/>
+            </properties>
+          </component>
+          <component id="836d2" class="javax.swing.JButton" binding="quitApplicationBtn">
+            <constraints/>
+            <properties>
+              <preferredSize width="96" height="32"/>
+              <text value="Quit"/>
             </properties>
           </component>
         </children>

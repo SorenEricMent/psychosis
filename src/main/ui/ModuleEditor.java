@@ -98,7 +98,7 @@ public class ModuleEditor {
         addCallBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                AddCallDialog.main(statusDisplay, globalInfSet);
+                AddCallDialog.main(statusDisplay, globalInfSet, self, bindedModule.getTypeEnf());
             }
         });
 
