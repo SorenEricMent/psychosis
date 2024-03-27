@@ -71,38 +71,19 @@ public class ModuleEditor {
 
     // EFFECTS: init click handler for add rule button in TE tab
     private void teAddRuleBtnHandler() {
-        teAddRuleBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                AddRuleDialog.main(statusDisplay, bindedModule.getTypeEnf(), new Callable<Void>() {
-                    @Override
-                    public Void call() throws Exception {
-                        return rebuildTeRuleList();
-                    }
-                }, accessVector, true);
-            }
-        });
+        teAddRuleBtn.addActionListener(actionEvent -> AddRuleDialog.main(statusDisplay, bindedModule.getTypeEnf(),
+                this::rebuildTeRuleList, accessVector, true));
     }
 
     // EFFECTS: init click handler for add interface button in interface tab
     private void ifAddEmptyIfHandler() {
-        addInterface.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                AddInterfaceDialog.main(statusDisplay, bindedModule.getInterfaceSet(), globalInfSet,
-                        bindedModule.getName(), self);
-            }
-        });
+        addInterface.addActionListener(actionEvent -> AddInterfaceDialog.main(statusDisplay, bindedModule.getInterfaceSet(), globalInfSet,
+                bindedModule.getName(), self));
     }
 
     // EFFECTS: init click handler for add call button in TE tab
     private void teAddCallBtnHandler() {
-        addCallBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                AddCallDialog.main(statusDisplay, globalInfSet, self, bindedModule.getTypeEnf());
-            }
-        });
+        addCallBtn.addActionListener(actionEvent -> AddCallDialog.main(statusDisplay, globalInfSet, self, bindedModule.getTypeEnf()));
 
     }
 

@@ -11,6 +11,7 @@ public class StatusDisplay {
     private final JLabel modify;
     private final ResourceBundle bundle;
 
+    // Possible states of modification-save
     public enum ModifyStatus {
         UNMODIFIED,
         MODIFIED,
