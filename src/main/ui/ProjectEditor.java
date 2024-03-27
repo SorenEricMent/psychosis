@@ -18,9 +18,9 @@ public class ProjectEditor {
     private JLabel name;
     private JPanel projectEditorPanel;
     private JTable capabilityTable;
-    private JList secClassList;
-    private JList vecList;
-    private JList layerList;
+    private JList<String> secClassList;
+    private JList<String> vecList;
+    private JList<String> layerList;
     private JButton addVectorButton;
     private JButton addSecClassButton;
     private JButton addLayerButton;
@@ -79,7 +79,7 @@ public class ProjectEditor {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                AddSecClassDialog.main(bindedProject.getAccessVectors(), sd);
+                AddSecClassDialog.main(bindedProject.getAccessVectors(),  sd, self);
             }
         });
     }
@@ -90,7 +90,7 @@ public class ProjectEditor {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                AddVecDialog.main(bindedProject.getAccessVectors(), sd);
+                AddVecDialog.main(bindedProject.getAccessVectors(), sd, self);
             }
         });
     }
@@ -136,7 +136,7 @@ public class ProjectEditor {
     }
 
     // EFFECTS: completely reload the list for security classes with bindedProject's definition
-    private void refreshSecClassList() {
+    public void refreshSecClassList() {
         DefaultListModel<String> resModel = new DefaultListModel<>();
         if (bindedProject.getAccessVectors().getAccessVector().isEmpty()) {
             resModel.addElement("None");
@@ -152,8 +152,8 @@ public class ProjectEditor {
     // EFFECTS: bind the event handler for add security class button and add vector button
     private void initAddSecVecBtn() {
         addSecClassButton.addActionListener(actionEvent
-                -> AddSecClassDialog.main(bindedProject.getAccessVectors(), sd));
-        addVectorButton.addActionListener(actionEvent -> AddVecDialog.main(bindedProject.getAccessVectors(), sd));
+                -> AddSecClassDialog.main(bindedProject.getAccessVectors(), sd, self));
+        addVectorButton.addActionListener(actionEvent -> AddVecDialog.main(bindedProject.getAccessVectors(), sd, self));
     }
 
     // EFFECTS: refresh the list of layers on GUI

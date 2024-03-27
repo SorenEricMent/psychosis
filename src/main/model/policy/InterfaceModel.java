@@ -1,6 +1,7 @@
 package model.policy;
 
 import model.MacroProcessor;
+import ui.ModuleEditor;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -21,17 +22,23 @@ public class InterfaceModel implements RuleAddable {
     private final ArrayList<RuleSetModel> ruleSetModels;
     private HashSet<String> tags;
     private final boolean isUserDefined;
+    private String owner;
 
     // EFFECTS: initialize new InterfaceModel
-    public InterfaceModel(String name, boolean isUserDefined) {
+    public InterfaceModel(String name, String owner, boolean isUserDefined) {
         this.name = name;
         this.isUserDefined = isUserDefined;
         this.description = "";
+        this.owner = owner;
         this.ruleSetModels = new ArrayList<>();
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getOwner() {
+        return owner;
     }
 
     public String getDescription() {
@@ -42,6 +49,7 @@ public class InterfaceModel implements RuleAddable {
         return this.isUserDefined;
     }
 
+    // EFFECTS: return the number of first-order rules this interface contained
     public int getRuleNum() {
         return ruleSetModels.size();
     }
@@ -103,9 +111,7 @@ public class InterfaceModel implements RuleAddable {
                     // Technically get Actions should also be parsed with macro
                     // But I've never seen such usage in Refpolicy
             );
-            res.addStatement(
-                    parsed
-            );
+            res.addStatement(parsed);
         }
         return res;
     }

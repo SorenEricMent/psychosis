@@ -17,8 +17,8 @@ public class TrackerTest {
     @BeforeEach
     public void init() {
         testTracker1 = new TrackerModel();
-        testInf1 = new InterfaceModel("testinf1", false);
-        testInf2 = new InterfaceModel("testinf2", false);
+        testInf1 = new InterfaceModel("testinf1", "owner", false);
+        testInf2 = new InterfaceModel("testinf2", "owner", false);
     }
 
     @Test

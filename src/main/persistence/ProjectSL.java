@@ -46,7 +46,7 @@ public class ProjectSL {
                 String moduleName = moduleObj.getString("name");
                 PolicyModuleModel p = new PolicyModuleModel(moduleName,
                         parseTypeEnfFromJsonCompiled(moduleName, moduleObj.getJSONObject("te")),
-                        parseIfSetFromJsonCompiled(moduleObj.getJSONObject("if")),
+                        parseIfSetFromJsonCompiled(moduleObj.getJSONObject("if"), moduleName),
                         parseFileContextFromJsonCompiled(moduleObj.getJSONObject("fc")));
                 res.getFirst().getLayer(layerObj.getString("name")).addPolicyModule(p);
             });
@@ -86,13 +86,13 @@ public class ProjectSL {
     }
 
     // EFFECTS: create a InterfaceSetModel from a compiled JSON
-    private static InterfaceSetModel parseIfSetFromJsonCompiled(JSONObject obj) throws JSONException {
+    private static InterfaceSetModel parseIfSetFromJsonCompiled(JSONObject obj, String owner) throws JSONException {
         InterfaceSetModel res = new InterfaceSetModel();
         obj.getJSONArray("content").forEach(c -> {
             JSONObject line = (JSONObject) c;
             if (line.getString("type").equals("interface") || line.getString("type").equals("template")) {
                 // Currently Psychosis does not treat interface and template differently internally
-                InterfaceModel ifToAdd = new InterfaceModel(line.getString("name"), false);
+                InterfaceModel ifToAdd = new InterfaceModel(line.getString("name"),  owner, false);
                 line.getJSONArray("statements").forEach(s -> {
                     JSONObject statement = (JSONObject) s;
                     ifToAdd.addStatement(new RuleSetModel(

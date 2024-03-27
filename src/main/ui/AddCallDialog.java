@@ -22,6 +22,7 @@ public class AddCallDialog extends JDialog {
     private JTable previewTable;
     private JButton button1;
     private JTextField textField1;
+    private JLabel paramList;
     private final InterfaceSetModel globalSet;
 
     // EFFECTS: init the add call dialog's pane and add basic event listeners.
@@ -54,7 +55,8 @@ public class AddCallDialog extends JDialog {
                 KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    // EFFECTS: add the interface call, notice that there is no if interface exists check as it is not syntactically wrong
+    // EFFECTS: add the interface call,
+    // notice that there is no if interface exists check as it is not syntactically wrong
     private void onOK() {
         // add your code here
         dispose();
@@ -68,21 +70,21 @@ public class AddCallDialog extends JDialog {
 
     // EFFECTS: add the event listener for updating the interface list on type, debounced.
     private void initSearchHandler() {
-        Debouncer<Void> searchDebouncer = new Debouncer<Void>(new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                String name = interfaceCombo.getEditor().getItem().toString();
-                DefaultComboBoxModel<String> newOptions = new DefaultComboBoxModel<String>();
-                newOptions.addElement(name);
-                newOptions.addAll(globalSet.getInterfaces().stream()
-                        .filter(x -> x.getName().startsWith(name) && !x.getName().equals(name))
-                        .map(InterfaceModel::getName).collect(Collectors.toList()));
-                interfaceCombo.setModel(newOptions);
-                if (newOptions.getSize() >= 2) {
-                    interfaceCombo.showPopup();
-                }
-                return null;
+        Debouncer<Void> searchDebouncer = new Debouncer<Void>(() -> {
+            String name = interfaceCombo.getEditor().getItem().toString();
+            DefaultComboBoxModel<String> newOptions = new DefaultComboBoxModel<String>();
+            newOptions.addElement(name);
+            newOptions.addAll(globalSet.getInterfaces().stream()
+                    .filter(x -> x.getName().startsWith(name) && !x.getName().equals(name))
+                    .map(InterfaceModel::getName).collect(Collectors.toList()));
+            interfaceCombo.setModel(newOptions);
+            if (newOptions.getSize() >= 2) {
+                interfaceCombo.showPopup();
+                lookupStatus.setText("...");
+            } else {
+                previewHandler(); // Selection is certain
             }
+            return null;
         }, 180);
 
         interfaceCombo.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
@@ -96,9 +98,11 @@ public class AddCallDialog extends JDialog {
 
     // REQUIRES: a selection event happened on interfaceCombo
     // EFFECTS: update preview with params and selected interface, empty if interface not found
-    // MODIFIES: (side-effect) previewTable
+    // MODIFIES: (side effect) previewTable
     private void previewHandler() {
-
+        InterfaceModel inf = globalSet.getInterface(interfaceCombo.getSelectedItem().toString());
+        lookupStatus.setText(inf.getOwner());
+        // TODO: update table
     }
 
     // EFFECTS: call the constructor to create the dialog and display it at the middle

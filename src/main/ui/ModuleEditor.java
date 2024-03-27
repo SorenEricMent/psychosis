@@ -87,7 +87,8 @@ public class ModuleEditor {
         addInterface.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                AddInterfaceDialog.main(statusDisplay, bindedModule.getInterfaceSet(), globalInfSet, self);
+                AddInterfaceDialog.main(statusDisplay, bindedModule.getInterfaceSet(), globalInfSet,
+                        bindedModule.getName(), self);
             }
         });
     }
@@ -135,14 +136,11 @@ public class ModuleEditor {
     // EFFECTS: bind the event handler to make the right a preview of clicked interface's rules
     // MODIFIES: statementList
     public void interfaceCallAssociation() {
-        interfaceList.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent listSelectionEvent) {
-                if (interfaceList.getSelectedValue() != null) {
-                    rebuildIfCallList(bindedModule.getInterface(interfaceList.getSelectedValue()));
-                } else {
-                    rebuildIfCallList(new InterfaceModel("_internal_clear", false));
-                }
+        interfaceList.addListSelectionListener(listSelectionEvent -> {
+            if (interfaceList.getSelectedValue() != null) {
+                rebuildIfCallList(bindedModule.getInterface(interfaceList.getSelectedValue()));
+            } else {
+                rebuildIfCallList(new InterfaceModel("_internal_clear", "_internal_clear", false));
             }
         });
     }

@@ -84,7 +84,7 @@ public class InterfaceSetModel extends FileObjectModel implements Encodeable, De
                         || !tokenized[i + 4].equals("'") || !tokenized[i + 5].equals(",")) {
                     throw new SyntaxParseException("Broken interface/template define syntax.");
                 }
-                InterfaceModel interfaceToAdd = new InterfaceModel(tokenized[i + 3], false);
+                InterfaceModel interfaceToAdd = new InterfaceModel(tokenized[i + 3], "_placehold", false);
                 int endDefinition = -1;
                 CommonUtil.Balancer findEnd = new CommonUtil.Balancer(); // When this is balanced, the end is found
                 for (int j = i + 6; j < tokenized.length; j++) {

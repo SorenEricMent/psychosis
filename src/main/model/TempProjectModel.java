@@ -42,7 +42,7 @@ public class TempProjectModel extends ProjectModel {
     public void addInterface(String layerName, String moduleName, String interfaceName)
             throws NotFoundException {
         try {
-            InterfaceModel toAdd = new InterfaceModel(interfaceName, true);
+            InterfaceModel toAdd = new InterfaceModel(interfaceName, moduleName, true);
             this.getLayer(layerName)
                     .getPolicyModule(moduleName)
                     .addInterface(toAdd);

@@ -11,8 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-// Dialog to load project from a .json
-// Although this is a Dialog, it is not managed by GUI designer as JFileChooser pop its own
+// FileChooser Dialog to load project from a .json
 public class LoadProjectDialog extends JDialog {
     private final JFileChooser loadProjectChooser;
     private final GraphicInterface globalObjects;
@@ -43,7 +42,7 @@ public class LoadProjectDialog extends JDialog {
     }
 
     // EFFECTS: add the project to loadedProjects, add the corresponding element
-    // to project tree ans remove progress bar finally
+    // to project tree and remove progress bar finally
     // MODIFIES: loadedProject, globalObject(GUI Component)
     private void loadProject(ArrayList<Pair<ProjectModel, TrackerModel>> loadedProjects,
                              Pair<ProjectModel, TrackerModel> proj) {
@@ -53,6 +52,7 @@ public class LoadProjectDialog extends JDialog {
     }
 
     // EFFECTS: create warning dialog and remove progress bar
+    // MODIFIES: globalObjects.mainContainer.progressBar
     private void exceptionHandler(String msg) {
         globalObjects.getMainContainer().disableProgressBar();
         WarningDialog.main(msg);

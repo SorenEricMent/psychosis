@@ -3,6 +3,7 @@ package ui;
 import model.exception.NotFoundException;
 import model.policy.InterfaceModel;
 import model.policy.InterfaceSetModel;
+import model.policy.PolicyModuleModel;
 import ui.closure.StatusDisplay;
 
 import javax.swing.*;
@@ -19,15 +20,18 @@ public class AddInterfaceDialog extends JDialog {
     private final InterfaceSetModel interfaceSet;
     private final InterfaceSetModel globalSet;
     private final ModuleEditor editor;
+    private final String owner;
 
     // EFFECTS: init the add interface dialog and basic listeners
-    public AddInterfaceDialog(StatusDisplay sd, InterfaceSetModel interfaceSet, InterfaceSetModel globalSet, ModuleEditor editor) {
+    public AddInterfaceDialog(StatusDisplay sd, InterfaceSetModel interfaceSet, InterfaceSetModel globalSet,
+                              String owner, ModuleEditor editor) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
         this.interfaceSet = interfaceSet;
         this.globalSet = globalSet;
         this.sd = sd;
+        this.owner = owner;
         this.editor = editor;
 
         buttonOK.addActionListener(e -> onOK());
@@ -58,7 +62,7 @@ public class AddInterfaceDialog extends JDialog {
 
         } catch (NotFoundException e) {
             // could continue
-            InterfaceModel toAddInf = new InterfaceModel(interfaceName.getText(), true);
+            InterfaceModel toAddInf = new InterfaceModel(interfaceName.getText(), owner,true);
             interfaceSet.addInterface(toAddInf);
             globalSet.addInterface(toAddInf);
             // Update GUI
@@ -74,8 +78,9 @@ public class AddInterfaceDialog extends JDialog {
     }
 
     // EFFECTS: construct the add interface dialog and display it
-    public static void main(StatusDisplay sd, InterfaceSetModel interfaceSet, InterfaceSetModel globalSet, ModuleEditor editor) {
-        AddInterfaceDialog dialog = new AddInterfaceDialog(sd, interfaceSet, globalSet, editor);
+    public static void main(StatusDisplay sd, InterfaceSetModel interfaceSet, InterfaceSetModel globalSet,
+                            String owner, ModuleEditor editor) {
+        AddInterfaceDialog dialog = new AddInterfaceDialog(sd, interfaceSet, globalSet, owner, editor);
         dialog.pack();
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);

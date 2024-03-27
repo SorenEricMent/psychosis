@@ -12,9 +12,11 @@ public class AddVecDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
+    private JTextField secClassName;
     private JTextField vecName;
 
-    public AddVecDialog() {
+
+    public AddVecDialog(AccessVectorModel vector, StatusDisplay sd, ProjectEditor editor) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -45,8 +47,8 @@ public class AddVecDialog extends JDialog {
         dispose();
     }
 
-    public static void main(AccessVectorModel args, StatusDisplay sd) {
-        AddVecDialog dialog = new AddVecDialog();
+    public static void main(AccessVectorModel vector, StatusDisplay sd, ProjectEditor editor) {
+        AddVecDialog dialog = new AddVecDialog(vector, sd, editor);
         dialog.pack();
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);

@@ -297,11 +297,9 @@ public class GraphicInterface {
         mainWindow.setVisible(true);
         mainWindow.setResizable(false);
         mainWindow.setLocationRelativeTo(null);
-
-
     }
 
-    // EFFECTS: draw a splash screen
+    // EFFECTS: draw a splash screen, path defined in JVM param
     private static void splashScreen() {
         final SplashScreen splash = SplashScreen.getSplashScreen();
         if (splash == null) {
@@ -335,7 +333,6 @@ public class GraphicInterface {
 
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            System.out.println("Using style " + UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
                  | UnsupportedLookAndFeelException e) {
             throw new RuntimeException(e);

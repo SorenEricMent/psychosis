@@ -26,7 +26,7 @@ public class LayerModel {
     // MODIFIES: this
     public void addPolicyModule(PolicyModuleModel module) throws DuplicateException {
         if (this.policyModules.containsKey(module.getName())) {
-            throw new DuplicateException(module.getName() + " already exists;");
+            throw new DuplicateException(module.getName() + " already exists.");
         } else {
             this.policyModules.put(module.getName(), module);
         }

@@ -25,9 +25,9 @@ public class InterfaceTest {
         act2 = new HashSet<>();
         act3 = new HashSet<>();
         act4 = new HashSet<>();
-        i1 = new InterfaceModel("test1", false);
-        i2 = new InterfaceModel("test2", false);
-        i3 = new InterfaceModel("test3", true);
+        i1 = new InterfaceModel("test1", "owner1", false);
+        i2 = new InterfaceModel("test2", "owner2", false);
+        i3 = new InterfaceModel("test3", "owner3", true);
         act1.add("testact");
         act2.add("testact");
         act2.add("testact2");
@@ -65,6 +65,7 @@ public class InterfaceTest {
         assertEquals("", i1.getDescription());
         i2.setDescription("fish tart");
         assertEquals("fish tart", i2.getDescription());
+        assertEquals("owner1", i1.getOwner());
     }
 
     @Test

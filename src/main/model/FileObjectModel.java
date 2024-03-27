@@ -2,10 +2,10 @@ package model;
 
 import java.util.ArrayList;
 
-public abstract class FileObjectModel {
-    // Abstraction of a file
-    // A placeholder, psychosis has no relevant functionalities.
+// Abstraction of a file
+// A placeholder, psychosis has no relevant functionalities.
 
+public abstract class FileObjectModel {
     private final ArrayList<String> content = new ArrayList<>();
 
     public abstract String toString();

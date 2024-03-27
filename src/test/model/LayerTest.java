@@ -45,6 +45,10 @@ public class LayerTest {
         assertThrows(NotFoundException.class, () -> {
             l1.removePolicyModule("not_exist");
         });
+        l1.addPolicyModule(new PolicyModuleModel("test_module"));
+        assertThrows(DuplicateException.class, () -> {
+            l1.addPolicyModule(new PolicyModuleModel("test_module"));
+        });
     }
 
     @Test
