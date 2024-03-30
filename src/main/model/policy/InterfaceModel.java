@@ -1,7 +1,6 @@
 package model.policy;
 
 import model.MacroProcessor;
-import ui.ModuleEditor;
 
 import java.util.ArrayList;
 import java.util.HashSet;

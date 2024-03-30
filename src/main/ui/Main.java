@@ -1,5 +1,8 @@
 package ui;
 
+import model.Event;
+import model.EventLog;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,15 +31,18 @@ public class Main {
             }
         }
 
+        EventLog.getInstance().logEvent(new Event("JVM/System Locale: " + locale.toString()));
         for (String arg : args) {
             if (arg.equals("-g") || arg.equals("--gui")) {
                 // Start in GUI
                 GraphicInterface gui = new GraphicInterface();
+                EventLog.getInstance().logEvent(new Event("Starting in GUI"));
                 useTUI = false;
             }
         }
         if (useTUI) {
             TerminalInterface terminal = new TerminalInterface();
+            EventLog.getInstance().logEvent(new Event("Starting in TUI"));
             terminal.startInterface();
         }
     }
@@ -44,6 +50,7 @@ public class Main {
     // EFFECTS: restart the application with new locale params on JVM
     // REQUIRES: locale-country be defined in PsychosisResource
     public static void selfLocaleRestart(String locale, String country) {
+        EventLog.getInstance().logEvent(new Event("Triggered application restart with new locale " + locale + country));
         List<String> command = new ArrayList<>();
         command.add("java");
         command.add("-Duser.language=" + locale);

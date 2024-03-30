@@ -23,6 +23,7 @@ public class TrackerModel {
 
     // EFFECTS: init the tracker with no tracking info added
     public TrackerModel() {
+        EventLog.getInstance().logEvent(new Event("Initialized Tracker"));
         mapSLabelIf = new HashMap<String, ArrayList<InterfaceModel>>();
         mapTLabelIf = new HashMap<String, ArrayList<InterfaceModel>>();
         tagTracker = new HashMap<String, ArrayList<InterfaceModel>>();
@@ -32,6 +33,8 @@ public class TrackerModel {
     // MODIFIES: this
     // EFFECTS: assign an interface to user-defined list
     public void insertInterfaceUserDefined(InterfaceModel i) {
+        EventLog.getInstance().logEvent(new Event("Interface"
+                + i.getOwner() + "." + i.getName() + "is marked as user-defined"));
         userDefined.add(i);
     }
 
@@ -42,6 +45,8 @@ public class TrackerModel {
     // MODIFIES: this
     // EFFECTS: assign an interface into a tag tracker, create the tag if the tag doesn't exist
     public void insertInterfaceWithTag(String key, InterfaceModel i) {
+        EventLog.getInstance().logEvent(new Event("Interface"
+                + i.getOwner() + "." + i.getName() + "is marked with log " + key));
         tagTracker.putIfAbsent(key, new ArrayList<InterfaceModel>());
         tagTracker.get(key).add(i);
     }

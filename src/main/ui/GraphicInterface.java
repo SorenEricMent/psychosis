@@ -1,9 +1,7 @@
 package ui;
 
-import model.Pair;
-import model.ProjectModel;
-import model.TempProjectModel;
-import model.TrackerModel;
+import model.*;
+import model.Event;
 import model.policy.LayerModel;
 import model.policy.PolicyModuleModel;
 import ui.closure.StatusDisplay;
@@ -292,6 +290,10 @@ public class GraphicInterface {
 
         mainWindow.setContentPane(mainContainer.getMainContainer());
         mainWindow.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            EventLog.getInstance().forEach(System.out::println);
+        }));
 
         mainWindow.addWindowListener(new WindowAdapter() {
             @Override
