@@ -59,6 +59,7 @@ public class ProjectModel {
             capabilities.put(cap, false);
         }
         this.accessVectors = new AccessVectorModel();
+        EventLog.getInstance().logEvent(new Event("Created new project" + name + " at " + projectPath));
     }
 
     // EFFECTS: rebuild the global set of interfaces from all modules, for loading project from file
@@ -71,7 +72,7 @@ public class ProjectModel {
                 }
             }
         }
-        System.out.println("Rebuilt the interface set for project " + this.name);
+        EventLog.getInstance().logEvent(new Event("Rebuilt the interface set for project " + this.name));
     }
 
     // EFFECT: getter for name
@@ -97,6 +98,7 @@ public class ProjectModel {
     // MODIFIES: this
     public void setAccessVectors(AccessVectorModel accessVectors) {
         this.accessVectors.setAccessVector(accessVectors.getAccessVector());
+        EventLog.getInstance().logEvent(new Event("Overwrote the access vector definition for " + name));
     }
 
     // EnumType for SELinux refpolicy's policy_capabilities
@@ -120,12 +122,14 @@ public class ProjectModel {
     // EFFECT: setter for capabilities.
     public void setCapabilities(HashMap<PolicyCapabilities, Boolean> val) {
         this.capabilities = val;
+        EventLog.getInstance().logEvent(new Event("Overwrote the capabilities definition for " + name));
     }
 
     // MODIFIES: this
     // EFFECTS: update a capability status with a boolean value
     public void updateCapability(PolicyCapabilities p, Boolean val) {
         this.capabilities.replace(p, val);
+        EventLog.getInstance().logEvent(new Event("Enabled " + p.toString() + " capability for " + name));
     }
 
     // EFFECTS: parse a string to the corresponding capability
@@ -183,6 +187,7 @@ public class ProjectModel {
             }
         }
         this.layers.add(new LayerModel(layerName));
+        EventLog.getInstance().logEvent(new Event("Added layer " + layerName + " to " + name));
     }
 
     // MODIFIES: this
@@ -199,6 +204,7 @@ public class ProjectModel {
         } else {
             this.layers.remove(index);
         }
+        EventLog.getInstance().logEvent(new Event("Removed layer " + layerName + " from " + name));
     }
 
     // EFFECTS: lookup and return the layer with layerName, throw NotFoundException if there is no layer with that name

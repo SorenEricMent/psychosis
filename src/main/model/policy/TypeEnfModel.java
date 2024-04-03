@@ -35,6 +35,9 @@ public class TypeEnfModel extends FileObjectModel implements Encodeable, Decodea
     // MODIFIES: this
     public void addInterfaceCall(String i, String[] args) {
         interfaceCall.add(new Pair<String, String[]>(i, args));
+        EventLog.getInstance().logEvent(new Event(
+                "Adding interface call " + i + "(" + String.join(",", args) + ") "
+                        + " to TypeEnf model " + name));
     }
 
     // EFFECTS: add a first-order statement (RuleSetModel)
@@ -53,6 +56,8 @@ public class TypeEnfModel extends FileObjectModel implements Encodeable, Decodea
         } else {
             target.addAction(r.getActions());
         }
+        EventLog.getInstance().logEvent(new Event(
+                "Adding statement " + r.toString() + " to TypeEnf model " + name));
     }
 
     // EFFECTS: remove the intersective rules and return rules that are not intersected.
@@ -71,6 +76,8 @@ public class TypeEnfModel extends FileObjectModel implements Encodeable, Decodea
         HashSet<String> original = (HashSet<String>) target.getActions().clone();
         target.getActions().removeAll(r.getActions());
         original.removeAll(r.getActions());
+        EventLog.getInstance().logEvent(new Event(
+                "Removing statement " + r.toString() + " from TypeEnf model " + name));
         return original;
     }
 

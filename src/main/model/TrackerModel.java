@@ -23,7 +23,7 @@ public class TrackerModel {
 
     // EFFECTS: init the tracker with no tracking info added
     public TrackerModel() {
-        EventLog.getInstance().logEvent(new Event("Initialized Tracker"));
+        EventLog.getInstance().logEvent(new Event("Initialized new Tracker"));
         mapSLabelIf = new HashMap<String, ArrayList<InterfaceModel>>();
         mapTLabelIf = new HashMap<String, ArrayList<InterfaceModel>>();
         tagTracker = new HashMap<String, ArrayList<InterfaceModel>>();

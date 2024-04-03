@@ -7,6 +7,9 @@ package model.policy;
 
 // This also determine the file name!
 
+import model.Event;
+import model.EventLog;
+
 public class PolicyModuleModel {
     private final String name;
 
@@ -49,6 +52,8 @@ public class PolicyModuleModel {
     // EFFECTS: add an interface to the interface set
     // MODIFIES: this
     public void addInterface(InterfaceModel i) {
+        EventLog.getInstance().logEvent(new Event(
+                "Adding interface " + i.getName() + " to module " + name));
         interfaceObject.addInterface(i);
     }
 
@@ -77,6 +82,8 @@ public class PolicyModuleModel {
     // EFFECTS: remove the interface with name (proxy call to interface set's removeInterface)
     // MODIFIES: this
     public void removeInterface(String interfaceName) {
+        EventLog.getInstance().logEvent(new Event(
+                "Removing interface " + interfaceName + " from module " + name));
         interfaceObject.removeInterface(interfaceName);
     }
 }

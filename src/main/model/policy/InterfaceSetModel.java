@@ -1,9 +1,6 @@
 package model.policy;
 
-import model.CommonUtil;
-import model.Decodeable;
-import model.Encodeable;
-import model.FileObjectModel;
+import model.*;
 import model.exception.NotFoundException;
 import model.exception.SyntaxParseException;
 
@@ -35,6 +32,8 @@ public class InterfaceSetModel extends FileObjectModel implements Encodeable, De
     // MODIFIES: this
     public void addInterface(InterfaceModel i) {
         this.interfaces.add(i);
+        EventLog.getInstance().logEvent(new Event(
+                "Added interface " + i.getName() + " to interface set " + hashCode()));
     }
 
     public ArrayList<InterfaceModel> getInterfaces() {
@@ -54,6 +53,8 @@ public class InterfaceSetModel extends FileObjectModel implements Encodeable, De
     // EFFECTS: update all interfaces' owner
     // MODIFIES: this
     public void setOwners(String owner) {
+        EventLog.getInstance().logEvent(new Event(
+                "Set owner for all interfaces in " + hashCode() + " to " + owner));
         for (InterfaceModel i : interfaces) {
             i.setOwner(owner);
         }
@@ -71,6 +72,8 @@ public class InterfaceSetModel extends FileObjectModel implements Encodeable, De
         if (position == -1) {
             throw new NotFoundException("Interface not found.");
         } else {
+            EventLog.getInstance().logEvent(new Event(
+                    "Removed interface " + interfaces.get(position).getName() + " from interface set" + hashCode()));
             interfaces.remove(position);
         }
     }

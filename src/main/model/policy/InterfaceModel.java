@@ -1,5 +1,7 @@
 package model.policy;
 
+import model.Event;
+import model.EventLog;
 import model.MacroProcessor;
 
 import java.util.ArrayList;
@@ -68,6 +70,8 @@ public class InterfaceModel implements RuleAddable {
         if (!containEquv) {
             ruleSetModels.add(rule);
         }
+        EventLog.getInstance().logEvent(new Event(
+                "Added rule " + rule.toString() + " to interface " + name));
     }
 
     public void setOwner(String owner) {

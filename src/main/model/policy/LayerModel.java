@@ -1,5 +1,7 @@
 package model.policy;
 
+import model.Event;
+import model.EventLog;
 import model.exception.DuplicateException;
 import model.exception.NotFoundException;
 
@@ -29,6 +31,8 @@ public class LayerModel {
             throw new DuplicateException(module.getName() + " already exists.");
         } else {
             this.policyModules.put(module.getName(), module);
+            EventLog.getInstance().logEvent(new Event(
+                    "Added policy module " + module.getName() + " to layer " + name));
         }
     }
 
@@ -72,6 +76,8 @@ public class LayerModel {
     public void removePolicyModule(String moduleName) {
         if (policyModules.containsKey(moduleName)) {
             policyModules.remove(moduleName);
+            EventLog.getInstance().logEvent(new Event(
+                    "Removed policy module " + moduleName + " from layer " + name));
         } else {
             throw new NotFoundException("Policy module not found.");
         }

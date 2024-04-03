@@ -116,3 +116,8 @@ You can add new empty interface with the buttom below
 Clicking on a interface will show you its rules at the right side, you will be able to add rules the same way you add rules in Type Enforcement
 #### File Context
 No relevant functionality for this stage
+
+
+## Refactor Todo:
+1. Lots of actions involved an unique add action - adding a X to Y with a unique name, which should be generalized with a UniqueAdd interface so that the GUI components could utilize this and lots of corresponding dialogs can be merged.
+2. As stated in the previous, lots of dialogs operates on unique add, I had started working on a superclass 

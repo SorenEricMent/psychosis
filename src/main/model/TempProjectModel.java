@@ -12,6 +12,7 @@ public class TempProjectModel extends ProjectModel {
     // EFFECTS: init a temporary project with a layer named test and a module named test_module inside
     public TempProjectModel(String name) {
         super(name, null);
+        EventLog.getInstance().logEvent(new Event("The last project is created as temporary"));
         layers.add(new DummyLayerModel("test"));
         this.getLayer("test").addPolicyModule(
                 new PolicyModuleModel("test_module")
@@ -21,6 +22,7 @@ public class TempProjectModel extends ProjectModel {
     // EFFECTS: init a completely empty temp project, used for loading.
     public TempProjectModel(String name, Boolean ignoredEmptiness) {
         super(name, null);
+        EventLog.getInstance().logEvent(new Event("Created new temporary empty project named " + name));
         // Emptyness is used for polymorph a completely empty TempProject
     }
 
@@ -47,6 +49,9 @@ public class TempProjectModel extends ProjectModel {
                     .getPolicyModule(moduleName)
                     .addInterface(toAdd);
             this.getGlobalInterfaceSet().addInterface(toAdd);
+            EventLog.getInstance().logEvent(
+                    new Event("Added interface " + interfaceName + " to " + layerName + "." + moduleName
+                            + ", at project " + getName()));
         } catch (NullPointerException e) {
             throw new NotFoundException(e.getMessage());
         }
@@ -57,6 +62,8 @@ public class TempProjectModel extends ProjectModel {
     @Override
     public void removeInterface(String layerName, String moduleName, String interfaceName) {
         this.getLayer(layerName).getPolicyModule(moduleName).removeInterface(interfaceName);
+        EventLog.getInstance().logEvent(
+                new Event("Removed interface " + interfaceName + " from " + layerName + "." + moduleName));
     }
 
     // EFFECTS: add an empty module to a specific layer, no fs flush
@@ -66,6 +73,8 @@ public class TempProjectModel extends ProjectModel {
         this.getLayer(layerName).addPolicyModule(
                 new PolicyModuleModel(moduleName)
         );
+        EventLog.getInstance().logEvent(
+                new Event("Added module " + moduleName + " to " + layerName + ", at project " + getName()));
         // TODO: incorporate newly defined interface to globalSet
     }
 
@@ -74,6 +83,8 @@ public class TempProjectModel extends ProjectModel {
     @Override
     public void removeModule(String layerName, String moduleName) {
         this.getLayer(layerName).removePolicyModule(moduleName);
+        EventLog.getInstance().logEvent(
+                new Event("Removed module " + moduleName + " from " + layerName + ", at project " + getName()));
         // TODO: remove interface from globalSet
     }
 }

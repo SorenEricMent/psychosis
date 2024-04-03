@@ -23,6 +23,8 @@ public class MacroProcessor {
     // MODIFIES: this
     public void addMacro(String from, String to) {
         macros.add(new Pair<Pattern, String>(Pattern.compile(from, Pattern.LITERAL), to));
+        EventLog.getInstance().logEvent(new Event(
+                "Added new macro rule: " + "replace" + from + " to " + to + ", for "  + this.hashCode()));
     }
 
     // EFFECTS: apply all compiled macros to the string and return the result

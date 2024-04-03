@@ -1,6 +1,8 @@
 package model.policy;
 
 import model.CommonUtil;
+import model.Event;
+import model.EventLog;
 import model.exception.NotFoundException;
 import model.exception.SyntaxParseException;
 
@@ -43,6 +45,9 @@ public class RuleSetModel {
     // EFFECTS: add a set of actions to the action set
     public void addAction(HashSet<String> actions) {
         this.actions.addAll(actions);
+        EventLog.getInstance().logEvent(new Event(
+                "Added actions "
+                        + String.join(",", actions) + " to rule " + hashCode() + ", new rule: " + toString()));
     }
 
     public RuleType getRuleType() {
