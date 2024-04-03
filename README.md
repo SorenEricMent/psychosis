@@ -118,6 +118,52 @@ Clicking on a interface will show you its rules at the right side, you will be a
 No relevant functionality for this stage
 
 
-## Refactor Todo:
+## Phase 4: Task 2
+Example logs:
+```
+Tue Apr 02 23:14:26 PDT 2024
+Initialized new Tracker
+Tue Apr 02 23:14:26 PDT 2024
+Created new projectTemp at null
+Tue Apr 02 23:14:26 PDT 2024
+The last project is created as temporary
+Tue Apr 02 23:14:26 PDT 2024
+Initialized new Tracker
+Tue Apr 02 23:14:34 PDT 2024
+Initialized new Tracker
+Tue Apr 02 23:14:34 PDT 2024
+Created new projectwinslow at null
+Tue Apr 02 23:14:34 PDT 2024
+The last project is created as temporary
+Tue Apr 02 23:14:34 PDT 2024
+Initialized new Tracker
+Tue Apr 02 23:14:42 PDT 2024
+Added action 123 to security class 123123 at Model1839330406
+Tue Apr 02 23:14:53 PDT 2024
+Added action abc123 to security class abc at Model1839330406
+Tue Apr 02 23:15:23 PDT 2024
+Adding statement allow winslow winslow:abc { abc123 }; to TypeEnf model test_module
+Tue Apr 02 23:15:26 PDT 2024
+Added interface yuuta to interface set 315427815
+Tue Apr 02 23:15:26 PDT 2024
+Added interface yuuta to interface set 1984165751
+Tue Apr 02 23:15:40 PDT 2024
+Added rule allow yuuta $1:abc { abc123 }; to interface yuuta
+Tue Apr 02 23:15:50 PDT 2024
+Adding interface call yuuta(2333)  to TypeEnf model test_module
+Tue Apr 02 23:15:50 PDT 2024
+Added new macro rule: replace$1 to 2333, for 574864900
+Tue Apr 02 23:15:50 PDT 2024
+Adding statement allow yuuta 2333:abc { abc123 }; to TypeEnf model _
+Tue Apr 02 23:15:58 PDT 2024
+Added layer testlayer to winslow
+Tue Apr 02 23:16:01 PDT 2024
+Enabled network_peer_controls capability for winslow
+Tue Apr 02 23:16:01 PDT 2024
+Enabled open_perms capability for winslow
+```
+## Phase 4: Task 3 : Refactor Todo:
 1. Lots of actions involved an unique add action - adding a X to Y with a unique name, which should be generalized with a UniqueAdd interface so that the GUI components could utilize this and lots of corresponding dialogs can be merged.
 2. As stated in the previous, lots of dialogs operates on unique add, I had started working on a superclass 
+3. There is a heavy dependency on the GraphicalInterface object which should be replaced with more closures.
+4. Everything operates on Project and Workspace model is not actually used as a model but as an intermediate form of storing states.

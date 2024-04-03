@@ -61,12 +61,16 @@ public class TrackerModel {
 
     // EFFECTS: insert a interface that has key as the source label of one of its statement to corresponding Tracker map
     public void insertInterfaceWithSLabel(String key, InterfaceModel val) {
+        EventLog.getInstance().logEvent(new Event("Interface"
+                + val.getName() + "is marked to have a source label of  " + key));
         mapSLabelIf.putIfAbsent(key, new ArrayList<InterfaceModel>());
         mapSLabelIf.get(key).add(val);
     }
 
     // EFFECTS: insert a interface that has key as the target label of one of its statement to corresponding Tracker map
     public void insertInterfaceWithTLabel(String key, InterfaceModel val) {
+        EventLog.getInstance().logEvent(new Event("Interface"
+                + val.getName() + "is marked to have a target label of  " + key));
         mapTLabelIf.putIfAbsent(key, new ArrayList<InterfaceModel>());
         mapTLabelIf.get(key).add(val);
     }

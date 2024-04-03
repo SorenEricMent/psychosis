@@ -64,6 +64,9 @@ public class PolicyModuleModel {
 
     // REQUIRES: postcondition: call project's rebuildGlobalInterfaceSet
     public void setInterfaceObject(InterfaceSetModel interfaceObject) {
+        EventLog.getInstance().logEvent(new Event(
+                "Replacing the interface object for  " + name
+                        + " to " + interfaceObject.hashCode() + " from " + this.interfaceObject.hashCode()));
         this.interfaceObject = interfaceObject;
     }
 
@@ -76,6 +79,9 @@ public class PolicyModuleModel {
     }
 
     public void setTypeEnfObject(TypeEnfModel typeEnfObject) {
+        EventLog.getInstance().logEvent(new Event(
+                "Replacing the TypeEnf object for  " + name
+                        + " to " + typeEnfObject.hashCode() + " from " + this.typeEnfObject.hashCode()));
         this.typeEnfObject = typeEnfObject;
     }
 

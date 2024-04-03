@@ -1,9 +1,6 @@
 package persistence;
 
-import model.Pair;
-import model.ProjectModel;
-import model.TempProjectModel;
-import model.TrackerModel;
+import model.*;
 import model.exception.UnknownCapabilityException;
 import model.policy.*;
 import org.json.JSONArray;
@@ -31,7 +28,7 @@ public class ProjectSL {
     // REQUIRES: content is a JSON/ valid JSON String and valid xpcsp file
     // EFFECTS: Load a project from a compiled JSON format
     public static Pair<ProjectModel, TrackerModel> loadProjectFromJsonCompiled(JSONObject parsed) {
-        System.out.println("Loaded xpcsp JSON content.");
+        EventLog.getInstance().logEvent(new Event("Loaded new xpcsp JSON content."));
         Pair<ProjectModel, TrackerModel> res = new Pair<>(new TempProjectModel(parsed.getString("name"), true),
                 new TrackerModel());
         // TODO: Capabilities
@@ -51,10 +48,11 @@ public class ProjectSL {
                 res.getFirst().getLayer(layerObj.getString("name")).addPolicyModule(p);
             });
         });
-        System.out.println("Loaded project structure and content.");
+        EventLog.getInstance().logEvent(new Event("Loaded project structure and content for "
+                + res.getFirst().getName()));
         res.getFirst().rebuildGlobalInterfaceSet();
         // FUTURE TODO: regenerate Tracker
-        System.out.println("Regenerated Tracker database.");
+        // System.out.println("Regenerated Tracker database.");
         System.gc();
         return res;
     }

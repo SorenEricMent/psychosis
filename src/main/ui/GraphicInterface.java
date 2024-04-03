@@ -291,9 +291,7 @@ public class GraphicInterface {
         mainWindow.setContentPane(mainContainer.getMainContainer());
         mainWindow.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            EventLog.getInstance().forEach(System.out::println);
-        }));
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> EventLog.getInstance().forEach(System.out::println)));
 
         mainWindow.addWindowListener(new WindowAdapter() {
             @Override

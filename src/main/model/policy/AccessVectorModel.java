@@ -51,7 +51,7 @@ public class AccessVectorModel {
     public void addAccessVector(String className, String actionName) {
         this.accessVector.get(className).add(actionName);
         EventLog.getInstance().logEvent(new Event(
-                "Added action " + actionName + " to security class" + className + " at Model" + hashCode()));
+                "Added action " + actionName + " to security class " + className + " at Model" + hashCode()));
     }
 
     // EFFECTS: add all actions from "from" to access vectors with key as the key
@@ -61,7 +61,7 @@ public class AccessVectorModel {
             this.accessVector.get(s).addAll(from.get(s));
             EventLog.getInstance().logEvent(new Event(
                     "Added actions " + String.join(",", from.get(s))
-                            + " to security class" + s + " at Model" + hashCode()));
+                            + " to security class " + s + " at Model" + hashCode()));
         }
     }
 
